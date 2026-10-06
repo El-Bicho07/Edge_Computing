@@ -7,52 +7,35 @@ import time
 
 CAMERA_PATH = "/dev/video0"
 
+# Minimum contour area to be considered an object
 MIN_OBJECT_AREA = 1500
 
+# Performance thresholds
 FPS_THRESHOLD = 15.0
 LATENCY_THRESHOLD_MS = 100.0
 OBJECT_COUNT_THRESHOLD = 5
 
 
 # ==========================================
-# Open webcam using V4L2
+# Open webcam
 # ==========================================
 
-cap = cv2.VideoCapture(
-    CAMERA_PATH,
-    cv2.CAP_V4L2
-)
+cap = cv2.VideoCapture(CAMERA_PATH)
 
 if not cap.isOpened():
     print("ERROR: Cannot open webcam")
     exit()
 
-# Set camera resolution
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-
-print("C270 webcam connected!")
+print("Webcam started")
 print("OpenCV object detection running...")
-print("Saving result to object_detection.jpg")
+print("Press 'q' to quit")
 
 
 # ==========================================
 # Background subtraction
 # ==========================================
 
-background_subtractor = cv2.createBackgroundSubtractorMOG2(
-    history=500,
-    varThreshold=50,
-    detectShadows=True
-)
-
-
-# ==========================================
-# FPS variables
-# ==========================================
-
-previous_time = time.perf_counter()
-
+background_subtractor = cv2.createBackgroundSubtractorMOG2(*/
 
 # ==========================================
 # Main loop
@@ -60,6 +43,7 @@ previous_time = time.perf_counter()
 
 while True:
 
+    # Start timing
     start_time = time.perf_counter()
 
     # --------------------------------------
@@ -69,24 +53,25 @@ while True:
     ret, frame = cap.read()
 
     if not ret:
-        print("\nERROR: Cannot read webcam frame")
+        print("ERROR: Cannot read webcam frame")
         break
 
     # --------------------------------------
     # Convert to grayscale
     # --------------------------------------
 
-    gray = cv2.cvtColor(
-        frame,
-        cv2.COLOR_BGR2GRAY
-    )
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     # --------------------------------------
     # Background subtraction
     # --------------------------------------
 
     foreground_mask = background_subtractor.apply(gray)
+     
 
+
+
+     
     # --------------------------------------
     # Remove shadows and noise
     # --------------------------------------
@@ -135,6 +120,7 @@ while True:
 
         area = cv2.contourArea(contour)
 
+        # Ignore small regions/noise
         if area < MIN_OBJECT_AREA:
             continue
 
@@ -155,7 +141,7 @@ while True:
         cv2.putText(
             frame,
             f"Object {object_count}",
-            (x, max(y - 10, 20)),
+            (x, y - 10),
             cv2.FONT_HERSHEY_SIMPLEX,
             0.6,
             (0, 255, 0),
@@ -168,9 +154,7 @@ while True:
 
     end_time = time.perf_counter()
 
-    latency_ms = (
-        end_time - start_time
-    ) * 1000
+    latency_ms = (end_time - start_time) * 1000
 
     # --------------------------------------
     # Calculate FPS
@@ -178,14 +162,10 @@ while True:
 
     current_time = time.perf_counter()
 
-    elapsed_time = (
-        current_time - previous_time
-    )
+    elapsed_time = current_time - previous_time
 
     if elapsed_time > 0:
         fps = 1.0 / elapsed_time
-    else:
-        fps = 0.0
 
     previous_time = current_time
 
@@ -195,23 +175,15 @@ while True:
 
     fps_pass = fps >= FPS_THRESHOLD
 
-    latency_pass = (
-        latency_ms <= LATENCY_THRESHOLD_MS
-    )
+    latency_pass = latency_ms <= LATENCY_THRESHOLD_MS
 
-    count_pass = (
-        object_count <= OBJECT_COUNT_THRESHOLD
-    )
+    count_pass = object_count <= OBJECT_COUNT_THRESHOLD
 
     # --------------------------------------
-    # FPS
+    # FPS display
     # --------------------------------------
 
-    fps_color = (
-        (0, 255, 0)
-        if fps_pass
-        else (0, 0, 255)
-    )
+    fps_color = (0, 255, 0) if fps_pass else (0, 0, 255)
 
     cv2.putText(
         frame,
@@ -225,7 +197,7 @@ while True:
     )
 
     # --------------------------------------
-    # Latency
+    # Latency display
     # --------------------------------------
 
     latency_color = (
@@ -246,7 +218,7 @@ while True:
     )
 
     # --------------------------------------
-    # Object count
+    # Object count display
     # --------------------------------------
 
     count_color = (
@@ -267,7 +239,7 @@ while True:
     )
 
     # --------------------------------------
-    # Threshold information
+    # Display threshold values
     # --------------------------------------
 
     cv2.putText(
@@ -282,8 +254,7 @@ while True:
 
     cv2.putText(
         frame,
-        f"Latency Threshold: "
-        f"{LATENCY_THRESHOLD_MS:.0f} ms",
+        f"Latency Threshold: {LATENCY_THRESHOLD_MS:.0f} ms",
         (20, 150),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.55,
@@ -293,8 +264,7 @@ while True:
 
     cv2.putText(
         frame,
-        f"Count Threshold: "
-        f"{OBJECT_COUNT_THRESHOLD}",
+        f"Count Threshold: {OBJECT_COUNT_THRESHOLD}",
         (20, 175),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.55,
@@ -303,30 +273,38 @@ while True:
     )
 
     # --------------------------------------
-    # Save processed frame
+    # Show detection result
     # --------------------------------------
 
-    cv2.imwrite(
-        "object_detection.jpg",
+    cv2.imshow(
+        "Object Detection",
         frame
     )
 
-    # Save grayscale frame
-    cv2.imwrite(
-        "grayscale.jpg",
+    # --------------------------------------
+    # Show grayscale separately
+    # --------------------------------------
+
+    cv2.imshow(
+        "Grayscale",
         gray
     )
 
     # --------------------------------------
-    # Terminal status
+    # Show foreground mask
     # --------------------------------------
 
-    print(
-        f"FPS: {fps:.1f} | "
-        f"Latency: {latency_ms:.1f} ms | "
-        f"Objects: {object_count}",
-        end="\r"
+    cv2.imshow(
+        "Foreground Mask",
+        threshold_mask
     )
+
+    # --------------------------------------
+    # Press Q to quit
+    # --------------------------------------
+
+    if cv2.waitKey(1) & 0xFF == ord("q"):
+        break
 
 
 # ==========================================
@@ -334,5 +312,6 @@ while True:
 # ==========================================
 
 cap.release()
+cv2.destroyAllWindows()
 
 print("\nObject detection stopped.")
