@@ -35,7 +35,20 @@ print("Press 'q' to quit")
 # Background subtraction
 # ==========================================
 
-background_subtractor = cv2.createBackgroundSubtractorMOG2(*/
+background_subtractor = cv2.createBackgroundSubtractorMOG2(
+    history=500,
+    varThreshold=16,
+    detectShadows=True
+)
+
+
+# ==========================================
+# FPS initialization
+# ==========================================
+
+previous_time = time.perf_counter()
+fps = 0.0
+
 
 # ==========================================
 # Main loop
@@ -43,7 +56,7 @@ background_subtractor = cv2.createBackgroundSubtractorMOG2(*/
 
 while True:
 
-    # Start timing
+    # Start timing for this frame
     start_time = time.perf_counter()
 
     # --------------------------------------
@@ -67,11 +80,7 @@ while True:
     # --------------------------------------
 
     foreground_mask = background_subtractor.apply(gray)
-     
 
-
-
-     
     # --------------------------------------
     # Remove shadows and noise
     # --------------------------------------
@@ -141,7 +150,7 @@ while True:
         cv2.putText(
             frame,
             f"Object {object_count}",
-            (x, y - 10),
+            (x, max(y - 10, 20)),
             cv2.FONT_HERSHEY_SIMPLEX,
             0.6,
             (0, 255, 0),
@@ -154,7 +163,7 @@ while True:
 
     end_time = time.perf_counter()
 
-    latency_ms = (end_time - start_time) * 1000
+    latency_ms = (end_time - start_time) * 1000.0
 
     # --------------------------------------
     # Calculate FPS
@@ -183,7 +192,11 @@ while True:
     # FPS display
     # --------------------------------------
 
-    fps_color = (0, 255, 0) if fps_pass else (0, 0, 255)
+    fps_color = (
+        (0, 255, 0)
+        if fps_pass
+        else (0, 0, 255)
+    )
 
     cv2.putText(
         frame,
