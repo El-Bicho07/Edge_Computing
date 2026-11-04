@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veyra Pharma Vision</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: splash, then control bar; live feed, pill indicators and model metrics on the left; current detection and history on the right; report below. */
+:root {
+  --bg: #E9EDF1;
+  --surface: #F6F8FA;
+  --surface-2: #EDF1F4;
+  --line: #C6CFD8;
+  --ink: #1C2630;
+  --muted: #586675;
+  --accent: #2C5878;
+  --accent-ink: #F6F8FA;
+  --pass: #2B7556;
+  --fail: #A8382F;
+  --warn: #8A6A1E;
+  --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r: 3px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12181F; --surface: #1A222B; --surface-2: #212B36; --line: #33404D;
+    --ink: #E3E9EF; --muted: #92A0AE; --accent: #6FA3C6; --accent-ink: #10171E;
+    --pass: #5BB68E; --fail: #E0776C; --warn: #D2AE5B; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12181F; --surface: #1A222B; --surface-2: #212B36; --line: #33404D;
+  --ink: #E3E9EF; --muted: #92A0AE; --accent: #6FA3C6; --accent-ink: #10171E;
+  --pass: #5BB68E; --fail: #E0776C; --warn: #D2AE5B; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-sans); font-size: 14px; line-height: 1.45;
+  padding-inline: 20px; padding-block: 16px 40px;
+}
+.wrap { max-width: 1440px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.logo { display: block; flex: none; }
+
+/* Splash */
+#splash {
+  position: fixed; inset: 0; z-index: 100; background: var(--bg);
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+  transition: opacity 0.5s ease;
+}
+#splash.done { opacity: 0; pointer-events: none; }
+#splash[hidden] { display: none; }
+.splash-inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; width: min(360px, 100%); }
+.splash-inner h1 { margin: 18px 0 0; font-size: 30px; font-weight: 600; letter-spacing: 0.01em; text-wrap: balance; }
+.splash-inner p { margin: 0; color: var(--muted); }
+.splash-bar { width: 100%; height: 3px; background: var(--line); margin-top: 28px; overflow: hidden; border-radius: 1px; }
+.splash-bar i { display: block; height: 100%; width: 100%; background: var(--accent); transform-origin: left; animation: fill 2.4s cubic-bezier(.3,.1,.3,1) forwards; }
+@keyframes fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.splash-status { font-size: 12.5px; margin-top: 10px !important; min-height: 1.4em; }
+@media (prefers-reduced-motion: reduce) { .splash-bar i { animation: none; } #splash { transition: none; } }
+
+/* Top bar */
+.topbar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 12px 16px;
+}
+.brand { display: flex; align-items: center; gap: 14px; min-width: 0; margin-right: auto; }
+.brand h1 { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: 0.01em; }
+.brand p { margin: 1px 0 0; color: var(--muted); font-size: 12.5px; }
+.state { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.state i { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); display: inline-block; }
+.state.running { color: var(--pass); } .state.running i { background: var(--pass); }
+.state.stopped { color: var(--warn); } .state.stopped i { background: var(--warn); }
+.btn {
+  border: 1px solid var(--line); background: var(--surface-2); border-radius: var(--r);
+  padding: 8px 16px; cursor: pointer; font-weight: 500;
+}
+.btn:hover { border-color: var(--muted); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.stop { background: var(--fail); color: #fff; border-color: var(--fail); }
+:root[data-theme="dark"] .btn.stop { color: #14110F; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.stop { color: #14110F; } }
+.btn.big { min-width: 110px; padding: 9px 22px; font-weight: 600; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.offline { background: var(--surface); border: 1px solid var(--fail); color: var(--fail); border-radius: var(--r); padding: 10px 16px; font-weight: 500; }
+.offline[hidden] { display: none; }
+
+/* Main grid */
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 16px; align-items: start; }
+@media (max-width: 1040px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+.col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); min-width: 0; }
+.panel > header {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px;
+  padding: 10px 16px; border-bottom: 1px solid var(--line);
+}
+.panel > header h2 { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-right: auto; }
+
+/* Feed */
+.feed { position: relative; background: #222A33; aspect-ratio: 4 / 3; max-width: 100%; }
+.feed img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; display: block; }
+.feed img[hidden] { display: none; }
+.chip {
+  position: absolute; background: rgba(22, 28, 35, 0.82); color: #E8EDF1;
+  font-size: 12px; padding: 4px 9px; border-radius: var(--r); font-family: var(--font-mono);
+}
+.chip[hidden] { display: none; }
+.chip.tl { top: 10px; left: 10px; }
+.chip.tr { top: 10px; right: 10px; }
+.chip.bl { bottom: 10px; left: 10px; max-width: calc(100% - 20px); }
+.chip .tag-pass { color: #7FD0A8; font-weight: 500; }
+.chip .tag-fail { color: #F2958B; font-weight: 500; }
+.feed .notice {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 24px; color: #CBD4DC; font-size: 15px;
+}
+.feed .notice[hidden] { display: none; }
+.feed .notice p { max-width: 44ch; margin: 0; }
+
+/* Metric strips */
+.metrics { display: grid; margin: 0; border-top: 1px solid var(--line); }
+.metrics.m5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.metrics.m4 { grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 0; }
+@media (max-width: 760px) { .metrics.m5, .metrics.m4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.metric { padding: 12px 16px; border-right: 1px solid var(--line); min-width: 0; }
+.metric:last-child { border-right: 0; }
+@media (max-width: 760px) { .metric { border-bottom: 1px solid var(--line); } .metric:nth-child(2n) { border-right: 0; } }
+.metric dt { font-size: 11.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
+.metric dd { margin: 0; font-size: 26px; font-weight: 500; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.metric dd small { font-size: 12px; color: var(--muted); margin-left: 3px; font-family: var(--font-sans); }
+.hint { font-size: 12px; color: var(--muted); padding: 8px 16px; border-top: 1px solid var(--line); }
+.classes { padding: 10px 16px; border-top: 1px solid var(--line); font-size: 13px; display: grid; gap: 4px; }
+.classes b { font-weight: 600; }
+
+/* Physical pill indicators */
+.pills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 16px; }
+.pill { border: 1px solid var(--line); background: var(--surface-2); border-radius: var(--r); padding: 12px 8px; text-align: center; min-width: 0; }
+.pill .dot { width: 22px; height: 22px; border-radius: 50%; margin: 0 auto 8px; background: transparent; border: 2px solid var(--muted); }
+.pill b { display: block; font-size: 13px; font-weight: 600; }
+.pill .st { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
+.pill .pin { display: block; margin-top: 2px; font-size: 11px; color: var(--muted); }
+.pill.pass .dot { background: var(--pass); border-color: var(--pass); }
+.pill.pass .st { color: var(--pass); }
+.pill.defect { border-color: var(--fail); }
+.pill.defect .dot { background: var(--fail); border-color: var(--fail); }
+.pill.defect .st { color: var(--fail); font-weight: 600; }
+
+/* Conveyor */
+.btn.small { padding: 4px 10px; font-size: 13px; }
+.btn.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.on.stop-on { background: var(--fail); border-color: var(--fail); color: #fff; }
+a.btn { text-decoration: none; display: inline-block; color: inherit; }
+.cv-top { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
+.cv-tile { padding: 12px 16px; border-right: 1px solid var(--line); min-width: 0; }
+.cv-tile:last-child { border-right: 0; }
+.cv-tile span { display: block; font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.cv-tile b { display: block; font-size: 22px; font-weight: 600; margin-top: 2px; color: var(--muted); }
+.cv-tile small { display: block; color: var(--muted); font-size: 12.5px; min-height: 1.4em; overflow-wrap: anywhere; }
+.cv-tile.run b { color: var(--pass); }
+.cv-tile.obj b { color: var(--warn); }
+.cv-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
+.cv-stat { padding: 8px 16px; border-right: 1px solid var(--line); min-width: 0; }
+.cv-stat:last-child { border-right: 0; }
+.cv-stat span { display: block; font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.cv-stat b { font-size: 17px; font-weight: 500; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.cv-line { padding: 8px 12px 4px; border-bottom: 1px solid var(--line); }
+.cv-line canvas { display: block; width: 100%; height: 84px; }
+.cv-links { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 16px; border-top: 1px solid var(--line); }
+.cv-warn { color: var(--warn); }
+#cvBody td:last-child { white-space: normal; min-width: 150px; }
+
+/* Current detection */
+.current { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.cur-label { font-size: 26px; font-weight: 600; letter-spacing: 0.02em; }
+.cur-label.pass { color: var(--pass); } .cur-label.defect { color: var(--fail); } .cur-label.none { color: var(--muted); }
+.cur-sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
+
+/* History */
+.totals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
+.total { padding: 10px 16px; border-right: 1px solid var(--line); }
+.total:last-child { border-right: 0; }
+.total span { display: block; font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.total b { font-size: 20px; font-weight: 500; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.total.p b { color: var(--pass); } .total.d b { color: var(--fail); }
+.hist-tools { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.hist-tools select { border: 1px solid var(--line); background: var(--bg); border-radius: var(--r); padding: 4px 8px; font-size: 13px; }
+.tablewrap { overflow: auto; max-width: 100%; }
+.hist-wrap { max-height: 480px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th { position: sticky; top: 0; background: var(--surface-2); text-align: left; font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); font-weight: 600; padding: 7px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 7px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.r, th.r { text-align: right; }
+.res { font-weight: 600; font-size: 12px; letter-spacing: 0.05em; }
+.res.pass { color: var(--pass); } .res.defect { color: var(--fail); }
+.empty { padding: 24px 16px; color: var(--muted); text-align: center; }
+.note { color: var(--muted); font-size: 12.5px; }
+
+/* Report */
+.report-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.report-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 20px; }
+.report-body h3 { margin: 0 0 8px; font-size: 13px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.report-body h4 { margin: 0; font-size: 20px; font-weight: 600; }
+.rep-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 8px 24px; margin: 0; }
+.kv div { border-bottom: 1px solid var(--line); padding: 5px 0; display: flex; justify-content: space-between; gap: 12px; }
+.kv dt { color: var(--muted); } .kv dd { margin: 0; font-family: var(--font-mono); text-align: right; }
+.bar { display: inline-block; height: 8px; background: var(--fail); vertical-align: middle; border-radius: 1px; }
+.signoff { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 6px; }
+.signoff div { border-top: 1px solid var(--ink); padding-top: 4px; font-size: 12px; color: var(--muted); }
+.foot { color: var(--muted); font-size: 12px; text-align: center; }
+@media print {
+  body { background: #fff; padding: 0; }
+  #splash, .topbar, .grid, .report-head, .foot, .offline { display: none !important; }
+  #reportPanel { border: 0; }
+}
+</style>
+</head>
+<body>
+
+<div id="splash" role="status" aria-live="polite">
+  <div class="splash-inner">
+    <span data-logo="84"></span>
+    <h1 data-company>Veyra Pharma Vision</h1>
+    <p data-tagline>Pharmaceutical packaging inspection</p>
+    <div class="splash-bar" aria-hidden="true"><i></i></div>
+    <p class="splash-status" id="splashStatus">Connecting to the inspection server</p>
+  </div>
+</div>
+<script>
+/* Safety net: the opening screen always closes, even if the main script fails. */
+setTimeout(function () {
+  var e = document.getElementById("splash");
+  if (e && !e.hidden) { e.classList.add("done"); setTimeout(function () { e.hidden = true; }, 600); }
+}, 8000);
+</script>
+
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <span data-logo="38"></span>
+      <div>
+        <h1><span data-company>Veyra Pharma Vision</span></h1>
+        <p>Blister pack defect detection</p>
+      </div>
+    </div>
+    <span class="state" id="stateLabel"><i></i><span id="stateText">Idle</span></span>
+    <button class="btn primary big" id="btnStart" type="button">Start</button>
+    <button class="btn stop big" id="btnStop" type="button" disabled>Stop</button>
+  </div>
+
+  <div class="offline" id="offline" hidden>Cannot reach the inspection server. Run <span class="num">python app.py</span> and open the address it prints, normally <span class="num">http://127.0.0.1:5000</span>.</div>
+
+  <div class="grid">
+    <div class="col">
+      <section class="panel" aria-label="Camera feed">
+        <header><h2>Camera feed</h2></header>
+        <div class="feed">
+          <img id="feed" alt="Live camera feed with detections" hidden>
+          <div class="chip tl" id="chipCam">Camera</div>
+          <div class="chip tr" id="chipModel">Model</div>
+          <div class="chip bl" id="chipLast" hidden></div>
+          <div class="notice" id="notice"><p id="noticeText">Camera is off. Press Start to begin inspection.</p></div>
+        </div>
+        <dl class="metrics m5">
+          <div class="metric"><dt>Accuracy</dt><dd id="mAcc">&mdash;</dd></div>
+          <div class="metric"><dt>Latency</dt><dd id="mLat">&mdash;<small>ms</small></dd></div>
+          <div class="metric"><dt>FPS</dt><dd id="mFps">0</dd></div>
+          <div class="metric"><dt>Objects in frame</dt><dd id="mObj">0</dd></div>
+          <div class="metric"><dt>Runtime</dt><dd id="mRun">00:00:00</dd></div>
+        </dl>
+        <div class="hint">Accuracy is the mean confidence of the model over the last 50 inspected packs. FPS is the video frame rate; the small number is how often the model checks a frame. Latency is the time from capturing a frame to getting its detections.</div>
+      </section>
+
+      <section class="panel" aria-label="Pill indicators">
+        <header><h2>Pill indicators</h2><span class="note" id="pillNote">The LED for a pill turns on when that pill is defective.</span></header>
+        <div class="pills" id="pills">
+          <div class="pill" id="pill1"><div class="dot"></div><b>Pill 1</b><span class="st">No pill</span><span class="pin num">GPIO17</span></div>
+          <div class="pill" id="pill2"><div class="dot"></div><b>Pill 2</b><span class="st">No pill</span><span class="pin num">GPIO27</span></div>
+          <div class="pill" id="pill3"><div class="dot"></div><b>Pill 3</b><span class="st">No pill</span><span class="pin num">GPIO22</span></div>
+          <div class="pill" id="pill4"><div class="dot"></div><b>Pill 4</b><span class="st">No pill</span><span class="pin num">GPIO23</span></div>
+          <div class="pill" id="pill5"><div class="dot"></div><b>Pill 5</b><span class="st">No pill</span><span class="pin num">GPIO24</span></div>
+          <div class="pill" id="pill6"><div class="dot"></div><b>Pill 6</b><span class="st">No pill</span><span class="pin num">GPIO25</span></div>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="Model performance">
+        <header><h2>Model performance on test dataset</h2><span class="note" id="metStatus"></span></header>
+        <dl class="metrics m4">
+          <div class="metric"><dt>Precision</dt><dd id="mPrec">&mdash;</dd></div>
+          <div class="metric"><dt>Recall</dt><dd id="mRec">&mdash;</dd></div>
+          <div class="metric"><dt>mAP@50</dt><dd id="mMap50">&mdash;</dd></div>
+          <div class="metric"><dt>mAP@50-95</dt><dd id="mMap">&mdash;</dd></div>
+        </dl>
+        <div class="classes" id="classes"></div>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="panel" aria-label="Current detection">
+        <header><h2>Current detection</h2></header>
+        <div class="current">
+          <div class="cur-label none" id="curLabel">Camera off</div>
+          <div class="cur-sub" id="curSub">Press Start to begin inspection.</div>
+        </div>
+        <div class="tablewrap" style="max-height:200px">
+          <table>
+            <thead><tr><th>Pill</th><th>Class</th><th>Counted as</th><th class="r">Conf.</th></tr></thead>
+            <tbody id="curBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="Conveyor belt" id="cvPanel">
+        <header>
+          <h2>Conveyor belt</h2>
+          <button class="btn small" id="cvRun" type="button">Run</button>
+          <button class="btn small" id="cvStop" type="button">Stop</button>
+        </header>
+        <div class="cv-top">
+          <div class="cv-tile" id="cvMotor"><span>Servo motor</span><b id="cvMotorText">Stopped</b><small id="cvReason">Waiting for the operator</small></div>
+          <div class="cv-tile" id="cvIr"><span>IR sensor</span><b id="cvIrText">Clear</b><small id="cvIrSub"></small></div>
+        </div>
+        <div class="cv-stats">
+          <div class="cv-stat"><span>Objects today</span><b id="cvObjects">0</b></div>
+          <div class="cv-stat"><span>Stops</span><b id="cvStops">0</b></div>
+          <div class="cv-stat"><span>Run time</span><b id="cvRunTime">00:00:00</b></div>
+          <div class="cv-stat"><span>Speed</span><b id="cvSpeed">0%</b></div>
+        </div>
+        <div class="cv-line"><canvas id="cvLine" aria-label="Motor and IR sensor activity, last 10 minutes"></canvas></div>
+        <div class="tablewrap" style="max-height:210px">
+          <table>
+            <thead><tr><th>Time</th><th>Event</th><th>Detail</th></tr></thead>
+            <tbody id="cvBody"></tbody>
+          </table>
+          <div class="empty" id="cvEmpty">No conveyor events yet. Press Run to start the belt.</div>
+        </div>
+        <div class="hint cv-warn" id="cvHint" hidden></div>
+        <div class="cv-links">
+          <a class="btn small" href="/export/conveyor_events.csv" download>Events CSV</a>
+          <a class="btn small" href="/export/conveyor_samples.csv" download>Samples CSV</a>
+          <a class="btn small" href="/export/inspections.csv" download>Inspections CSV</a>
+          <span class="note" id="cvDb" style="align-self:center"></span>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="Inspection history">
+        <header>
+          <h2>Inspection history</h2>
+          <div class="hist-tools">
+            <label for="filter" class="note">Show</label>
+            <select id="filter">
+              <option value="all">All packs</option>
+              <option value="DEFECT">Defective only</option>
+              <option value="PASS">Passed only</option>
+            </select>
+            <button class="btn" id="btnReset" type="button" style="padding:4px 10px;font-size:13px">Reset session</button>
+          </div>
+        </header>
+        <div class="totals">
+          <div class="total"><span>Inspected</span><b id="tIns">0</b></div>
+          <div class="total p"><span>Passed</span><b id="tPass">0</b></div>
+          <div class="total d"><span>Defective</span><b id="tDef">0</b></div>
+          <div class="total"><span>Defect rate</span><b id="tRate">0.0%</b></div>
+        </div>
+        <div class="tablewrap hist-wrap">
+          <table>
+            <thead><tr><th>Time</th><th>Pack ID</th><th>Result</th><th>Defect type</th><th>Pills</th><th class="r">Conf.</th></tr></thead>
+            <tbody id="histBody"></tbody>
+          </table>
+          <div class="empty" id="histEmpty">No packs inspected yet. Press Start to begin.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <section class="panel" id="reportPanel" aria-label="Report">
+    <header class="report-head">
+      <h2>Report</h2>
+      <div class="report-actions">
+        <button class="btn primary" id="btnReport" type="button">Generate report</button>
+        <button class="btn" id="btnCsv" type="button" disabled>Download CSV</button>
+        <button class="btn" id="btnHtml" type="button" disabled>Download report</button>
+        <button class="btn" id="btnPrint" type="button" disabled>Print</button>
+      </div>
+    </header>
+    <div id="reportOut" class="report-body"><p class="note" style="margin:0">The report is built from the inspection history: run details, model test metrics, batch summary, defect breakdown, the full event log and a sign-off block. Generate it at the end of a run.</p></div>
+  </section>
+
+  <p class="foot">Detections come from the YOLOv8 model running in app.py on this computer.</p>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  /* Change the company name, tagline and logo colours here. */
+  var COMPANY = { name: "Veyra Pharma Vision", tagline: "Pharmaceutical packaging inspection" };
+  var SPLASH_MS = 2400;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var S = { running: false, feed: false, count: -1, hist: [], status: null, report: null, resetArm: 0, first: true, cvSeq: -1, cvSamples: [], cvPresent: false };
+
+  /* ---------- brand ---------- */
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function logoSvg(size, accent, ink) {
+    var ring = 'style="fill:none;stroke:' + ink + '" stroke-width="2.4"';
+    return '<svg class="logo" width="' + size + '" height="' + size + '" viewBox="0 0 48 48" role="img" aria-label="' + esc(COMPANY.name) + ' logo">' +
+      '<rect x="2" y="2" width="44" height="44" rx="8" style="fill:' + accent + '"/>' +
+      '<circle cx="16" cy="16" r="6" ' + ring + '/><circle cx="32" cy="16" r="6" ' + ring + '/><circle cx="16" cy="32" r="6" ' + ring + '/>' +
+      '<circle cx="32" cy="32" r="6" style="fill:' + ink + '"/>' +
+      '<path d="M29 32.2l2.4 2.4 4-4.6" style="fill:none;stroke:' + accent + '" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
+  document.title = COMPANY.name + " Inspection";
+  document.querySelectorAll("[data-company]").forEach(function (el) { el.textContent = COMPANY.name; });
+  document.querySelectorAll("[data-tagline]").forEach(function (el) { el.textContent = COMPANY.tagline; });
+  document.querySelectorAll("[data-logo]").forEach(function (el) { el.innerHTML = logoSvg(el.getAttribute("data-logo"), "var(--accent)", "var(--accent-ink)"); });
+
+  /* ---------- helpers ---------- */
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function hms(sec) { sec = Math.floor(sec); return pad(Math.floor(sec / 3600)) + ":" + pad(Math.floor(sec / 60) % 60) + ":" + pad(sec % 60); }
+  function pct(x, d) { return (x * 100).toFixed(d === undefined ? 1 : d) + "%"; }
+  function nowStr() { var d = new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) + " " + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds()); }
+  function api(path, method) {
+    return fetch(path, { method: method || "GET", cache: "no-store" }).then(function (r) { return r.json(); });
+  }
+  /* Test metrics may arrive as s.metrics or s.model.metrics. */
+  function getMetrics(s) {
+    return s.metrics || (s.model && s.model.metrics) || { status: "unavailable", message: "The server did not send test metrics." };
+  }
+
+  /* ---------- splash ---------- */
+  var splashEnded = false, t0 = performance.now();
+  function endSplash() {
+    if (splashEnded) return; splashEnded = true;
+    var el = $("splash"); el.classList.add("done");
+    setTimeout(function () { el.hidden = true; }, 600);
+  }
+  function splashReady(ok) {
+    $("splashStatus").textContent = ok ? "Connected. Model loaded." : "Inspection server not reachable.";
+    setTimeout(endSplash, Math.max(0, SPLASH_MS - (performance.now() - t0)));
+  }
+  setTimeout(endSplash, 7000);
+
+  /* ---------- feed ---------- */
+  function showNotice(msg) { $("noticeText").textContent = msg; $("notice").hidden = false; }
+  function feedOn() {
+    if (S.feed) return; S.feed = true;
+    $("feed").src = "/video_feed?" + Date.now(); $("feed").hidden = false; $("notice").hidden = true;
+  }
+  function feedOff(msg) {
+    if (S.feed) { $("feed").removeAttribute("src"); $("feed").hidden = true; S.feed = false; }
+    showNotice(msg);
+  }
+  $("feed").addEventListener("error", function () {
+    if (S.feed && S.running) { S.feed = false; $("feed").hidden = true; showNotice("The video feed was interrupted. Press Stop, then Start."); }
+  });
+
+  /* ---------- pill indicators ---------- */
+  function renderPills(s) {
+    var byPill = {}, i;
+    (s.pills || []).forEach(function (p) { byPill[p.pill] = p; });
+    var gpio = s.gpio || {}, pins = gpio.pins || [17, 27, 22, 23, 24, 25], states = gpio.states || [];
+    for (i = 1; i <= 6; i++) {
+      var el = $("pill" + i); if (!el) continue;
+      var p = s.running ? byPill[i] : null, cls = "pill", txt = "No pill";
+      if (p) {
+        var bad = !!p.defect || !!states[i - 1];
+        cls += bad ? " defect" : " pass";
+        txt = (bad ? "Defect" : "Pass") + " · " + pct(p.conf, 0);
+      }
+      el.className = cls;
+      el.querySelector(".st").textContent = txt;
+      el.querySelector(".pin").textContent = "GPIO" + pins[i - 1];
+    }
+    $("pillNote").textContent = gpio.available === false
+      ? "GPIO is not available on this computer. Indicators here are on screen only."
+      : "The LED for a pill turns on when that pill is defective.";
+  }
+
+  /* ---------- conveyor ---------- */
+  var EVENT_LABEL = {
+    motor_start: "Motor started", motor_stop: "Motor stopped",
+    ir_object: "Object detected", ir_clear: "Sensor clear",
+    mode_auto: "Conveyor set to run", mode_stop: "Conveyor set to stop",
+    system_start: "Controller started", system_stop: "Controller stopped"
+  };
+  function renderConveyor(s) {
+    var c = s.conveyor; if (!c) return;
+    S.cvPresent = true;
+    var run = c.motor === "running";
+    $("cvMotor").className = "cv-tile" + (run ? " run" : "");
+    $("cvMotorText").textContent = run ? "Running" : "Stopped";
+    $("cvReason").textContent = c.reason + (c.hold_remaining_s ? " · resumes in " + c.hold_remaining_s.toFixed(1) + " s" : "");
+    $("cvIr").className = "cv-tile" + (c.object_present ? " obj" : "");
+    $("cvIrText").textContent = c.object_present ? "Object" : "Clear";
+    $("cvIrSub").textContent = "GPIO" + c.pins.ir + " · motor on GPIO" + c.pins.servo;
+    $("cvObjects").textContent = c.objects_today;
+    $("cvStops").textContent = c.stops;
+    $("cvRunTime").textContent = hms(c.run_seconds);
+    $("cvSpeed").textContent = Math.round(c.speed * 100) + "%";
+    $("cvRun").className = "btn small" + (c.mode === "auto" ? " on" : "");
+    $("cvStop").className = "btn small" + (c.mode === "stop" ? " on stop-on" : "");
+    var hint = $("cvHint");
+    if (!c.hardware) { hint.hidden = false; hint.textContent = "Servo and IR sensor not found (" + (c.hardware_error || "no GPIO") + "). Running in simulation: the motor does not move."; }
+    else if (c.hardware_error) { hint.hidden = false; hint.textContent = c.hardware_error; }
+    else hint.hidden = true;
+    if (s.database) $("cvDb").textContent = "Saved: " + s.database.events + " events, " + s.database.samples + " samples, " + s.database.inspections + " packs";
+    if (c.events_seq !== S.cvSeq) { S.cvSeq = c.events_seq; loadConveyorEvents(); }
+  }
+  function loadConveyorEvents() {
+    api("/api/conveyor/events?limit=40").then(function (rows) {
+      $("cvBody").innerHTML = rows.map(function (e) {
+        return "<tr><td class='num'>" + esc(e.time.slice(11)) + "</td><td>" + esc(EVENT_LABEL[e.event] || e.event) + "</td><td>" + esc(e.detail) + "</td></tr>";
+      }).join("");
+      $("cvEmpty").style.display = rows.length ? "none" : "block";
+    }).catch(function () {});
+  }
+  function loadConveyorSamples() {
+    if (!S.cvPresent || document.hidden) return;
+    api("/api/conveyor/samples?seconds=600").then(function (rows) { S.cvSamples = rows; drawLine(); }).catch(function () {});
+  }
+  function drawLine() {
+    var cv = $("cvLine"), w = cv.clientWidth || 380, h = 84, dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    var g = cv.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, w, h);
+    var cs = getComputedStyle(document.documentElement);
+    function col(n) { return cs.getPropertyValue(n).trim(); }
+    var span = 600, now = Date.now() / 1000, x0 = 44, x1 = w - 6, t0 = now - span;
+    function X(t) { return x0 + (t - t0) / span * (x1 - x0); }
+    var rows = [{ y: 8, key: "m", color: col("--pass"), label: "Motor" }, { y: 34, key: "o", color: col("--warn"), label: "IR" }];
+    g.font = "11px 'IBM Plex Sans', sans-serif"; g.textBaseline = "middle";
+    rows.forEach(function (r) {
+      g.fillStyle = col("--surface-2"); g.fillRect(x0, r.y, x1 - x0, 18);
+      g.strokeStyle = col("--line"); g.lineWidth = 1; g.strokeRect(x0 + 0.5, r.y + 0.5, x1 - x0 - 1, 17);
+      g.fillStyle = col("--muted"); g.fillText(r.label, 4, r.y + 9);
+      g.fillStyle = r.color;
+      var arr = S.cvSamples;
+      for (var i = 0; i < arr.length; i++) {
+        if (!arr[i][r.key]) continue;
+        var a = arr[i].t, b = (i + 1 < arr.length) ? arr[i + 1].t : Math.min(now, a + 1.5);
+        if (b - a > 3) b = a + 1.5;
+        var xa = Math.max(x0, X(a)), xb = Math.min(x1, X(b));
+        if (xb > xa) g.fillRect(xa, r.y + 1, Math.max(1, xb - xa), 16);
+      }
+    });
+    g.fillStyle = col("--muted"); g.textBaseline = "alphabetic";
+    g.textAlign = "left"; g.fillText("10 min ago", x0, 76);
+    g.textAlign = "right"; g.fillText("now", x1, 76);
+  }
+  $("cvRun").addEventListener("click", function () { api("/api/conveyor/auto", "POST").catch(function () {}); });
+  $("cvStop").addEventListener("click", function () { api("/api/conveyor/stop", "POST").catch(function () {}); });
+  setInterval(loadConveyorSamples, 3000);
+  window.addEventListener("resize", function () { if (S.cvPresent) drawLine(); });
+
+  /* ---------- render ---------- */
+  function apply(s) {
+    S.status = s; S.running = s.running;
+    var started = s.runtime_s > 0;
+    var st = $("stateLabel");
+    st.className = "state " + (s.running ? "running" : (started ? "stopped" : ""));
+    $("stateText").textContent = s.running ? "Running" : (started ? "Stopped" : "Idle");
+    $("btnStart").disabled = s.running; $("btnStart").textContent = (!s.running && started) ? "Resume" : "Start";
+    $("btnStop").disabled = !s.running;
+
+    if (s.running) feedOn();
+    else feedOff(s.camera_error || (started ? "Camera stopped. Press Resume to continue." : "Camera is off. Press Start to begin inspection."));
+
+    $("chipCam").textContent = "Camera " + s.camera_index;
+    $("chipModel").textContent = s.model.name + (s.model.backend ? " · " + s.model.backend : "") + " · conf ≥ " + s.model.conf_threshold + (s.model.img_size ? " · " + s.model.img_size + " px" : "");
+
+    $("mAcc").innerHTML = s.accuracy === null ? "&mdash;" : (s.accuracy * 100).toFixed(1) + "<small>%</small>";
+    $("mLat").innerHTML = s.running && s.latency_ms ? s.latency_ms.toFixed(0) + "<small>ms</small>" : "&mdash;<small>ms</small>";
+    $("mFps").innerHTML = s.running ? s.fps.toFixed(0) + "<small>det " + (s.det_fps || 0).toFixed(0) + "/s</small>" : "0";
+    $("mObj").textContent = s.running ? s.objects : 0;
+    $("mRun").textContent = hms(s.runtime_s);
+
+    renderPills(s); renderCurrent(s); renderModel(s); renderConveyor(s);
+
+    var t = s.totals;
+    $("tIns").textContent = t.inspected; $("tPass").textContent = t.pass; $("tDef").textContent = t.defect;
+    $("tRate").textContent = (t.inspected ? t.defect / t.inspected * 100 : 0).toFixed(1) + "%";
+
+    if (s.history_count !== S.count) { S.count = s.history_count; loadHistory(); }
+  }
+  function renderCurrent(s) {
+    var c = s.current, lab = $("curLabel"), sub = $("curSub"), rows = "";
+    if (!s.running) { lab.className = "cur-label none"; lab.textContent = "Camera off"; sub.textContent = "Press Start to begin inspection."; }
+    else if (!c || !c.detections || !c.detections.length) { lab.className = "cur-label none"; lab.textContent = "No pack in view"; sub.textContent = "Hold a blister pack in front of the camera."; }
+    else {
+      var nbad = c.detections.filter(function (d) { return d.defect; }).length;
+      lab.className = "cur-label " + (c.label === "DEFECT" ? "defect" : "pass");
+      lab.textContent = c.label === "DEFECT" ? "DEFECT" : "PASS";
+      sub.textContent = c.detections.length + " pill" + (c.detections.length === 1 ? "" : "s") + " seen · " + nbad + " defective";
+      rows = c.detections.map(function (d) {
+        return "<tr><td class='num'>" + (d.pill || "") + "</td><td>" + esc(d.cls) + "</td><td><span class='res " + (d.defect ? "defect" : "pass") + "'>" + (d.defect ? "DEFECT" : "PASS") + "</span></td><td class='r num'>" + pct(d.conf) + "</td></tr>";
+      }).join("");
+    }
+    $("curBody").innerHTML = rows;
+  }
+  function renderModel(s) {
+    var m = getMetrics(s), ids = ["mPrec", "mRec", "mMap50", "mMap"], keys = ["precision", "recall", "map50", "map5095"];
+    if (m.status === "ready") {
+      ids.forEach(function (id, i) { $(id).textContent = pct(m[keys[i]], 2); });
+      $("metStatus").textContent = "Measured by YOLO on the test split";
+    } else {
+      ids.forEach(function (id) { $(id).innerHTML = m.status === "pending" ? "&hellip;" : "&mdash;"; });
+      $("metStatus").textContent = m.status === "pending" ? "Evaluating on the test dataset. This can take a minute." : (m.message || "");
+    }
+    var d = [], g = [];
+    (s.model.classes || []).forEach(function (c) { (c.defect ? d : g).push(esc(c.name)); });
+    $("classes").innerHTML = "<div><b>Counted as defect:</b> " + (d.join(", ") || "none") + "</div><div><b>Counted as pass:</b> " + (g.join(", ") || "none") + "</div>" +
+      "<div class='note'>If a class is in the wrong list, edit GOOD_CLASS_NAMES in app.py.</div>";
+  }
+  function loadHistory() {
+    api("/api/history").then(function (h) { S.hist = h; renderHistory(); }).catch(function () {});
+  }
+  function renderHistory() {
+    var f = $("filter").value, rows = [], i;
+    for (i = S.hist.length - 1; i >= 0 && rows.length < 200; i--) {
+      var e = S.hist[i]; if (f !== "all" && e.result !== f) continue;
+      rows.push("<tr><td class='num'>" + esc(e.time.slice(11)) + "</td><td class='num'>" + esc(e.id) + "</td><td><span class='res " + (e.result === "PASS" ? "pass" : "defect") + "'>" + e.result + "</span></td><td>" + esc(e.defect) + "</td><td class='num'>" + esc(e.pills || "-") + "</td><td class='r num'>" + pct(e.conf) + "</td></tr>");
+    }
+    $("histBody").innerHTML = rows.join("");
+    $("histEmpty").style.display = rows.length ? "none" : "block";
+    $("histEmpty").textContent = S.hist.length ? "No packs match this filter." : "No packs inspected yet. Press Start to begin.";
+    $("btnCsv").disabled = !S.hist.length;
+    var last = S.hist[S.hist.length - 1], chip = $("chipLast");
+    if (last) {
+      chip.hidden = false;
+      chip.innerHTML = "Last: " + esc(last.id) + " <span class='" + (last.result === "PASS" ? "tag-pass" : "tag-fail") + "'>" + last.result + "</span> " + pct(last.conf) + (last.result === "DEFECT" ? " · " + esc(last.defect) : "");
+    } else chip.hidden = true;
+  }
+
+  /* ---------- polling ---------- */
+  function poll() {
+    api("/api/status").then(function (s) {
+      $("offline").hidden = true;
+      try { apply(s); } catch (err) { if (window.console) console.error("Dashboard render error:", err); }
+      if (S.first) { S.first = false; splashReady(true); }
+    }).catch(function () {
+      $("offline").hidden = false;
+      if (S.first) { S.first = false; splashReady(false); }
+    }).then(function () { setTimeout(poll, S.running ? 400 : 1000); });
+  }
+
+  /* ---------- controls ---------- */
+  $("btnStart").addEventListener("click", function () {
+    $("btnStart").disabled = true;
+    api("/api/start", "POST").then(function (r) { if (!r.ok) { showNotice(r.error); $("btnStart").disabled = false; } }).catch(function () { $("offline").hidden = false; $("btnStart").disabled = false; });
+  });
+  $("btnStop").addEventListener("click", function () { api("/api/stop", "POST").catch(function () {}); });
+  $("btnReset").addEventListener("click", function () {
+    var b = $("btnReset");
+    if (performance.now() - S.resetArm > 3000) { S.resetArm = performance.now(); b.textContent = "Click again to confirm"; setTimeout(function () { b.textContent = "Reset session"; }, 3000); return; }
+    api("/api/reset", "POST").then(function (r) {
+      b.textContent = "Reset session";
+      if (!r.ok) { showNotice(r.error); return; }
+      S.report = null; S.count = -1; $("btnHtml").disabled = true; $("btnPrint").disabled = true;
+      $("reportOut").innerHTML = "<p class='note' style='margin:0'>The report is built from the inspection history. Generate it at the end of a run.</p>";
+    });
+  });
+  $("filter").addEventListener("change", renderHistory);
+
+  /* ---------- report ---------- */
+  function srcLabel(s) { return "Camera " + s.camera_index + " · " + s.model.name; }
+  function reportBody(rep, logo) {
+    var s = S.status, t = s.totals, m = getMetrics(s), byType = {}, h = [];
+    S.hist.forEach(function (e) { if (e.result === "DEFECT") byType[e.defect] = (byType[e.defect] || 0) + 1; });
+    var mc = S.hist.length ? S.hist.reduce(function (a, e) { return a + e.conf; }, 0) / S.hist.length : 0;
+    var rate = t.inspected ? t.defect / t.inspected * 100 : 0;
+    h.push("<div class='rep-head'>" + logo + "<div><h4>" + esc(COMPANY.name) + "</h4><div class='note'>Blister Pack Inspection Report</div></div></div>");
+    h.push("<div class='note num'>Report no. " + esc(rep.no) + " &middot; Generated " + esc(rep.when) + "</div>");
+    h.push("<div><h3>Run details</h3><dl class='kv'>" +
+      "<div><dt>Session start</dt><dd>" + esc(s.session_start || "n/a") + "</dd></div>" +
+      "<div><dt>Runtime</dt><dd>" + hms(s.runtime_s) + "</dd></div>" +
+      "<div><dt>Source and model</dt><dd>" + esc(srcLabel(s)) + "</dd></div>" +
+      "<div><dt>Confidence threshold</dt><dd>" + s.model.conf_threshold + "</dd></div>" +
+      "<div><dt>Inference backend</dt><dd>" + esc((s.model.backend || "n/a") + " · " + (s.model.img_size || "?") + " px") + "</dd></div></dl></div>");
+    if (s.conveyor) {
+      var cvr = s.conveyor;
+      h.push("<div><h3>Conveyor belt</h3><dl class='kv'>" +
+        "<div><dt>Motor now</dt><dd>" + esc(cvr.motor) + "</dd></div>" +
+        "<div><dt>Objects stopped today</dt><dd>" + cvr.objects_today + "</dd></div>" +
+        "<div><dt>Stops this session</dt><dd>" + cvr.stops + "</dd></div>" +
+        "<div><dt>Motor run time</dt><dd>" + hms(cvr.run_seconds) + "</dd></div>" +
+        "<div><dt>Belt speed setting</dt><dd>" + Math.round(cvr.speed * 100) + "%</dd></div>" +
+        "<div><dt>Stop time per object</dt><dd>" + (cvr.hold_seconds ? cvr.hold_seconds + " s" : "until removed") + "</dd></div></dl></div>");
+    }
+    h.push("<div><h3>Batch summary</h3><dl class='kv'>" +
+      "<div><dt>Packs inspected</dt><dd>" + t.inspected + "</dd></div>" +
+      "<div><dt>Passed</dt><dd>" + t.pass + "</dd></div>" +
+      "<div><dt>Defective</dt><dd>" + t.defect + "</dd></div>" +
+      "<div><dt>Defect rate</dt><dd>" + rate.toFixed(2) + "%</dd></div>" +
+      "<div><dt>Mean confidence</dt><dd>" + pct(mc) + "</dd></div>" +
+      "<div><dt>Mean latency</dt><dd>" + s.avg_latency_ms.toFixed(0) + " ms</dd></div>" +
+      "<div><dt>Mean FPS</dt><dd>" + s.avg_fps.toFixed(1) + "</dd></div></dl></div>");
+    h.push("<div><h3>Model performance on test dataset</h3>" + (m.status === "ready" ? "<dl class='kv'>" +
+      "<div><dt>Precision</dt><dd>" + pct(m.precision, 2) + "</dd></div><div><dt>Recall</dt><dd>" + pct(m.recall, 2) + "</dd></div>" +
+      "<div><dt>mAP@50</dt><dd>" + pct(m.map50, 2) + "</dd></div><div><dt>mAP@50-95</dt><dd>" + pct(m.map5095, 2) + "</dd></div></dl>" :
+      "<p class='note' style='margin:0'>Test metrics were not available for this run.</p>") + "</div>");
+    var keys = Object.keys(byType).sort(function (a, b) { return byType[b] - byType[a]; });
+    h.push("<div><h3>Defect breakdown</h3>" + (keys.length ? "<div class='tablewrap'><table><thead><tr><th>Defect type</th><th class='r'>Count</th><th class='r'>Share of defects</th><th></th></tr></thead><tbody>" +
+      keys.map(function (k) {
+        var sh = byType[k] / t.defect * 100;
+        return "<tr><td>" + esc(k) + "</td><td class='r num'>" + byType[k] + "</td><td class='r num'>" + sh.toFixed(1) + "%</td><td style='width:140px'><span class='bar' style='width:" + Math.round(sh * 1.2) + "px'></span></td></tr>";
+      }).join("") + "</tbody></table></div>" : "<p class='note' style='margin:0'>No defects recorded in this run.</p>") + "</div>");
+    h.push("<div><h3>Event log (" + t.inspected + " packs)</h3><div class='tablewrap' style='max-height:420px'><table><thead><tr><th>Time</th><th>Pack ID</th><th>Result</th><th>Defect type</th><th>Pills</th><th class='r'>Conf.</th></tr></thead><tbody>" +
+      S.hist.map(function (e) {
+        return "<tr><td class='num'>" + esc(e.time) + "</td><td class='num'>" + esc(e.id) + "</td><td><span class='res " + (e.result === "PASS" ? "pass" : "defect") + "'>" + e.result + "</span></td><td>" + esc(e.defect) + "</td><td class='num'>" + esc(e.pills || "-") + "</td><td class='r num'>" + pct(e.conf) + "</td></tr>";
+      }).join("") + "</tbody></table></div></div>");
+    h.push("<div class='signoff'><div>Inspected by (name, signature)</div><div>QA reviewer (name, signature)</div><div>Date</div></div>");
+    return h.join("");
+  }
+  function generate() {
+    if (!S.status) return;
+    api("/api/history").then(function (hist) {
+      S.hist = hist; renderHistory();
+      if (!hist.length) { $("reportOut").innerHTML = "<p class='note' style='margin:0'>No packs have been inspected yet. Run the camera for a while, then generate the report.</p>"; return; }
+      var d = nowStr();
+      S.report = { no: "BPI-" + d.slice(0, 10).replace(/-/g, "") + "-" + d.slice(11, 16).replace(":", ""), when: d };
+      $("reportOut").innerHTML = reportBody(S.report, logoSvg(46, "var(--accent)", "var(--accent-ink)"));
+      $("btnHtml").disabled = false; $("btnPrint").disabled = false;
+    }).catch(function () { $("offline").hidden = false; });
+  }
+  function save(name, text, type) {
+    var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], { type: type })); a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  function csv() {
+    var rows = [["time", "pack_id", "result", "defect_type", "defective_pills", "confidence"]];
+    S.hist.forEach(function (e) { rows.push([e.time, e.id, e.result, e.defect, e.pills || "-", e.conf.toFixed(4)]); });
+    save("inspection-history-" + nowStr().slice(0, 10) + ".csv", rows.map(function (r) { return r.map(function (c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(","); }).join("\r\n"), "text/csv");
+  }
+  function htmlReport() {
+    if (!S.report) return;
+    var style = "body{font-family:'IBM Plex Sans',Segoe UI,Arial,sans-serif;color:#1C2630;margin:32px auto;max-width:900px;padding:0 20px;font-size:14px}" +
+      "h3{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#586675;margin:0 0 8px}h4{margin:0;font-size:22px}" +
+      "div{margin-bottom:18px}table{border-collapse:collapse;width:100%;font-size:13px}th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#586675;border-bottom:1px solid #C6CFD8;padding:6px 8px}td{padding:6px 8px;border-bottom:1px solid #DDE3E9}" +
+      ".r{text-align:right}.num{font-family:'IBM Plex Mono',Consolas,monospace}.note{color:#586675;font-size:12.5px}.res{font-weight:600;font-size:12px}.res.pass{color:#2B7556}.res.defect{color:#A8382F}" +
+      ".rep-head{display:flex;align-items:center;gap:14px}.kv{display:grid;grid-template-columns:1fr 1fr;gap:6px 28px;margin:0}.kv div{display:flex;justify-content:space-between;border-bottom:1px solid #DDE3E9;padding:4px 0;margin:0}.kv dt{color:#586675}.kv dd{margin:0;font-family:Consolas,monospace}" +
+      ".bar{display:inline-block;height:8px;background:#A8382F}.signoff{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}.signoff div{border-top:1px solid #1C2630;padding-top:4px;font-size:12px;color:#586675}";
+    save(S.report.no + ".html", "<!doctype html><html lang='en'><head><meta charset='utf-8'><title>" + esc(S.report.no) + "</title><style>" + style + "</style></head><body>" +
+      reportBody(S.report, logoSvg(46, "#2C5878", "#F6F8FA")) + "</body></html>", "text/html");
+  }
+  $("btnReport").addEventListener("click", generate);
+  $("btnCsv").addEventListener("click", csv);
+  $("btnHtml").addEventListener("click", htmlReport);
+  $("btnPrint").addEventListener("click", function () { window.print(); });
+
+  poll();
+})();
+</script>
+</body>
+</html>
