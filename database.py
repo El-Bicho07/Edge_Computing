@@ -201,18 +201,19 @@ class Database:
             return int(self._conn.execute(sql, args).fetchone()[0])
 
     def counts(self):
-        """Rows written so far (all time). Uses the largest id, so it is instant."""
+        """Rows currently stored in the database tables."""
         out = {"path": self.path}
         with self._lock:
             for key, table in (("events", "conveyor_events"),
                                ("samples", "conveyor_samples"),
                                ("inspections", "inspections")):
                 out[key] = int(self._conn.execute(
-                    f"SELECT COALESCE(MAX(id), 0) FROM {table}").fetchone()[0])
+                    f"SELECT COUNT(*) FROM {table}").fetchone()[0])
         return out
 
     def export_csv(self, table):
         """Generator of CSV text, read through its own connection."""
+        self.flush()
         cols = EXPORTS[table]
         conn = sqlite3.connect(self.path)
         try:

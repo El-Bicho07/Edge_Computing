@@ -14,6 +14,7 @@ rotate continuously like a conveyor-belt motor. Use a geared DC motor and driver
 if the physical conveyor belt must move continuously.
 """
 
+import os
 import threading
 import time
 
@@ -97,6 +98,13 @@ class Conveyor:
     # -----------------------------------------------------
 
     def _init_hardware(self):
+        if os.environ.get("MOCK_HARDWARE") == "1":
+            self.hardware = False
+            self.hardware_error = "Mock hardware mode active (simulation)"
+            self.servo = None
+            self.ir = None
+            return
+
         try:
             from gpiozero import AngularServo, DigitalInputDevice
 
@@ -171,9 +179,10 @@ class Conveyor:
             self.motor_on = on
             self.motor_since = now
             self.last_sweep_step = now
+            event_detail = f"[SIMULATION] {reason}" if not self.hardware else reason
             self.db.add_event(
                 "motor_start" if on else "motor_stop",
-                reason,
+                event_detail,
             )
             self.events_seq += 1
 
@@ -348,6 +357,14 @@ class Conveyor:
         self._thread = threading.Thread(target=self._loop, daemon=True)
         self._thread.start()
 
+    def stop(self):
+        """Convenience alias to stop conveyor mode."""
+        self.set_mode("stop")
+
+    def close(self):
+        """Alias for shutdown()."""
+        self.shutdown()
+
     def shutdown(self):
         self._stop_evt.set()
         if self._thread:
@@ -387,6 +404,7 @@ class Conveyor:
 
             return {
                 "hardware": self.hardware,
+                "simulation": not self.hardware,
                 "hardware_error": self.hardware_error,
                 "mode": self.mode,
                 "state": self.state,

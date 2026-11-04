@@ -164,6 +164,15 @@ object_detection/
 │   ├── hardware_test.py                # Diagnostic test harness for IR sensor and servo motor
 │   ├── led_test.py                     # Diagnostic sequential test for 6 indicator LEDs
 │   └── servo_test.py                   # Diagnostic sweep test for SG90 angular servo
+│
+└── tests/                              # Automated Unit & Regression Test Suite
+    ├── __init__.py                     # Package marker for test discovery
+    ├── test_fps.py                     # Reciprocal FPS, division-by-zero, EMA smoothing tests
+    ├── test_model_mapping.py           # Checkpoint class normalization & validation tests
+    ├── test_slot_assignment.py         # 9 edge-case validation scenarios for assign_slots()
+    ├── test_smoothing_and_decisions.py # Temporal voting, tie-breaking, pack departure tests
+    ├── test_database.py                # Isolated SQLite WAL, queue/flush, CSV export tests
+    └── test_hardware_failsafe.py       # MOCK_HARDWARE=1 mode, servo clamping, failsafe tests
 ```
 
 ---
@@ -276,13 +285,78 @@ Work conducted from **October 7 to October 10, 2026**, transformed the project i
  Active Pill Lights     Resume on Pass         Audit DB Log
 ```
 
-### Slot Assignment Logic
+### Model Checkpoints & Inverted Class Schemas
 
-To correlate arbitrary model bounding boxes with physical pill pockets, `app.py` normalizes box centroids against the detected blister pack envelope:
+The repository maintains two fine-tuned checkpoints with distinct class indices:
 
-$$\text{Slot Index} = \text{Row} \times 3 + \text{Column}$$
+| Model Checkpoint | File Size | Class 0 Name | Class 1 Name | Production Role |
+| :--- | :--- | :--- | :--- | :--- |
+| `model/best.pt` | 5.5 MB | `NoDefect` (Pass) | `defect` (Fail) | Baseline checkpoint from initial training |
+| `model/best2.pt` | 6.0 MB | `defect` (Fail) | `no defect` (Pass) | Primary production checkpoint (higher mAP) |
 
-Where $\text{Row} \in \{0, 1\}$ (vertical division) and $\text{Column} \in \{0, 1, 2\}$ (horizontal division). Temporal smoothing buffers detection results across successive frames to eliminate transient camera noise or brief occlusions before logging an inspection verdict.
+> [!IMPORTANT]
+> The class indices in `best.pt` and `best2.pt` are inverted relative to one another. To eliminate class-index confusion, `app.py` enforces class normalization via `is_defect_class()`, which sanitizes and inspects semantic class names (`GOOD_CLASS_NAMES = {"nodefect", "good", "pass", "normal", "ok"}`). During startup, `init_model()` performs automated checkpoint validation to guarantee that loaded weights contain both defective and non-defective classes before accepting frames.
+
+### Slot Assignment Algorithm (`assign_slots`)
+
+To map arbitrary 2D bounding boxes into the physical $2 \times 3$ pill matrix (Pills 1 through 6):
+
+```text
+┌─────────────────┬─────────────────┬─────────────────┐
+│ Slot 0 (Pill 1) │ Slot 1 (Pill 2) │ Slot 2 (Pill 3) │
+├─────────────────┼─────────────────┼─────────────────┤
+│ Slot 3 (Pill 4) │ Slot 4 (Pill 5) │ Slot 5 (Pill 6) │
+└─────────────────┴─────────────────┴─────────────────┘
+```
+
+The algorithm dynamically partitions detected boxes using centroid clustering rather than rigid static coordinates:
+
+1. **Row Segregation via Vertical Centroid Gap**:
+   - Detections are sorted by vertical centroid coordinate: $c_y = y_1 + \frac{h}{2}$.
+   - The algorithm searches for the largest vertical gap $\Delta y$ between consecutive sorted detections.
+   - If $\Delta y > 0.6 \times \text{mean\_height}$, a row split is established: detections above the gap belong to Row 0; detections below belong to Row 1.
+   - If no gap exceeds this threshold (e.g., only a single row is in frame), the row is assigned based on the vertical frame midpoint: $\text{Row} = 0$ if $\overline{c}_y < \frac{H}{2}$, else $\text{Row} = 1$.
+2. **Column Assignment via Horizontal Span & Pitch**:
+   - Horizontal span is calculated from minimum and maximum pill centroids: $\text{Span}_x = \max(c_x) - \min(c_x)$.
+   - If $\text{Span}_x > 1.2 \times \text{mean\_width}$, horizontal column pitch is calculated: $\text{Pitch} = \frac{\text{Span}_x}{2}$.
+   - Column index is computed dynamically:
+     $$\text{Col} = \text{clamp}\left(0, 2, \text{round}\left(\frac{c_x - \min(c_x)}{\text{Pitch}}\right)\right)$$
+   - If the horizontal span is insufficient to compute pitch (e.g., fewer than two columns present), the algorithm falls back to uniform screen division: $\text{Col} = \text{int}\left(\frac{c_x}{W / 3}\right)$.
+3. **Discrete Slot Mapping**:
+   $$\text{Slot Index} = \text{Row} \times 3 + \text{Col} \quad (\text{Slot} \in \{0, 1, 2, 3, 4, 5\})$$
+4. **Duplicate & Overlap Suppression**:
+   - If multiple bounding boxes map to the same slot, the detection with the higher confidence score is retained.
+
+#### Algorithmic Limitations of Slot Assignment
+
+1. **Pack Rotation / Skew (> 15–20°)**:
+   The algorithm assumes blister packs travel along the conveyor roughly axis-aligned with the camera sensor. If a blister pack is rotated by more than $15^\circ$ to $20^\circ$, vertical centroid gaps collapse and Cartesian projections interleave, causing row misclassification.
+2. **Missing Outer Columns**:
+   Because horizontal pitch is derived from $\frac{\max(c_x) - \min(c_x)}{2}$, if an entire outer column (e.g., Slot 2 and Slot 5) is completely absent, $\text{Span}_x$ shrinks to 1 column width rather than 2. This alters the calculated pitch and can misalign the remaining column indices.
+
+### Temporal Smoothing & Pack Decision Logic
+
+To ensure robust inspection without flickering or false-positive alarms:
+
+- **Temporal Sliding Window**: `app.py` maintains a circular history buffer of length $\text{SMOOTH\_FRAMES} = 5$ for each of the 6 slots.
+- **Minimum Presence Threshold**: A pill must be detected in at least $\text{SLOT\_MIN\_PRESENT} = 2$ frames within the window before it participates in voting.
+- **Conservative Tie-Breaking**: Majority voting counts defect votes. Any tie ($\text{votes} \times 2 \ge \text{total\_votes}$) resolves strictly to **DEFECT** as a fail-safe quality precaution.
+- **Pack State Isolation**: To prevent defect history from leaking into subsequent blister packs, `S.slot_hist` is explicitly wiped clean both when a new pack session begins and when a pack departs.
+- **Fail-Safe Departure Rejection**: If an incomplete pack (fewer than $\text{MIN\_FRAMES\_TO\_LOG} = 5$ frames) exits the camera FOV, but defects were observed during any frame, the pack is automatically recorded as **DEFECT** in the database rather than discarded.
+
+### Instantaneous FPS, Smoothed Display, and Average Throughput
+
+The FPS and throughput measurement in `ai.py` and `app.py` has been updated with strictly separated metrics:
+
+1. **Instantaneous FPS**: Reciprocal of the most recent inter-frame interval:
+   $$\text{FPS}_{\text{inst}} = \frac{1}{\max(\Delta t, 10^{-6})}$$
+2. **Smoothed Display FPS**: Exponential moving average (EMA) for flicker-free visual HUD telemetry:
+   $$\text{FPS}_{\text{smooth}} = 0.1 \times \text{FPS}_{\text{inst}} + 0.9 \times \text{FPS}_{\text{prev}}$$
+3. **True Average Throughput**: Computed over total processed frames and total elapsed processing time:
+   $$\text{Throughput}_{\text{avg}} = \frac{N_{\text{total frames}}}{\sum \Delta t_{\text{elapsed}}}$$
+
+> [!IMPORTANT]
+> When frame intervals vary, the arithmetic mean of instantaneous rates $\frac{1}{N}\sum \frac{1}{\Delta t_i}$ severely overestimates actual processing speed. True average throughput corresponds to the harmonic mean of instantaneous rates and is strictly measured as total processed frames divided by total elapsed processing time using `time.perf_counter()`.
 
 ---
 
@@ -449,34 +523,58 @@ python object_detection.py
 ```
 *Press `Q` to quit.*
 
+### 5. Running the Automated Test Suite
+
+Execute the comprehensive unit and integration test suite across all 6 modules:
+
+```bash
+# Run tests with hardware mocking enabled:
+MOCK_HARDWARE=1 .venv/bin/python3 -m unittest discover tests -v
+```
+
+> [!NOTE]
+> Setting `MOCK_HARDWARE=1` enables the hardware abstraction mock layer. This safely stubs GPIO LED outputs, SG90 servo PWM signals, and IR sensor pins, ensuring that automated regression tests can execute safely in headless, remote, or CI environments without actuating physical machinery. Conveyor motor events generated during mock runs are tagged with `[SIMULATION]` in the SQLite audit log.
+
 ---
 
 ## 13. Results and Observations
 
 ### Model Accuracy & Detection Efficacy
 
-Evaluation of `model/best2.pt` on the 929-image blister pack defect test dataset:
+Verified evaluation of `model/best2.pt` on the 93 test images (186 labeled instances) of the Roboflow Blister Pack Defect test split (`dataset/Defect Detection.v1i.yolov8/test`):
+
+| Evaluation Metric | Measured Value | Description |
+| :--- | :--- | :--- |
+| **Precision ($P$)** | **90.81%** (0.9081) | Proportion of detected defects that are true defects |
+| **Recall ($R$)** | **83.50%** (0.8350) | Proportion of actual defects successfully identified |
+| **mAP@50** | **87.69%** (0.8769) | Mean Average Precision at IoU threshold = 0.50 |
+| **mAP@50-95** | **55.62%** (0.5562) | Mean Average Precision across IoU thresholds 0.50 to 0.95 |
 
 - **Detection Classes**:
-  - `defect`: Missing tablets, damaged blister foil, crushed capsules, foreign particulates.
-  - `no defect`: Uniform, correctly sealed tablets.
+  - `defect` (Class ID 0): Missing tablets, damaged blister foil, crushed capsules, foreign particulates.
+  - `no defect` (Class ID 1): Uniform, intact, and correctly sealed tablets.
 - **Confidence Setting**: Threshold set at `conf = 0.25`, providing optimal sensitivity for detecting small package anomalies while maintaining a low false-positive rate.
-- **Resolution**: Native training and inference performed at $640 \times 640$ pixels.
+- **Inference Resolution**: Default production inference runs at $416 \times 416$ pixels for low latency.
 
 ### Hardware & Throughput Performance
 
-Measured on Raspberry Pi 5 Model B (ARM Cortex-A76):
+Measured on Raspberry Pi 5 Model B Rev 1.1 (ARM Cortex-A76, 4 cores @ 2.4 GHz):
 
 | Mode / Script | Pipeline Details | Measured Throughput / Latency |
 | :--- | :--- | :--- |
 | **Day-1 Classical OpenCV** (`object_detection.py`) | MOG2 Subtractor + Contours | ~18–24 FPS (35–50 ms latency) |
-| **Day-2 PyTorch YOLOv8** (`ai.py`) | YOLOv8n CPU Float32 | ~3.5–5.5 FPS (180–280 ms latency) |
+| **Day-2 PyTorch YOLOv8** (`ai.py`) | YOLOv8n CPU Float32 ($416\times416$) | ~3.5–5.5 FPS (180–280 ms latency) |
 | **Day-2 Multi-threaded Dashboard** (`app.py`) | Asynchronous Decoupled Workers | Camera Feed: ~30 FPS; Inference: ~4 FPS |
-| **NCNN Acceleration** (`model/best2_ncnn_model/`) | INT8/FP16 ARM NEON Optimized | ~12–16 FPS (60–85 ms latency) |
+| **NCNN Acceleration** (`model/best2_ncnn_model/`) | Unquantized NCNN Model (FP32 ARM NEON Vectorized, $416\times416$) | ~12–16 FPS (60–85 ms latency) |
+
+> [!NOTE]
+> As verified by layer parameter summation and binary size ($3,000,640$ weights across $12,066,996$ bytes $\approx 4.0$ bytes/parameter), the export is an **unquantized NCNN model** (IEEE 754 32-bit single-precision float). ARM NEON vectorization provides high throughput on the Cortex-A76 cores without the quantization loss associated with INT8 calibration.
 
 ### Operational Telemetry Validation
 
 - **Inspection Database (`data/inspection.db`)**:
+  - Configured with `PRAGMA journal_mode=WAL` and `PRAGMA synchronous=NORMAL` for SD card durability.
+  - In-memory sample queuing and batch flushing prevent continuous write cycles on flash storage.
   - Successfully logged **234 conveyor events** (motor start/stop transitions, IR sensor trips).
   - Recorded **4,899 conveyor telemetry samples** (one sample per second continuous monitoring).
   - Captured **25 validated blister pack inspections** with per-pill defect localization.
@@ -485,10 +583,11 @@ Measured on Raspberry Pi 5 Model B (ARM Cortex-A76):
 
 ## 14. Limitations
 
-1. **Camera Lighting & Specular Reflection**: Highly reflective blister foil packaging can cause glare highlights under direct illumination, occasionally registering as false foil tears if ambient lighting is uncontrolled.
-2. **Servo Motor Characteristics**: The SG90 is an angular positional servo ($0^\circ \dots 180^\circ$). While effective for gating, sorting flippers, or reciprocating pushers, continuous linear conveyor transport requires a dedicated continuous-rotation DC gearmotor.
-3. **CPU-bound PyTorch Inference**: Standard unquantized PyTorch FP32 inference on CPU is resource-intensive (~4–5 FPS). Utilizing the exported NCNN model is recommended for high-speed manufacturing lines.
-4. **Fixed Camera Geometry**: The spatial $2 \times 3$ slot mapping algorithm assumes blister packs are presented roughly aligned with the camera field of view. Extreme rotations (>30°) require rotational deskewing before slot classification.
+1. **Pack Rotation / Geometric Tilt**: The spatial $2 \times 3$ slot mapping algorithm (`assign_slots`) relies on vertical centroid separation and axis-aligned horizontal column pitch. Rotations greater than $15^\circ$ to $20^\circ$ collapse row separation, leading to slot index misalignment.
+2. **Missing Outer Columns in Partial Packs**: Column pitch calculation derives from $\frac{\max(c_x) - \min(c_x)}{2}$. If an outer column is entirely absent, the computed pitch narrows, shifting internal slot indices.
+3. **Camera Lighting & Specular Reflection**: Highly reflective blister foil packaging can cause glare highlights under direct illumination, occasionally registering as false foil tears if ambient lighting is uncontrolled.
+4. **Servo Motor Characteristics**: The SG90 is an angular positional servo ($0^\circ \dots 180^\circ$). While effective for reciprocating sweep, sorting flippers, or reject diverters, continuous linear conveyor transport requires a dedicated continuous-rotation DC gearmotor.
+5. **CPU-bound PyTorch Inference**: Standard PyTorch FP32 inference on CPU is resource-intensive (~4–5 FPS). Utilizing the exported FP32 NCNN model is recommended for high-speed production environments.
 
 ---
 

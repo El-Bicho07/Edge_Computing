@@ -57,7 +57,7 @@ from conveyor import Conveyor
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "model", "best2.pt")
 DASHBOARD_FILE = os.path.join(BASE_DIR, "dashboard.html")
-DB_PATH = os.path.join(BASE_DIR, "data", "inspection.db")
+DB_PATH = os.environ.get("DB_PATH", os.path.join(BASE_DIR, "data", "inspection.db"))
 
 # ---- camera ----------------------------------------------
 CAMERA_INDEX = 0
@@ -94,13 +94,20 @@ DET_STALE_SECONDS = 0.5    # boxes older than this are not drawn
 PILL_COUNT = 6
 PILL_COLS = 3
 
-# Test-set results you measured earlier with model.val (shown on the dashboard).
+# Test-set results measured offline with model.val on the test dataset split.
 TEST_METRICS = {
     "status": "ready",
     "precision": 0.9081,
     "recall": 0.8350,
     "map50": 0.8769,
     "map5095": 0.5562,
+    "model_checkpoint": "model/best2.pt",
+    "dataset": "dataset/Defect Detection.v1i.yolov8 (test split)",
+    "test_images": 93,
+    "test_instances": 186,
+    "evaluation_config": "imgsz=640, conf=0.25, iou=0.5",
+    "verified": True,
+    "provenance": "Verified offline evaluation on Defect Detection.v1i.yolov8 test split",
 }
 
 HOST = "127.0.0.1"
@@ -119,8 +126,21 @@ def norm(name):
     return str(name).strip().lower().replace("-", "_").replace(" ", "_")
 
 
-def is_defect_class(name):
-    return norm(name) not in GOOD_CLASS_NAMES
+def is_defect_class(name, names_dict=None):
+    if names_dict is not None:
+        if name in names_dict:
+            name = names_dict[name]
+        elif str(name) in names_dict:
+            name = names_dict[str(name)]
+        elif isinstance(name, str) and name.isdigit() and int(name) in names_dict:
+            name = names_dict[int(name)]
+        else:
+            return False
+    n = norm(name)
+    if "defect" in n and "no" not in n:
+        return True
+    is_good = n in GOOD_CLASS_NAMES or any(g in n for g in ["nodefect", "good", "pass", "normal", "ok"])
+    return not is_good
 
 
 # =========================================================
@@ -129,18 +149,24 @@ def is_defect_class(name):
 
 LED_PINS = [17, 27, 22, 23, 24, 25]
 
-try:
-    from gpiozero import LED
+GPIO_AVAILABLE = False
+leds = []
 
-    leds = [LED(pin) for pin in LED_PINS]
-    GPIO_AVAILABLE = True
-    print("GPIO LEDs initialised:")
-    for i, pin in enumerate(LED_PINS):
-        print(f"  Pill {i + 1} -> GPIO{pin}")
-except Exception as e:
-    print("WARNING: GPIO unavailable:", e)
-    leds = []
-    GPIO_AVAILABLE = False
+if os.environ.get("MOCK_HARDWARE") != "1":
+    try:
+        from gpiozero import LED
+
+        leds = [LED(pin) for pin in LED_PINS]
+        GPIO_AVAILABLE = True
+        print("GPIO LEDs initialised:")
+        for i, pin in enumerate(LED_PINS):
+            print(f"  Pill {i + 1} -> GPIO{pin}")
+    except Exception as e:
+        print("WARNING: GPIO unavailable:", e)
+        leds = []
+        GPIO_AVAILABLE = False
+else:
+    print("MOCK_HARDWARE=1 set: GPIO LEDs running in mock simulation mode.")
 
 _last_led = [None] * PILL_COUNT
 
@@ -201,6 +227,9 @@ def ncnn_matches_size(folder):
         return False
 
 
+EXPECTED_CLASS_MAPPING = {0: "defect", 1: "no defect"}
+
+
 def init_model():
     global model, NAMES, BACKEND
 
@@ -212,6 +241,29 @@ def init_model():
     print("\nLoading YOLOv8 model...")
     pt = YOLO(MODEL_PATH)
     NAMES = dict(pt.names)
+
+    # Automated validation: verify model contains both defective and non-defective classes
+    has_good = any(not is_defect_class(n) for n in NAMES.values())
+    has_defect = any(is_defect_class(n) for n in NAMES.values())
+    if not (has_good and has_defect):
+        raise ValueError(
+            f"Inconsistent model class mappings: model classes {NAMES} must include at least one "
+            f"non-defective class (matching {GOOD_CLASS_NAMES}) and at least one defective class."
+        )
+
+    # Strict check against expected production mapping and class ordering
+    for cid, cname in EXPECTED_CLASS_MAPPING.items():
+        if cid not in NAMES:
+            raise ValueError(
+                f"Model missing required class ID {cid}: expected {EXPECTED_CLASS_MAPPING}, got {NAMES}"
+            )
+        if is_defect_class(NAMES[cid]) != is_defect_class(cname):
+            raise ValueError(
+                f"Class semantic mismatch for ID {cid}: expected '{cname}' "
+                f"({'DEFECT' if is_defect_class(cname) else 'PASS'}), "
+                f"got '{NAMES[cid]}' ({'DEFECT' if is_defect_class(NAMES[cid]) else 'PASS'}). "
+                f"Refusing initialization."
+            )
 
     try:
         trained = pt.ckpt.get("train_args", {}).get("imgsz")
@@ -230,7 +282,14 @@ def init_model():
             if not ncnn_matches_size(folder):
                 print(f"\nExporting model to NCNN at {IMG_SIZE}px. This happens once...")
                 pt.export(format="ncnn", imgsz=IMG_SIZE, half=False)
-            model = YOLO(folder, task="detect")
+            ncnn_model = YOLO(folder, task="detect")
+            ncnn_names = dict(ncnn_model.names)
+            # Verify NCNN model has identical class mapping
+            if ncnn_names != NAMES:
+                raise ValueError(
+                    f"NCNN class mapping mismatch: PyTorch has {NAMES}, but NCNN export has {ncnn_names}"
+                )
+            model = ncnn_model
             BACKEND = "NCNN"
         except Exception as e:
             print("WARNING: NCNN is not available, using PyTorch instead:", e)
@@ -295,12 +354,17 @@ class State:
         self.run_acc = 0.0
         self.run_start = 0.0
 
-        self.fps = 0.0             # video frames per second
-        self.det_fps = 0.0         # detections per second
+        self.fps = 0.0             # video frames per second (EMA smoothed display)
+        self.instant_fps = 0.0     # video instantaneous FPS (reciprocal of last dt)
+        self.det_fps = 0.0         # detections per second (EMA smoothed display)
+        self.det_instant_fps = 0.0 # detections instantaneous FPS
         self.latency = 0.0         # capture -> detections, ms
         self.infer_ms = 0.0        # model time only, ms
-        self.fps_sum = 0.0
-        self.fps_n = 0
+        self.fps_sum = 0.0         # legacy sum of instantaneous FPS
+        self.fps_n = 0             # total processed video frames
+        self.total_frame_time = 0.0 # total elapsed frame processing time (seconds)
+        self.det_frames_n = 0      # total processed detection frames
+        self.total_det_time = 0.0  # total elapsed detection processing time (seconds)
         self.lat_sum = 0.0
         self.lat_n = 0
         self.prev_frame_time = 0.0
@@ -418,6 +482,9 @@ def track_pack(now, pills):
     if pills:
         sess = S.session
         if sess is None:
+            # Clear slot history when starting a new pack session to prevent state leakage
+            for h in S.slot_hist:
+                h.clear()
             sess = {
                 "start": now, "last": now, "frames": 0, "def_frames": 0,
                 "def_conf": [], "ok_conf": [],
@@ -452,6 +519,8 @@ def track_pack(now, pills):
             if is_def:
                 need = max(1, sess["def_frames"] / 2)
                 bad_list = sorted(p for p, c in sess["bad_pills"].items() if c >= need)
+                if not bad_list and sess["bad_pills"]:
+                    bad_list = sorted(sess["bad_pills"].keys())
 
             S.seq += 1
             entry = {
@@ -474,7 +543,31 @@ def track_pack(now, pills):
                 S.history = S.history[-5000:]
 
     elif S.session is not None and now - S.session["last"] > ABSENT_SECONDS:
+        # Pack has departed. If unlogged but had observed defects or incomplete frames,
+        # fail safe: never silently pass an incomplete/uncertain inspection.
+        if not S.session["logged"]:
+            if S.session["def_frames"] > 0:
+                S.session["logged"] = True
+                bad_list = sorted(S.session["bad_pills"].keys())
+                confs = S.session["def_conf"]
+                conf = sum(confs) / len(confs) if confs else 0.0
+                S.seq += 1
+                entry = {
+                    "n": S.seq,
+                    "id": f"BP-{S.seq:06d}",
+                    "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "result": "DEFECT",
+                    "defect": (S.session["types"].most_common(1)[0][0]
+                               if S.session["types"] else "Incomplete/Defect"),
+                    "pills": ", ".join(str(p) for p in bad_list) if bad_list else "-",
+                    "conf": conf,
+                }
+                S.history.append(entry)
+                db.queue_inspection(entry)
+                S.n_defect += 1
         S.session = None
+        for h in S.slot_hist:
+            h.clear()
 
 
 # =========================================================
@@ -538,9 +631,16 @@ def start_camera():
             S.prev_frame_time = 0.0
             S.prev_det_time = 0.0
             S.fps = 0.0
+            S.instant_fps = 0.0
             S.det_fps = 0.0
+            S.det_instant_fps = 0.0
             S.latency = 0.0
             S.infer_ms = 0.0
+            S.fps_sum = 0.0
+            S.fps_n = 0
+            S.total_frame_time = 0.0
+            S.det_frames_n = 0
+            S.total_det_time = 0.0
             S.camera_fps = float(cap.get(cv2.CAP_PROP_FPS) or 0)
             S.camera_error = None
             S.raw = None
@@ -598,19 +698,23 @@ def capture_worker():
                         S.raw = None
                     all_leds_off()
                 else:
-                    now = time.time()
+                    now_wall = time.time()
+                    now_mono = time.perf_counter()
                     with S.lock:
                         S.raw_seq += 1
-                        S.raw = (S.raw_seq, now, frame)
+                        S.raw = (S.raw_seq, now_wall, frame)
 
                         if S.prev_frame_time:
-                            inst = 1.0 / max(now - S.prev_frame_time, 0.0001)
+                            dt = max(now_mono - S.prev_frame_time, 1e-6)
+                            inst = 1.0 / dt
+                            S.instant_fps = inst
                             S.fps = inst if S.fps == 0 else S.fps * 0.9 + inst * 0.1
-                            S.fps_sum += S.fps
+                            S.fps_sum += inst
                             S.fps_n += 1
-                        S.prev_frame_time = now
+                            S.total_frame_time += dt
+                        S.prev_frame_time = now_mono
 
-                        pills = list(S.dets) if (now - S.dets_time) < DET_STALE_SECONDS else []
+                        pills = list(S.dets) if (now_wall - S.dets_time) < DET_STALE_SECONDS else []
 
                     # Draw on a copy, so the model always sees the clean frame.
                     view = frame.copy()
@@ -706,10 +810,15 @@ def detect_worker():
             else:
                 overall = "NONE"
 
+            now_mono = time.perf_counter()
             if S.prev_det_time:
-                inst = 1.0 / max(now - S.prev_det_time, 0.0001)
+                dt = max(now_mono - S.prev_det_time, 1e-6)
+                inst = 1.0 / dt
+                S.det_instant_fps = inst
                 S.det_fps = inst if S.det_fps == 0 else S.det_fps * 0.8 + inst * 0.2
-            S.prev_det_time = now
+                S.det_frames_n += 1
+                S.total_det_time += dt
+            S.prev_det_time = now_mono
 
             S.infer_ms = infer_ms if S.infer_ms == 0 else S.infer_ms * 0.8 + infer_ms * 0.2
             S.latency = latency_ms if S.latency == 0 else S.latency * 0.8 + latency_ms * 0.2
@@ -783,17 +892,23 @@ def api_status():
         recent = S.history[-ACCURACY_WINDOW:]
         accuracy = (sum(e["conf"] for e in recent) / len(recent)) if recent else None
         classes = [{"name": str(n), "defect": is_defect_class(n)} for n in NAMES.values()]
+        avg_throughput = (S.fps_n / S.total_frame_time) if (S.fps_n and S.total_frame_time > 0) else 0.0
 
         return jsonify({
             "running": S.running,
             "fps": round(S.fps, 1),
+            "instant_fps": round(S.instant_fps, 1),
             "det_fps": round(S.det_fps, 1),
+            "det_instant_fps": round(S.det_instant_fps, 1),
             "camera_fps": round(S.camera_fps, 1),
             "latency_ms": round(S.latency, 1),
             "infer_ms": round(S.infer_ms, 1),
             "objects": S.objects,
             "runtime_s": round(runtime_seconds(), 1),
             "accuracy": accuracy,
+            "total_frames": S.fps_n,
+            "total_elapsed_time": round(S.total_frame_time, 3),
+            "avg_throughput": round(avg_throughput, 2),
             "avg_fps": (S.fps_sum / S.fps_n) if S.fps_n else 0,
             "avg_latency_ms": (S.lat_sum / S.lat_n) if S.lat_n else 0,
             "session_start": S.session_start,
@@ -822,6 +937,7 @@ def api_status():
             "metrics": TEST_METRICS,
             "conveyor": conveyor.status(),
             "database": db.counts(),
+            "hardware_mode": "physical" if (GPIO_AVAILABLE and conveyor.hardware) else "simulated",
         })
 
 
