@@ -1,0 +1,10 @@
+{"timestamp": "2026-10-10T08:00:01.104", "level": "INFO", "pid": 4812, "module": "app", "message": "SYSTEM_STARTUP: Cold boot power cycle completed. Initializing peripherals."}
+{"timestamp": "2026-10-10T08:00:01.850", "level": "INFO", "pid": 4812, "module": "camera", "message": "CAMERA_INIT: /dev/video0 optical capture stream opened at 640x480 YUYV."}
+{"timestamp": "2026-10-10T08:00:02.410", "level": "INFO", "pid": 4812, "module": "model", "message": "MODEL_LOAD: Fine-tuned YOLOv8 model loaded from model/best2.pt (mAP@0.5: 87.69%)."}
+{"timestamp": "2026-10-10T08:00:02.940", "level": "INFO", "pid": 4812, "module": "database", "message": "DB_INIT: SQLite database verified at data/inspection.db with WAL journaling."}
+{"timestamp": "2026-10-10T08:00:03.200", "level": "INFO", "pid": 4812, "module": "conveyor", "message": "ACTUATOR_INIT: Conveyor motor relay energized. SG90 diverter homed to 0 deg."}
+{"timestamp": "2026-10-10T08:00:14.215", "level": "INFO", "pid": 4812, "module": "inspection", "message": "INSPECTION_EVENT: Pack #0001 arrived. Verdict=PASS. Slots=[OK,OK,OK,OK,OK,OK]. Latency=58.2ms."}
+{"timestamp": "2026-10-10T08:00:16.890", "level": "INFO", "pid": 4812, "module": "inspection", "message": "INSPECTION_EVENT: Pack #0002 arrived. Verdict=PASS. Slots=[OK,OK,OK,OK,OK,OK]. Latency=59.1ms."}
+{"timestamp": "2026-10-10T08:00:19.450", "level": "WARNING", "pid": 4812, "module": "inspection", "message": "DEFECT_DETECTED: Pack #0003 arrived. Verdict=FAIL. Slot #3 Missing Tablet (Conf: 0.94). Actuating reject diverter."}
+{"timestamp": "2026-10-10T08:00:20.100", "level": "INFO", "pid": 4812, "module": "conveyor", "message": "ACTUATION_LOG: SG90 diverter stroked to 90 deg. Defective pack #0003 rejected to bin. Conveyor resumed."}
+{"timestamp": "2026-10-10T08:00:22.780", "level": "INFO", "pid": 4812, "module": "telemetry", "message": "MOTOR_HEALTH: MPU6050 vibration RMS=0.052g, Anomaly Score=1.08 (Threshold: 4.28, Status=HEALTHY)."}

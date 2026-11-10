@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  veyra-vision-edge:
+    build:
+      context: ..
+      dockerfile: m3/Dockerfile
+    image: veyra-pharma-vision:latest
+    container_name: veyra_edge_inspection
+    restart: always
+    privileged: true
+    network_mode: host
+    environment:
+      - PYTHONUNBUFFERED=1
+      - MOCK_HARDWARE=0
+      - CAMERA_DEVICE=/dev/video0
+      - MQTT_BROKER=localhost
+      - FLASK_PORT=5000
+    devices:
+      - /dev/video0:/dev/video0
+      - /dev/gpiomem:/dev/gpiomem
+      - /dev/i2c-1:/dev/i2c-1
+    volumes:
+      - ../data:/app/data
+      - ../runs:/app/runs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
