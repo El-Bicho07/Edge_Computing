@@ -73,3 +73,15 @@ pi@raspberrypi:~/object_detection $ python3 m2/run_quantized_live.py
 ### Result:
 - Sustained throughput improved from **4.8 FPS** (FP32 PyTorch) to **16.5 FPS** (Quantized INT8).
 - Execution latency dropped from **208 ms** to **60.5 ms**, easily beating the 75 ms production threshold.
+
+---
+
+## 5. Live On-Device Ingestion HUD Evidence (Visual Proof)
+
+The quantized INT8 model was evaluated across 3 independent hardware testing sessions on Raspberry Pi 5. The recorded real-time HUD outputs (FPS counters, localized bounding boxes, confidence mapping) for each contributor are documented in the required order:
+
+| Order | Student Name | Alias / Photo File | Hardware Execution Details | Visual Ingestion Proof |
+| :---: | :--- | :---: | :--- | :---: |
+| **1** | **Akshaya M** | [`photo_ak.jpg`](photo_ak.jpg)<br>(Akshay) | **`base`**, **`internal_component`**, **`assembly`**, **`assembled_enclosure`** 8-frame live INT8 inference with HUD metrics | ![Akshaya M Quantized Live HUD](photo_ak.jpg) |
+| **2** | **Sri Janani S** | [`photo_sri.jpg`](photo_sri.jpg)<br>(Sri Janani S) | **`enclosure_system`**, **`enclosure_body`**, **`internal_alignment`**, **`magnet_attachment`**, **`assembly`** 9-frame sequence (arrow removed) | ![Sri Janani S Quantized Live HUD](photo_sri.jpg) |
+| **3** | **Bhuvanashree K** | [`photo_b.jpg`](photo_b.jpg)<br>(Vamsi) | **`assembled_enclosure`** 9-frame live edge tracking sequence with bounding box localization | ![Bhuvanashree K Quantized Live HUD](photo_b.jpg) |

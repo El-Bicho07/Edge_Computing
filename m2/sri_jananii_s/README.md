@@ -10,8 +10,8 @@
 ## 1. Assignment Submission Matrix (M2 Optimize)
 
 | Export to ONNX | Link | Convert and run live | Link | Accuracy check | Link | Fair benchmark | Link | CPU vs accelerator + stack | Link | Own target and trade-off | Link |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **I export to ONNX** | [onnx_report.md](onnx_export_report.md) | **I convert & run live** | [quant_report.md](quantized_conversion_report.md) | **I check mAP before/after** | [accuracy_drop.md](accuracy_drop_report.md) | **I run 20 warm-up + 100 runs** | [fair_report.md](fair_benchmark_report.md)<br>[results.json](benchmark_results.json) | **I show CPU vs accel + stack** | [cpu_table.md](cpu_vs_accelerator_table.md)<br>[stack.md](software_stack_diagram.md) | **I show targets & trade-offs** | [targets.md](targets_and_tradeoffs.md) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **I export to ONNX** | [onnx_report.md](onnx_export_report.md) | **I convert & run live** | [quant_report.md](quantized_conversion_report.md)<br>[photo_sri.jpg](photo_sri.jpg) | **I check mAP before/after** | [accuracy_drop.md](accuracy_drop_report.md) | **I run 20 warm-up + 100 runs** | [fair_report.md](fair_benchmark_report.md)<br>[results.json](benchmark_results.json) | **I show CPU vs accel + stack** | [cpu_table.md](cpu_vs_accelerator_table.md)<br>[stack.md](software_stack_diagram.md) | **I show targets & trade-offs** | [targets.md](targets_and_tradeoffs.md) |
 
 ---
 
@@ -29,7 +29,11 @@
 - **Quantization Report**: [`quantized_conversion_report.md`](quantized_conversion_report.md)
 - **Quantization Engine**: [`../convert_tflite_int8.py`](../convert_tflite_int8.py)
 - **Live Running Script**: [`../run_quantized_live.py`](../run_quantized_live.py)
+- **My Live Quantized HUD Evidence**: [`photo_sri.jpg`](photo_sri.jpg) *(clean inspection frame with right-bottom arrow indicator removed)*
 - **On-Device Execution**: Converted to 8-bit quantized format (3.24 MB), executed live on Raspberry Pi 5 with XNNPACK delegate at 16.61 FPS.
+
+#### Sri Janani's Live Quantized Edge Inference HUD Output:
+![Sri Janani S Live Quantized Inference HUD](photo_sri.jpg)
 
 ### Task 3: Accuracy check (Max Marks: 4)
 > *"I show mAP before vs after on the same test set"*

@@ -20,7 +20,7 @@ This repository is organized into dedicated milestone directories (`m1/`, `m2/`,
 #### for M2
 | Export to ONNX | Link | Convert and run live | Link | Accuracy check | Link | Fair benchmark | Link | CPU vs accelerator + stack | Link | Own target and trade-off | Link |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **ONNX Conversion** | [`m2/export_onnx.py`](m2/export_onnx.py)<br>[`m2/verify_onnx.py`](m2/verify_onnx.py)<br>[`m2/onnx_export_report.md`](m2/onnx_export_report.md) | **TFLite INT8 Edge Inference** | [`m2/convert_tflite_int8.py`](m2/convert_tflite_int8.py)<br>[`m2/run_quantized_live.py`](m2/run_quantized_live.py)<br>[`m2/quantized_conversion_report.md`](m2/quantized_conversion_report.md) | **mAP Before vs After** | [`m2/eval_accuracy_comparison.py`](m2/eval_accuracy_comparison.py)<br>[`m2/accuracy_drop_report.md`](m2/accuracy_drop_report.md) | **Fair Benchmark (20+100 runs)** | [`m2/fair_benchmark.py`](m2/fair_benchmark.py)<br>[`m2/benchmark_results.json`](m2/benchmark_results.json)<br>[`m2/fair_benchmark_report.md`](m2/fair_benchmark_report.md) | **Hardware & Architecture** | [`m2/cpu_vs_accelerator_table.md`](m2/cpu_vs_accelerator_table.md)<br>[`m2/software_stack_diagram.md`](m2/software_stack_diagram.md) | **Targets & Trade-Offs** | [`m2/targets_and_tradeoffs.md`](m2/targets_and_tradeoffs.md) |
+| **ONNX Conversion** | [`m2/export_onnx.py`](m2/export_onnx.py)<br>[`m2/verify_onnx.py`](m2/verify_onnx.py)<br>[`m2/onnx_export_report.md`](m2/onnx_export_report.md) | **TFLite INT8 Edge Inference** | [`m2/convert_tflite_int8.py`](m2/convert_tflite_int8.py)<br>[`m2/run_quantized_live.py`](m2/run_quantized_live.py)<br>[`m2/quantized_conversion_report.md`](m2/quantized_conversion_report.md)<br>[`m2/photo_ak.jpg`](m2/photo_ak.jpg)<br>[`m2/photo_sri.jpg`](m2/photo_sri.jpg)<br>[`m2/photo_b.jpg`](m2/photo_b.jpg) | **mAP Before vs After** | [`m2/eval_accuracy_comparison.py`](m2/eval_accuracy_comparison.py)<br>[`m2/accuracy_drop_report.md`](m2/accuracy_drop_report.md) | **Fair Benchmark (20+100 runs)** | [`m2/fair_benchmark.py`](m2/fair_benchmark.py)<br>[`m2/benchmark_results.json`](m2/benchmark_results.json)<br>[`m2/fair_benchmark_report.md`](m2/fair_benchmark_report.md) | **Hardware & Architecture** | [`m2/cpu_vs_accelerator_table.md`](m2/cpu_vs_accelerator_table.md)<br>[`m2/software_stack_diagram.md`](m2/software_stack_diagram.md) | **Targets & Trade-Offs** | [`m2/targets_and_tradeoffs.md`](m2/targets_and_tradeoffs.md) |
 
 #### for m3
 | Decision rule sheet | Link | Two-stream pipeline | Link | Debounce | Link | Actuator fires | Link | Docker | Link | End-to-end latency | Link |
@@ -43,11 +43,11 @@ This repository is organized into dedicated milestone directories (`m1/`, `m2/`,
 
 To satisfy independent grading and evaluation, individual student subfolders contain dedicated runs, reports, and evidence:
 
-| Student Name | Photo ID & Alias | Milestone 1 (M1 Detect: 20M) | Milestone 2 (M2 Optimize: 20M) | Total M1+M2 | Dedicated Subfolders |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **Bhuvanashree K** | `photo b`<br>(Vamsi) | [M1 Portfolio & Links](m1/bhuvanashree_k/README.md)<br>Own Photo: [`m1/photo_b.jpg`](m1/photo_b.jpg) | [M2 Portfolio & Links](m2/bhuvanashree_k/README.md)<br>Latency: 59.92 ms (16.69 FPS) | **Submitted (M1: 20M, M2: 20M)** | [`m1/bhuvanashree_k/`](m1/bhuvanashree_k/)<br>[`m2/bhuvanashree_k/`](m2/bhuvanashree_k/) |
-| **Sri Janani S** | `photo sri`<br>(Sri Janani S) | [M1 Portfolio & Links](m1/sri_jananii_s/README.md)<br>Own Photo: [`m1/photo_sri.jpg`](m1/photo_sri.jpg) | [M2 Portfolio & Links](m2/sri_jananii_s/README.md)<br>Latency: 60.24 ms (16.61 FPS) | **Submitted (M1: 20M, M2: 20M)** | [`m1/sri_jananii_s/`](m1/sri_jananii_s/)<br>[`m2/sri_jananii_s/`](m2/sri_jananii_s/) |
-| **Akshaya M** | `photo ak`<br>(Akshay) | [M1 Portfolio & Links](m1/akshaya_m/README.md)<br>Own Photo: [`m1/photo_ak.jpg`](m1/photo_ak.jpg) | [M2 Portfolio & Links](m2/akshaya_m/README.md)<br>Latency: 60.82 ms (16.44 FPS) | **Submitted (M1: 20M, M2: 20M)** | [`m1/akshaya_m/`](m1/akshaya_m/)<br>[`m2/akshaya_m/`](m2/akshaya_m/) |
+| Order | Student Name | Photo ID & Alias | Milestone 1 (M1 Detect: 20M) | Milestone 2 (M2 Optimize: 20M) | Total M1+M2 | Dedicated Subfolders |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: |
+| **1** | **Akshaya M** | `photo ak`<br>(Akshay) | [M1 Portfolio & Links](m1/akshaya_m/README.md)<br>Own Photo: [`m1/photo_ak.jpg`](m1/photo_ak.jpg) | [M2 Portfolio & Links](m2/akshaya_m/README.md)<br>Latency: 60.82 ms (16.44 FPS)<br>HUD: [`m2/photo_ak.jpg`](m2/photo_ak.jpg) | **Submitted (M1: 20M, M2: 20M)** | [`m1/akshaya_m/`](m1/akshaya_m/)<br>[`m2/akshaya_m/`](m2/akshaya_m/) |
+| **2** | **Sri Janani S** | `photo sri`<br>(Sri Janani S) | [M1 Portfolio & Links](m1/sri_jananii_s/README.md)<br>Own Photo: [`m1/photo_sri.jpg`](m1/photo_sri.jpg) | [M2 Portfolio & Links](m2/sri_jananii_s/README.md)<br>Latency: 60.24 ms (16.61 FPS)<br>HUD: [`m2/photo_sri.jpg`](m2/photo_sri.jpg) | **Submitted (M1: 20M, M2: 20M)** | [`m1/sri_jananii_s/`](m1/sri_jananii_s/)<br>[`m2/sri_jananii_s/`](m2/sri_jananii_s/) |
+| **3** | **Bhuvanashree K** | `photo b`<br>(Vamsi) | [M1 Portfolio & Links](m1/bhuvanashree_k/README.md)<br>Own Photo: [`m1/photo_b.jpg`](m1/photo_b.jpg) | [M2 Portfolio & Links](m2/bhuvanashree_k/README.md)<br>Latency: 59.92 ms (16.69 FPS)<br>HUD: [`m2/photo_b.jpg`](m2/photo_b.jpg) | **Submitted (M1: 20M, M2: 20M)** | [`m1/bhuvanashree_k/`](m1/bhuvanashree_k/)<br>[`m2/bhuvanashree_k/`](m2/bhuvanashree_k/) |
 
 ---
 
@@ -58,6 +58,18 @@ To satisfy independent grading and evaluation, individual student subfolders con
 | **`b`** | **Bhuvanashree K**<br>(Vamsi) | **Body 0.95** tight bounding boxes on 3D enclosure across 4 consecutive inspection frames | ![Photo b](m1/photo_b.jpg) |
 | **`sri`** | **Sri Janani S**<br>(Sri Janani S) | **Body 0.95**, **Lid 0.98**, **Stand 0.98** 12-frame multi-object assembly sequence | ![Photo sri](m1/photo_sri.jpg) |
 | **`ak`** | **Akshaya M**<br>(Akshay) | **Stand 0.98**, **Body 0.95** 12-frame sequence with active confidence mapping indicator | ![Photo ak](m1/photo_ak.jpg) |
+
+---
+
+### 📸 Milestone 2: Quantized Edge Inference Visual Evidence (Live HUD Runs on Edge Device)
+
+The edge-deployed TFLite INT8 inference pipeline (`run_quantized_live.py`) was executed live on Raspberry Pi 5 with real-time HUD overlays (FPS counter, bounding boxes, component classes, and confidence mapping). Contributed live inference frames across the team in exact order:
+
+| Order | Contributing Student | Physical Object & Labelled Features | Quantized Edge HUD Live Ingestion Proof |
+| :---: | :--- | :--- | :---: |
+| **1** | **Akshaya M**<br>(Akshay) | **`base`**, **`internal_component`**, **`assembly`**, **`assembled_enclosure`** multi-stage enclosure detection sequence with live FPS and bounding box HUD telemetry | ![Akshaya M Live Quantized Inference](m2/photo_ak.jpg) |
+| **2** | **Sri Janani S**<br>(Sri Janani S) | **`enclosure_system`**, **`enclosure_body`**, **`internal_alignment`**, **`magnet_attachment`**, **`assembly`** 9-frame edge inspection sequence (arrow indicator removed) | ![Sri Janani S Live Quantized Inference](m2/photo_sri.jpg) |
+| **3** | **Bhuvanashree K**<br>(Vamsi) | **`assembled_enclosure`** 9-frame real-time edge tracking and assembly QA sequence | ![Bhuvanashree K Live Quantized Inference](m2/photo_b.jpg) |
 
 ---
 
