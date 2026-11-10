@@ -1,0 +1,28 @@
+{
+  "student": "Theeran",
+  "alias": "dheeran",
+  "hardware": "Raspberry Pi 5 Model B 8GB",
+  "cpu": "Quad-Core ARM Cortex-A76 @ 2.4 GHz",
+  "batch_size": 1,
+  "warmup_runs": 20,
+  "timed_runs": 100,
+  "timestamp": "2026-10-08T11:58:30Z",
+  "pytorch_fp32": {
+    "median_latency_ms": 206.50,
+    "p95_latency_ms": 221.90,
+    "fps": 4.84,
+    "model_size_mb": 6.00
+  },
+  "onnx_fp32": {
+    "median_latency_ms": 81.70,
+    "p95_latency_ms": 88.50,
+    "fps": 12.24,
+    "model_size_mb": 11.58
+  },
+  "tflite_int8": {
+    "median_latency_ms": 60.48,
+    "p95_latency_ms": 64.02,
+    "fps": 16.53,
+    "model_size_mb": 3.24
+  }
+}

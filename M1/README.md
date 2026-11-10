@@ -10,7 +10,7 @@ for M1
 
 | Camera and repo | Link | OpenCV pipeline | Link | Baseline speed | Link | Dataset v1 | Link | Correct split | Link | Train and run detector | Link |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Camera & Git Ingestion** | [`camera_spec_sheet.md`](camera_spec_sheet.md)<br>[`first_frame.jpg`](first_frame.jpg)<br>[`capture_frame.py`](capture_frame.py)<br>[`proof_camera_and_repo.md`](proof_camera_and_repo.md) | **Real-Time HUD Overlay** | [`opencv_pipeline.py`](opencv_pipeline.py)<br>[`live_overlay_output.jpg`](live_overlay_output.jpg)<br>[`proof_opencv_pipeline.md`](proof_opencv_pipeline.md) | **Hardware Telemetry Benchmark** | [`baseline_speed_report.md`](baseline_speed_report.md)<br>[`baseline_telemetry.csv`](baseline_telemetry.csv)<br>[`baseline_benchmark.py`](baseline_benchmark.py) | **Tight Boxes & Data Card** | [`DATASET_CARD.md`](DATASET_CARD.md)<br>[`labelled_samples/`](labelled_samples/)<br>[`photo_b.jpg`](photo_b.jpg)<br>[`photo_sri.jpg`](photo_sri.jpg)<br>[`photo_ak.jpg`](photo_ak.jpg) | **70/20/10 Split Audit** | [`dataset_split_report.md`](dataset_split_report.md)<br>[`verify_dataset_split.py`](verify_dataset_split.py) | **mAP & 10 Error Analysis** | [`detector_evaluation_report.md`](detector_evaluation_report.md)<br>[`confusion_matrix.png`](confusion_matrix.png)<br>[`error_analysis_10_wrong_detections.md`](error_analysis_10_wrong_detections.md)<br>[`run_detector.py`](run_detector.py) |
+| **Camera & Git Ingestion** | [`camera_spec_sheet.md`](camera_spec_sheet.md)<br>[`first_frame.jpg`](first_frame.jpg)<br>[`capture_frame.py`](capture_frame.py)<br>[`proof_camera_and_repo.md`](proof_camera_and_repo.md) | **Real-Time HUD Overlay** | [`opencv_pipeline.py`](opencv_pipeline.py)<br>[`live_overlay_output.jpg`](live_overlay_output.jpg)<br>[`proof_opencv_pipeline.md`](proof_opencv_pipeline.md) | **Hardware Telemetry Benchmark** | [`baseline_speed_report.md`](baseline_speed_report.md)<br>[`baseline_telemetry.csv`](baseline_telemetry.csv)<br>[`baseline_benchmark.py`](baseline_benchmark.py) | **Tight Boxes & Data Card** | [`DATASET_CARD.md`](DATASET_CARD.md)<br>[`labelled_samples/`](labelled_samples/)<br>[`photo_b.jpg`](photo_b.jpg)<br>[`photo_sri.jpg`](photo_sri.jpg)<br>[`photo_ak.jpg`](photo_ak.jpg)<br>[`photo_theeran.jpg`](photo_theeran.jpg) | **70/20/10 Split Audit** | [`dataset_split_report.md`](dataset_split_report.md)<br>[`verify_dataset_split.py`](verify_dataset_split.py) | **mAP & 10 Error Analysis** | [`detector_evaluation_report.md`](detector_evaluation_report.md)<br>[`confusion_matrix.png`](confusion_matrix.png)<br>[`error_analysis_10_wrong_detections.md`](error_analysis_10_wrong_detections.md)<br>[`run_detector.py`](run_detector.py) |
 
 ---
 
@@ -23,12 +23,13 @@ To ensure full individual accountability and transparent evaluation according to
 | **Bhuvanashree K** | `photo b`<br>(Vamsi) | [Proof & Spec](bhuvanashree_k/proof_camera_and_repo.md)<br>[First Frame](bhuvanashree_k/first_frame.jpg) | [Pipeline Proof](bhuvanashree_k/proof_opencv_pipeline.md)<br>[Overlay Image](bhuvanashree_k/live_overlay_output.jpg) | [Telemetry Report](bhuvanashree_k/baseline_speed_report.md)<br>[100-Run CSV](bhuvanashree_k/baseline_telemetry.csv) | [Data Card](bhuvanashree_k/DATASET_CARD.md)<br>[Own Photo Proof](bhuvanashree_k/b_labelled_samples.jpg) | [70/20/10 Split](bhuvanashree_k/dataset_split_report.md)<br>0.00% Leakage | [mAP & Targets](bhuvanashree_k/detector_evaluation_report.md)<br>[10 Error Cases](bhuvanashree_k/error_analysis_10_wrong_detections.md) | **Submitted (Max: 20M)** | [`bhuvanashree_k/`](bhuvanashree_k/) |
 | **Sri Janani S** | `photo sri`<br>(Sri Janani S) | [Proof & Spec](sri_jananii_s/proof_camera_and_repo.md)<br>[First Frame](sri_jananii_s/first_frame.jpg) | [Pipeline Proof](sri_jananii_s/proof_opencv_pipeline.md)<br>[Overlay Image](sri_jananii_s/live_overlay_output.jpg) | [Telemetry Report](sri_jananii_s/baseline_speed_report.md)<br>[100-Run CSV](sri_jananii_s/baseline_telemetry.csv) | [Data Card](sri_jananii_s/DATASET_CARD.md)<br>[Own Photo Proof](sri_jananii_s/sri_labelled_samples.jpg) | [70/20/10 Split](sri_jananii_s/dataset_split_report.md)<br>0.00% Leakage | [mAP & Targets](sri_jananii_s/detector_evaluation_report.md)<br>[10 Error Cases](sri_jananii_s/error_analysis_10_wrong_detections.md) | **Submitted (Max: 20M)** | [`sri_jananii_s/`](sri_jananii_s/) |
 | **Akshaya M** | `photo ak`<br>(Akshay) | [Proof & Spec](akshaya_m/proof_camera_and_repo.md)<br>[First Frame](akshaya_m/first_frame.jpg) | [Pipeline Proof](akshaya_m/proof_opencv_pipeline.md)<br>[Overlay Image](akshaya_m/live_overlay_output.jpg) | [Telemetry Report](akshaya_m/baseline_speed_report.md)<br>[100-Run CSV](akshaya_m/baseline_telemetry.csv) | [Data Card](akshaya_m/DATASET_CARD.md)<br>[Own Photo Proof](akshaya_m/ak_labelled_samples.jpg) | [70/20/10 Split](akshaya_m/dataset_split_report.md)<br>0.00% Leakage | [mAP & Targets](akshaya_m/detector_evaluation_report.md)<br>[10 Error Cases](akshaya_m/error_analysis_10_wrong_detections.md) | **Submitted (Max: 20M)** | [`akshaya_m/`](akshaya_m/) |
+| **Theeran** | `photo_theeran`<br>(Dheeran) | [Proof & Spec](Theeran/proof_camera_and_repo.md)<br>[First Frame](Theeran/first_frame.jpg) | [Pipeline Proof](Theeran/proof_opencv_pipeline.md)<br>[Overlay Image](Theeran/live_overlay_output.jpg) | [Telemetry Report](Theeran/baseline_speed_report.md)<br>[100-Run CSV](Theeran/baseline_telemetry.csv) | [Data Card](Theeran/DATASET_CARD.md)<br>[Own Photo Proof](Theeran/theeran_labelled_samples.jpg) | [70/20/10 Split](Theeran/dataset_split_report.md)<br>0.00% Leakage | [mAP & Targets](Theeran/detector_evaluation_report.md)<br>[10 Error Cases](Theeran/error_analysis_10_wrong_detections.md) | **Submitted (Max: 20M)** | [`Theeran/`](Theeran/) |
 
 ---
 
 ## 📸 Visual Evidence: Student Dataset Contributions
 
-The 3 individual photos provided by the team members showcase tight, high-precision bounding box annotations on edge hardware components:
+The 4 individual photos provided by the team members showcase tight, high-precision bounding box annotations on edge hardware components:
 
 ### 1. Photo `b` – Bhuvanashree K (`b` / Vamsi)
 Tightly labelled enclosure `Body` components (`Body 0.95`) captured across consecutive operational inspection frames:
@@ -52,6 +53,13 @@ Tightly labelled enclosure `Body` components (`Body 0.95`) captured across conse
 - **Active Feature**: Confidence Map Active indicator confirming high activation focus within bounding borders.
 - **Dedicated Folder**: [`akshaya_m/`](akshaya_m/)
 
+### 4. Photo `theeran` – Theeran (Dheeran)
+12-frame multi-position inspection sequence of dark components with tight bounding box annotations:
+![Photo theeran - Theeran](photo_theeran.jpg)
+- **Annotated Classes**: `Stand 0.98`, `Body 0.95`
+- **Active Feature**: High precision bounding boxes on dark low-albedo components (`theeran_labelled_samples.jpg`).
+- **Dedicated Folder**: [`Theeran/`](Theeran/)
+
 ---
 
 ## 📊 Summary of Milestone 1 Technical Results
@@ -64,6 +72,7 @@ Each student conducted an independent 100-cycle benchmark on Raspberry Pi 5 hard
 | **Bhuvanashree K** | 20.41 FPS | 48.90 ms | 52.20 ms | 36.8% | 25.0% | 50.1°C | [`bhuvanashree_k/baseline_telemetry.csv`](bhuvanashree_k/baseline_telemetry.csv) |
 | **Sri Janani S** | 21.08 FPS | 47.35 ms | 50.50 ms | 39.5% | 23.8% | 48.6°C | [`sri_jananii_s/baseline_telemetry.csv`](sri_jananii_s/baseline_telemetry.csv) |
 | **Akshaya M** | 19.82 FPS | 50.38 ms | 53.80 ms | 38.2% | 24.1% | 49.3°C | [`akshaya_m/baseline_telemetry.csv`](akshaya_m/baseline_telemetry.csv) |
+| **Theeran** | 20.45 FPS | 48.78 ms | 52.10 ms | 38.9% | 23.5% | 48.9°C | [`Theeran/baseline_telemetry.csv`](Theeran/baseline_telemetry.csv) |
 
 ### 2. 70 / 20 / 10 Dataset Split & Zero Data Leakage Verification
 - **Total Dataset Size**: 929 annotated images
