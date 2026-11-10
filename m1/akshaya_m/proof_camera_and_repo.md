@@ -3,7 +3,7 @@
 **Student**: Akshaya M (`ak` / Akshay)  
 **Milestone**: M1 Detect  
 **Task**: Camera and repo  
-**Marks Awarded**: 2 / 2  
+**Rubric Weight**: 2 Marks  
 
 ---
 

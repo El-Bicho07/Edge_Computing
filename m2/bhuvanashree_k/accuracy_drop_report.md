@@ -2,7 +2,7 @@
 
 **Milestone**: M2 Optimize  
 **Task**: Accuracy check  
-**Marks Awarded**: 4 / 4  
+**Rubric Weight**: 4 Marks  
 
 ---
 

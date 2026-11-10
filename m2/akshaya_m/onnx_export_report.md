@@ -3,7 +3,7 @@
 **Student**: Akshaya M (`ak` / Akshay)  
 **Milestone**: M2 Optimize  
 **Task**: Export to ONNX  
-**Marks Awarded**: 3 / 3  
+**Rubric Weight**: 3 Marks  
 
 ---
 

@@ -2,7 +2,7 @@
 
 **Milestone**: M1 Detect  
 **Task**: Train and run detector  
-**Marks Awarded**: 5 / 5  
+**Rubric Weight**: 5 Marks  
 
 ---
 

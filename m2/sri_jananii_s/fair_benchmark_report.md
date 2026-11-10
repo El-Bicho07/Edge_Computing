@@ -1,9 +1,9 @@
 # Milestone 2: Fair Standardized Benchmark Report
 
-**Student**: Sri Jananii S (`sri` / Sri Gemini)  
+**Student**: Sri Jananii S (`sri` / Sri Janani S)  
 **Milestone**: M2 Optimize  
 **Task**: Fair benchmark  
-**Marks Awarded**: 4 / 4  
+**Rubric Weight**: 4 Marks  
 
 ---
 

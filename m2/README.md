@@ -1,4 +1,4 @@
-# Milestone 2: M2 Optimize (20 / 20 Marks)
+# Milestone 2: M2 Optimize (Max Marks: 20)
 
 This directory contains the complete source code, quantization engines, benchmark harnesses, individual student contributions, architectural diagrams, and trade-off analyses for **Milestone 2: Optimize**.
 
@@ -18,11 +18,11 @@ for M2
 
 Each team member has executed individual ONNX conversions, quantization runs, accuracy verifications, and standardized benchmarks on edge hardware. Dedicated student subfolders contain complete individual proofs:
 
-| Student Name | Photo ID & Alias | Export to ONNX (3M) | Convert & run live (4M) | Accuracy check (4M) | Fair benchmark (4M) | CPU vs accel + stack (2M) | Own target & trade-off (3M) | Total Marks | Dedicated Subfolder |
+| Student Name | Photo ID & Alias | Export to ONNX (3M) | Convert & run live (4M) | Accuracy check (4M) | Fair benchmark (4M) | CPU vs accel + stack (2M) | Own target & trade-off (3M) | Status | Dedicated Subfolder |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Akshaya M** | `photo ak`<br>(Akshay) | [ONNX Report & Commit](akshaya_m/onnx_export_report.md) | [Live INT8 Runner](akshaya_m/quantized_conversion_report.md) | [Accuracy Drop](akshaya_m/accuracy_drop_report.md)<br>mAP: -0.77% | [Fair Benchmark](akshaya_m/fair_benchmark_report.md)<br>[Results JSON](akshaya_m/benchmark_results.json) | [Hardware Table](akshaya_m/cpu_vs_accelerator_table.md)<br>[Stack Diagram](akshaya_m/software_stack_diagram.md) | [Pre-Training Target](akshaya_m/targets_and_tradeoffs.md)<br>Trade-off Analysis | **20 / 20** | [`akshaya_m/`](akshaya_m/) |
-| **Bhuvanashree K** | `photo b`<br>(Vamsi) | [ONNX Report & Commit](bhuvanashree_k/onnx_export_report.md) | [Live INT8 Runner](bhuvanashree_k/quantized_conversion_report.md) | [Accuracy Drop](bhuvanashree_k/accuracy_drop_report.md)<br>mAP: -0.77% | [Fair Benchmark](bhuvanashree_k/fair_benchmark_report.md)<br>[Results JSON](bhuvanashree_k/benchmark_results.json) | [Hardware Table](bhuvanashree_k/cpu_vs_accelerator_table.md)<br>[Stack Diagram](bhuvanashree_k/software_stack_diagram.md) | [Pre-Training Target](bhuvanashree_k/targets_and_tradeoffs.md)<br>Trade-off Analysis | **20 / 20** | [`bhuvanashree_k/`](bhuvanashree_k/) |
-| **Sri Jananii S** | `photo sri`<br>(Sri Gemini) | [ONNX Report & Commit](sri_jananii_s/onnx_export_report.md) | [Live INT8 Runner](sri_jananii_s/quantized_conversion_report.md) | [Accuracy Drop](sri_jananii_s/accuracy_drop_report.md)<br>mAP: -0.77% | [Fair Benchmark](sri_jananii_s/fair_benchmark_report.md)<br>[Results JSON](sri_jananii_s/benchmark_results.json) | [Hardware Table](sri_jananii_s/cpu_vs_accelerator_table.md)<br>[Stack Diagram](sri_jananii_s/software_stack_diagram.md) | [Pre-Training Target](sri_jananii_s/targets_and_tradeoffs.md)<br>Trade-off Analysis | **20 / 20** | [`sri_jananii_s/`](sri_jananii_s/) |
+| **Bhuvanashree K** | `photo b`<br>(Vamsi) | [ONNX Report & Commit](bhuvanashree_k/onnx_export_report.md) | [Live INT8 Runner](bhuvanashree_k/quantized_conversion_report.md) | [Accuracy Drop](bhuvanashree_k/accuracy_drop_report.md)<br>mAP: -0.77% | [Fair Benchmark](bhuvanashree_k/fair_benchmark_report.md)<br>[Results JSON](bhuvanashree_k/benchmark_results.json) | [Hardware Table](bhuvanashree_k/cpu_vs_accelerator_table.md)<br>[Stack Diagram](bhuvanashree_k/software_stack_diagram.md) | [Pre-Training Target](bhuvanashree_k/targets_and_tradeoffs.md)<br>Trade-off Analysis | **Submitted (Max: 20M)** | [`bhuvanashree_k/`](bhuvanashree_k/) |
+| **Sri Janani S** | `photo sri`<br>(Sri Janani S) | [ONNX Report & Commit](sri_jananii_s/onnx_export_report.md) | [Live INT8 Runner](sri_jananii_s/quantized_conversion_report.md) | [Accuracy Drop](sri_jananii_s/accuracy_drop_report.md)<br>mAP: -0.77% | [Fair Benchmark](sri_jananii_s/fair_benchmark_report.md)<br>[Results JSON](sri_jananii_s/benchmark_results.json) | [Hardware Table](sri_jananii_s/cpu_vs_accelerator_table.md)<br>[Stack Diagram](sri_jananii_s/software_stack_diagram.md) | [Pre-Training Target](sri_jananii_s/targets_and_tradeoffs.md)<br>Trade-off Analysis | **Submitted (Max: 20M)** | [`sri_jananii_s/`](sri_jananii_s/) |
+| **Akshaya M** | `photo ak`<br>(Akshay) | [ONNX Report & Commit](akshaya_m/onnx_export_report.md) | [Live INT8 Runner](akshaya_m/quantized_conversion_report.md) | [Accuracy Drop](akshaya_m/accuracy_drop_report.md)<br>mAP: -0.77% | [Fair Benchmark](akshaya_m/fair_benchmark_report.md)<br>[Results JSON](akshaya_m/benchmark_results.json) | [Hardware Table](akshaya_m/cpu_vs_accelerator_table.md)<br>[Stack Diagram](akshaya_m/software_stack_diagram.md) | [Pre-Training Target](akshaya_m/targets_and_tradeoffs.md)<br>Trade-off Analysis | **Submitted (Max: 20M)** | [`akshaya_m/`](akshaya_m/) |
 
 ---
 
@@ -34,9 +34,9 @@ Tested on Raspberry Pi 5 (ARM Cortex-A76 quad-core @ 2.4 GHz, 8GB RAM):
 
 | Student | Runtime Engine | Median Latency ($p_{50}$) | 95th Percentile ($p_{95}$) | Throughput (FPS) | Model File Size | Status vs 15 FPS Target |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Akshaya M** | TFLite INT8 (NEON) | **60.82 ms** | **64.21 ms** | **16.44 FPS** | **3.24 MB** | **PASSED (+1.44 FPS)** |
 | **Bhuvanashree K** | TFLite INT8 (NEON) | **59.92 ms** | **63.50 ms** | **16.69 FPS** | **3.24 MB** | **PASSED (+1.69 FPS)** |
-| **Sri Jananii S** | TFLite INT8 (NEON) | **60.24 ms** | **63.85 ms** | **16.61 FPS** | **3.24 MB** | **PASSED (+1.61 FPS)** |
+| **Sri Janani S** | TFLite INT8 (NEON) | **60.24 ms** | **63.85 ms** | **16.61 FPS** | **3.24 MB** | **PASSED (+1.61 FPS)** |
+| **Akshaya M** | TFLite INT8 (NEON) | **60.82 ms** | **64.21 ms** | **16.44 FPS** | **3.24 MB** | **PASSED (+1.44 FPS)** |
 | *Baseline* | *PyTorch FP32* | *208.42 ms* | *224.81 ms* | *4.80 FPS* | *6.00 MB* | *Too Slow for Live Line* |
 | *Intermediate* | *ONNX Runtime FP32* | *82.38 ms* | *89.44 ms* | *12.14 FPS* | *11.58 MB* | *Close but sub-target* |
 
@@ -85,19 +85,19 @@ m2/
 ├── cpu_vs_accelerator_table.md               # Task 5 Hardware Accelerator Comparison
 ├── software_stack_diagram.md                 # Task 5 6-Layer Architecture Stack
 ├── targets_and_tradeoffs.md                  # Task 6 Pre-Training Targets vs Results
-├── akshaya_m/                                # Akshaya M Dedicated Subfolder
-│   ├── README.md                             # Individual Task Matrix
-│   ├── onnx_export_report.md                 # Own Commit Proof
-│   ├── fair_benchmark_report.md              # Own Benchmark Numbers
-│   ├── benchmark_results.json                # Own JSON Telemetry
-│   └── ...                                   # Individual Task Artifacts
 ├── bhuvanashree_k/                           # Bhuvanashree K Dedicated Subfolder
 │   ├── README.md                             # Individual Task Matrix
 │   ├── onnx_export_report.md                 # Own Commit Proof
 │   ├── fair_benchmark_report.md              # Own Benchmark Numbers
 │   ├── benchmark_results.json                # Own JSON Telemetry
 │   └── ...                                   # Individual Task Artifacts
-└── sri_jananii_s/                            # Sri Jananii S Dedicated Subfolder
+├── sri_jananii_s/                            # Sri Janani S Dedicated Subfolder
+│   ├── README.md                             # Individual Task Matrix
+│   ├── onnx_export_report.md                 # Own Commit Proof
+│   ├── fair_benchmark_report.md              # Own Benchmark Numbers
+│   ├── benchmark_results.json                # Own JSON Telemetry
+│   └── ...                                   # Individual Task Artifacts
+└── akshaya_m/                                # Akshaya M Dedicated Subfolder
     ├── README.md                             # Individual Task Matrix
     ├── onnx_export_report.md                 # Own Commit Proof
     ├── fair_benchmark_report.md              # Own Benchmark Numbers

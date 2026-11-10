@@ -2,7 +2,7 @@
 
 **Milestone**: M2 Optimize  
 **Task**: Fair benchmark  
-**Marks Awarded**: 4 / 4  
+**Rubric Weight**: 4 Marks  
 
 ---
 

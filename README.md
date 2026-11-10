@@ -4,7 +4,7 @@ An edge-deployed computer vision and automated inspection system designed for ph
 
 ---
 
-## 🏆 Milestone Assessment & Assignment Proof Matrix (100 / 100 Marks)
+## 🏆 Milestone Assessment & Assignment Proof Matrix (Submission for Evaluation)
 
 This repository is organized into dedicated milestone directories (`m1/`, `m2/`, `m3/`, `m4/`, `m5/` and compatibility aliases `2m/`, `5m/`), each containing individual proof, execution scripts, benchmarks, reports, and evidence corresponding strictly to the course evaluation rubric.
 
@@ -30,26 +30,23 @@ To satisfy independent grading and evaluation, individual student subfolders con
 
 | Student Name | Photo ID & Alias | Milestone 1 (M1 Detect: 20M) | Milestone 2 (M2 Optimize: 20M) | Total M1+M2 | Dedicated Subfolders |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Akshaya M** | `photo ak`<br>(Akshay) | [M1 Portfolio & Links](m1/akshaya_m/README.md)<br>Own Photo: [`m1/photo_ak.jpg`](m1/photo_ak.jpg) | [M2 Portfolio & Links](m2/akshaya_m/README.md)<br>Latency: 60.82 ms (16.44 FPS) | **40 / 40 (100%)** | [`m1/akshaya_m/`](m1/akshaya_m/)<br>[`m2/akshaya_m/`](m2/akshaya_m/) |
-| **Bhuvanashree K** | `photo b`<br>(Vamsi) | [M1 Portfolio & Links](m1/bhuvanashree_k/README.md)<br>Own Photo: [`m1/photo_b.jpg`](m1/photo_b.jpg) | [M2 Portfolio & Links](m2/bhuvanashree_k/README.md)<br>Latency: 59.92 ms (16.69 FPS) | **40 / 40 (100%)** | [`m1/bhuvanashree_k/`](m1/bhuvanashree_k/)<br>[`m2/bhuvanashree_k/`](m2/bhuvanashree_k/) |
-| **Sri Jananii S** | `photo sri`<br>(Sri Gemini) | [M1 Portfolio & Links](m1/sri_jananii_s/README.md)<br>Own Photo: [`m1/photo_sri.jpg`](m1/photo_sri.jpg) | [M2 Portfolio & Links](m2/sri_jananii_s/README.md)<br>Latency: 60.24 ms (16.61 FPS) | **40 / 40 (100%)** | [`m1/sri_jananii_s/`](m1/sri_jananii_s/)<br>[`m2/sri_jananii_s/`](m2/sri_jananii_s/) |
+| **Bhuvanashree K** | `photo b`<br>(Vamsi) | [M1 Portfolio & Links](m1/bhuvanashree_k/README.md)<br>Own Photo: [`m1/photo_b.jpg`](m1/photo_b.jpg) | [M2 Portfolio & Links](m2/bhuvanashree_k/README.md)<br>Latency: 59.92 ms (16.69 FPS) | **Submitted (M1: 20M, M2: 20M)** | [`m1/bhuvanashree_k/`](m1/bhuvanashree_k/)<br>[`m2/bhuvanashree_k/`](m2/bhuvanashree_k/) |
+| **Sri Janani S** | `photo sri`<br>(Sri Janani S) | [M1 Portfolio & Links](m1/sri_jananii_s/README.md)<br>Own Photo: [`m1/photo_sri.jpg`](m1/photo_sri.jpg) | [M2 Portfolio & Links](m2/sri_jananii_s/README.md)<br>Latency: 60.24 ms (16.61 FPS) | **Submitted (M1: 20M, M2: 20M)** | [`m1/sri_jananii_s/`](m1/sri_jananii_s/)<br>[`m2/sri_jananii_s/`](m2/sri_jananii_s/) |
+| **Akshaya M** | `photo ak`<br>(Akshay) | [M1 Portfolio & Links](m1/akshaya_m/README.md)<br>Own Photo: [`m1/photo_ak.jpg`](m1/photo_ak.jpg) | [M2 Portfolio & Links](m2/akshaya_m/README.md)<br>Latency: 60.82 ms (16.44 FPS) | **Submitted (M1: 20M, M2: 20M)** | [`m1/akshaya_m/`](m1/akshaya_m/)<br>[`m2/akshaya_m/`](m2/akshaya_m/) |
 
 ---
 
-### 📸 Student Dataset Visual Evidence (`photo ak`, `photo b`, `photo sri`)
+### 📸 Student Dataset Visual Evidence (`photo b`, `photo sri`, `photo ak`)
 
 | Photo ID | Contributing Student | Physical Object & Labelled Features | Visual Proof |
 | :---: | :---: | :--- | :---: |
-| **`ak`** | **Akshaya M**<br>(Akshay) | **Body 0.95** tight boxes on 3D enclosure; physical handwritten signature **"Ak. M"** directly visible on plastic casing | ![Photo ak](m1/photo_ak.jpg) |
-| **`b`** | **Bhuvanashree K**<br>(Vamsi) | **Body 0.95**, **Lid 0.98**, **Stand 0.98** 12-frame multi-object assembly sequence | ![Photo b](m1/photo_b.jpg) |
-| **`sri`** | **Sri Jananii S**<br>(Sri Gemini) | **Stand 0.98**, **Body 0.95** 12-frame sequence with active confidence mapping indicator | ![Photo sri](m1/photo_sri.jpg) |
+| **`b`** | **Bhuvanashree K**<br>(Vamsi) | **Body 0.95** tight bounding boxes on 3D enclosure across 4 consecutive inspection frames | ![Photo b](m1/photo_b.jpg) |
+| **`sri`** | **Sri Janani S**<br>(Sri Janani S) | **Body 0.95**, **Lid 0.98**, **Stand 0.98** 12-frame multi-object assembly sequence | ![Photo sri](m1/photo_sri.jpg) |
+| **`ak`** | **Akshaya M**<br>(Akshay) | **Stand 0.98**, **Body 0.95** 12-frame sequence with active confidence mapping indicator | ![Photo ak](m1/photo_ak.jpg) |
 
 ---
 
-### 📋 Complete 5-Milestone Master Rubric Matrix (100 / 100 Marks)
-
-| Milestone | Task Name | What This Student Must Show (Individual Proof) | Milestone Name | Max Marks | Verifiable Proof File / Artifact |
-| :---: | :--- | :--- | :---: | :---: | :--- |
+### 📋 Complete 5-Milestone Master Rubric Matrix (Submission for Evaluation)
 
 | Milestone | Task Name | What This Student Must Show (Individual Proof) | Milestone Name | Max Marks | Verifiable Proof File / Artifact |
 | :---: | :--- | :--- | :---: | :---: | :--- |
@@ -87,7 +84,7 @@ To satisfy independent grading and evaluation, individual student subfolders con
 | **M5** | **Headline metric** | Measure one headline number live (50/50 correct, 0.0% false-pass rate) | M5 Complete System | **2** | [`m5/headline_metric.py`](m5/headline_metric.py)<br>[`m5/headline_metric_report.md`](m5/headline_metric_report.md) |
 | **M5** | **Documents** | Show commits to README, datasheet, architecture diagram or demo video | M5 Complete System | **1** | [`m5/PRODUCT_DATASHEET.md`](m5/PRODUCT_DATASHEET.md)<br>[`m5/SYSTEM_ARCHITECTURE_DIAGRAM.md`](m5/SYSTEM_ARCHITECTURE_DIAGRAM.md)<br>[`m5/DEMO_VIDEO_GUIDE.md`](m5/DEMO_VIDEO_GUIDE.md) |
 | **M5** | **Live demo & Q&A** | Run 1 normal run + 1 injected fault, answer coach questions | M5 Complete System | **1** | [`m5/live_demo_runner.py`](m5/live_demo_runner.py)<br>[`m5/COACH_QA_PREPARATION.md`](m5/COACH_QA_PREPARATION.md) |
-| **TOTAL** | **Full System Assessment** | **Comprehensive Automated Edge AI Vision System** | **All 5 Milestones** | **100** | **All Rubric Tasks 100% Satisfied** |
+| **TOTAL** | **Full System Assessment** | **Comprehensive Automated Edge AI Vision System** | **All 5 Milestones** | **100** | **All Rubric Tasks Documented & Submitted** |
 
 ---
 

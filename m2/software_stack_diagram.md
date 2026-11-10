@@ -2,7 +2,7 @@
 
 **Milestone**: M2 Optimize  
 **Task**: CPU vs accelerator + stack (Stack Diagram Section)  
-**Marks Awarded**: Part of 2 / 2  
+**Rubric Weight**: Part of 2 Marks  
 
 ---
 

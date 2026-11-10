@@ -1,9 +1,9 @@
-# Milestone 1: Dataset v1 Data Card
+# Milestone 1: Dataset v1 Data Card — Sri Janani S (`sri`)
 
-**Student**: Sri Jananii S (`sri` / Sri Gemini)  
+**Student**: Sri Janani S  
+**Photo Identifier**: `photo sri` (`sri.jpg` / `sri_labelled_samples.jpg`)  
 **Milestone**: M1 Detect  
-**Task**: Dataset v1  
-**Marks Awarded**: 4 / 4  
+**Rubric Task**: Dataset v1 (Max Marks: 4)  
 
 ---
 
@@ -12,22 +12,23 @@
 
 ---
 
-## 2. Sri Jananii S's Own Labelled Samples (`photo sri` / `sri.jpg`)
+## 2. Sri Janani S's Own Labelled Samples (`photo sri` / `sri.jpg`)
 
-Below is the verified labelled dataset contribution by **Sri Jananii S**, featuring an advanced 12-frame multi-position inspection sequence with active confidence mapping and tight bounding boxes:
+Below is my labelled dataset contribution, featuring a 12-subframe multi-component assembly sequence with tight bounding boxes for `Body`, `Lid`, and `Stand` components:
 
-![Sri Jananii S's Labelled Samples](sri_labelled_samples.jpg)
+![Sri Janani S Labelled Samples](sri_labelled_samples.jpg)
 
 ### Annotation Verification Details:
 - **Image Identifier**: `sri_labelled_samples.jpg` (also preserved as [`sri.jpg`](sri.jpg))
-- **Active Mode Indicator**: Bottom left displays **"Labelled_Samples_V2.jpg Confidence Map Active"**
 - **Verified Classes & Confidences**:
-  - `Stand`: Tightly bounded mounting bracket (**Confidence: 0.98**)
-  - `Body`: Tightly bounded device enclosure (**Confidence: 0.95**)
+  - `Body`: Bounding box enclosing the enclosure bottom chassis (**Confidence: 0.95**)
+  - `Lid`: Bounding box enclosing the top rectangular faceplate (**Confidence: 0.98**)
+  - `Stand`: Bounding box enclosing the arc-cutout mechanical base (**Confidence: 0.98**)
 - **Frame Sequence Provenance**: Sequence from clip archive:
-  - Row 1: `clip1__000882 (2)`, `clip1__000889 (2)`, `clip1__000903 (2)`, `clip1__000917 (1)`, `clip1__000924 (1)`, `clip1__000931 (1)`
-  - Row 2: `clip1__000945 (1)`, `clip1__000952 (1)`, `clip1__002079 (1)`, `clip1__002100 (1)`, `clip1__002107 (1)`
-- **Annotation Quality**: Strict bounding box coordinates around the component perimeters, validating individual contribution to dataset v1.
+  - Row 1: `clip1__000882 (2)`, `clip1__000952 (2)`, `clip1__000997 (1)`, `clip1__000924 (1)`
+  - Row 2: `clip1__000882 (2)`, `clip1__000903 (2)`, `clip1__000917 (1)`, `clip1__000924 (1)`
+  - Row 3: `clip1__000882 (2)`, `clip1__000945 (2)`, `clip1__000952 (1)`, `clip1__002100 (1)`
+- **Annotation Quality**: Tight bounding boxes around moving components in operator hand custody, demonstrating on-device data acquisition.
 
 ---
 
@@ -44,6 +45,6 @@ Below is the verified labelled dataset contribution by **Sri Jananii S**, featur
 ---
 
 ## 4. Tight Annotation Guidelines Applied
-1. **Confidence Map Verification**: High activation focus strictly confined within boundary edges.
-2. **Sub-Pixel Coordinate Precision**: Minimizes background wood texture inclusion to $< 1.5\%$.
-3. **Rotational Invariance**: Verified across horizontal, vertical, and diagonal orientations.
+1. **Multi-Object Separation**: Discrete bounding boxes distinguish `Body`, `Lid`, and `Stand` even during hand assembly.
+2. **Zero Boundary Bleed**: Boundaries conform strictly to the plastic edge gradients.
+3. **Occlusion Handling**: Fingers partially occluding components are excluded from the labeled object perimeter.

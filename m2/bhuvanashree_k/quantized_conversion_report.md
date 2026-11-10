@@ -3,7 +3,7 @@
 **Student**: Bhuvanashree K (`b` / Vamsi)  
 **Milestone**: M2 Optimize  
 **Task**: Convert and run live  
-**Marks Awarded**: 4 / 4  
+**Rubric Weight**: 4 Marks  
 
 ---
 

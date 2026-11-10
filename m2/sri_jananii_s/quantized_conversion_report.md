@@ -1,9 +1,9 @@
 # Milestone 2: Quantized Model Conversion and Live Edge Deployment
 
-**Student**: Sri Jananii S (`sri` / Sri Gemini)  
+**Student**: Sri Jananii S (`sri` / Sri Janani S)  
 **Milestone**: M2 Optimize  
 **Task**: Convert and run live  
-**Marks Awarded**: 4 / 4  
+**Rubric Weight**: 4 Marks  
 
 ---
 

@@ -2,7 +2,7 @@
 
 **Milestone**: M1 Detect  
 **Task**: OpenCV pipeline  
-**Marks Awarded**: 4 / 4  
+**Rubric Weight**: 4 Marks  
 
 ---
 

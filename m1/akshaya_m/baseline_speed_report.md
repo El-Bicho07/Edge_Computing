@@ -3,7 +3,7 @@
 **Student**: Akshaya M (`ak` / Akshay)  
 **Milestone**: M1 Detect  
 **Task**: Baseline speed  
-**Marks Awarded**: 3 / 3  
+**Rubric Weight**: 3 Marks  
 
 ---
 

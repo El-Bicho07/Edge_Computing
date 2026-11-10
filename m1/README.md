@@ -1,16 +1,16 @@
-# Milestone 1: M1 Detect (20 / 20 Marks)
+# Milestone 1: M1 Detect (Max Marks: 20)
 
 This directory contains the complete source code, hardware benchmarks, evaluation reports, individual student contributions, visual proof photos, and dataset documentation for **Milestone 1: Detect**.
 
 ---
 
-## 🏆 Evaluator Link Matrix (M1 detect)
+## 🏆 Evaluator Link Matrix (M1 Detect)
 
 for M1
 
 | Camera and repo | Link | OpenCV pipeline | Link | Baseline speed | Link | Dataset v1 | Link | Correct split | Link | Train and run detector | Link |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Camera & Git Ingestion** | [`camera_spec_sheet.md`](camera_spec_sheet.md)<br>[`first_frame.jpg`](first_frame.jpg)<br>[`capture_frame.py`](capture_frame.py)<br>[`proof_camera_and_repo.md`](proof_camera_and_repo.md) | **Real-Time HUD Overlay** | [`opencv_pipeline.py`](opencv_pipeline.py)<br>[`live_overlay_output.jpg`](live_overlay_output.jpg)<br>[`proof_opencv_pipeline.md`](proof_opencv_pipeline.md) | **Hardware Telemetry Benchmark** | [`baseline_speed_report.md`](baseline_speed_report.md)<br>[`baseline_telemetry.csv`](baseline_telemetry.csv)<br>[`baseline_benchmark.py`](baseline_benchmark.py) | **Tight Boxes & Data Card** | [`DATASET_CARD.md`](DATASET_CARD.md)<br>[`labelled_samples/`](labelled_samples/)<br>[`photo_ak.jpg`](photo_ak.jpg)<br>[`photo_b.jpg`](photo_b.jpg)<br>[`photo_sri.jpg`](photo_sri.jpg) | **70/20/10 Split Audit** | [`dataset_split_report.md`](dataset_split_report.md)<br>[`verify_dataset_split.py`](verify_dataset_split.py) | **mAP & 10 Error Analysis** | [`detector_evaluation_report.md`](detector_evaluation_report.md)<br>[`confusion_matrix.png`](confusion_matrix.png)<br>[`error_analysis_10_wrong_detections.md`](error_analysis_10_wrong_detections.md)<br>[`run_detector.py`](run_detector.py) |
+| **Camera & Git Ingestion** | [`camera_spec_sheet.md`](camera_spec_sheet.md)<br>[`first_frame.jpg`](first_frame.jpg)<br>[`capture_frame.py`](capture_frame.py)<br>[`proof_camera_and_repo.md`](proof_camera_and_repo.md) | **Real-Time HUD Overlay** | [`opencv_pipeline.py`](opencv_pipeline.py)<br>[`live_overlay_output.jpg`](live_overlay_output.jpg)<br>[`proof_opencv_pipeline.md`](proof_opencv_pipeline.md) | **Hardware Telemetry Benchmark** | [`baseline_speed_report.md`](baseline_speed_report.md)<br>[`baseline_telemetry.csv`](baseline_telemetry.csv)<br>[`baseline_benchmark.py`](baseline_benchmark.py) | **Tight Boxes & Data Card** | [`DATASET_CARD.md`](DATASET_CARD.md)<br>[`labelled_samples/`](labelled_samples/)<br>[`photo_b.jpg`](photo_b.jpg)<br>[`photo_sri.jpg`](photo_sri.jpg)<br>[`photo_ak.jpg`](photo_ak.jpg) | **70/20/10 Split Audit** | [`dataset_split_report.md`](dataset_split_report.md)<br>[`verify_dataset_split.py`](verify_dataset_split.py) | **mAP & 10 Error Analysis** | [`detector_evaluation_report.md`](detector_evaluation_report.md)<br>[`confusion_matrix.png`](confusion_matrix.png)<br>[`error_analysis_10_wrong_detections.md`](error_analysis_10_wrong_detections.md)<br>[`run_detector.py`](run_detector.py) |
 
 ---
 
@@ -18,11 +18,11 @@ for M1
 
 To ensure full individual accountability and transparent evaluation according to the university course rubric, every team member maintains dedicated subfolders with their own captured frames, measured hardware telemetry, labelled dataset samples, and evaluation results:
 
-| Student Name | Photo ID & Alias | Camera and repo (2M) | OpenCV pipeline (4M) | Baseline speed (3M) | Dataset v1 (4M) | Correct split (2M) | Train & run detector (5M) | Total Marks | Dedicated Subfolder |
+| Student Name | Photo ID & Alias | Camera and repo (2M) | OpenCV pipeline (4M) | Baseline speed (3M) | Dataset v1 (4M) | Correct split (2M) | Train & run detector (5M) | Status | Dedicated Subfolder |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Akshaya M** | `photo ak`<br>(Akshay) | [Proof & Spec](akshaya_m/proof_camera_and_repo.md)<br>[First Frame](akshaya_m/first_frame.jpg) | [Pipeline Proof](akshaya_m/proof_opencv_pipeline.md)<br>[Overlay Image](akshaya_m/live_overlay_output.jpg) | [Telemetry Report](akshaya_m/baseline_speed_report.md)<br>[100-Run CSV](akshaya_m/baseline_telemetry.csv) | [Data Card](akshaya_m/DATASET_CARD.md)<br>[Own Photo Proof](akshaya_m/ak_labelled_samples.jpg) | [70/20/10 Split](akshaya_m/dataset_split_report.md)<br>0.00% Leakage | [mAP & Targets](akshaya_m/detector_evaluation_report.md)<br>[10 Error Cases](akshaya_m/error_analysis_10_wrong_detections.md) | **20 / 20** | [`akshaya_m/`](akshaya_m/) |
-| **Bhuvanashree K** | `photo b`<br>(Vamsi) | [Proof & Spec](bhuvanashree_k/proof_camera_and_repo.md)<br>[First Frame](bhuvanashree_k/first_frame.jpg) | [Pipeline Proof](bhuvanashree_k/proof_opencv_pipeline.md)<br>[Overlay Image](bhuvanashree_k/live_overlay_output.jpg) | [Telemetry Report](bhuvanashree_k/baseline_speed_report.md)<br>[100-Run CSV](bhuvanashree_k/baseline_telemetry.csv) | [Data Card](bhuvanashree_k/DATASET_CARD.md)<br>[Own Photo Proof](bhuvanashree_k/b_labelled_samples.jpg) | [70/20/10 Split](bhuvanashree_k/dataset_split_report.md)<br>0.00% Leakage | [mAP & Targets](bhuvanashree_k/detector_evaluation_report.md)<br>[10 Error Cases](bhuvanashree_k/error_analysis_10_wrong_detections.md) | **20 / 20** | [`bhuvanashree_k/`](bhuvanashree_k/) |
-| **Sri Jananii S** | `photo sri`<br>(Sri Gemini) | [Proof & Spec](sri_jananii_s/proof_camera_and_repo.md)<br>[First Frame](sri_jananii_s/first_frame.jpg) | [Pipeline Proof](sri_jananii_s/proof_opencv_pipeline.md)<br>[Overlay Image](sri_jananii_s/live_overlay_output.jpg) | [Telemetry Report](sri_jananii_s/baseline_speed_report.md)<br>[100-Run CSV](sri_jananii_s/baseline_telemetry.csv) | [Data Card](sri_jananii_s/DATASET_CARD.md)<br>[Own Photo Proof](sri_jananii_s/sri_labelled_samples.jpg) | [70/20/10 Split](sri_jananii_s/dataset_split_report.md)<br>0.00% Leakage | [mAP & Targets](sri_jananii_s/detector_evaluation_report.md)<br>[10 Error Cases](sri_jananii_s/error_analysis_10_wrong_detections.md) | **20 / 20** | [`sri_jananii_s/`](sri_jananii_s/) |
+| **Bhuvanashree K** | `photo b`<br>(Vamsi) | [Proof & Spec](bhuvanashree_k/proof_camera_and_repo.md)<br>[First Frame](bhuvanashree_k/first_frame.jpg) | [Pipeline Proof](bhuvanashree_k/proof_opencv_pipeline.md)<br>[Overlay Image](bhuvanashree_k/live_overlay_output.jpg) | [Telemetry Report](bhuvanashree_k/baseline_speed_report.md)<br>[100-Run CSV](bhuvanashree_k/baseline_telemetry.csv) | [Data Card](bhuvanashree_k/DATASET_CARD.md)<br>[Own Photo Proof](bhuvanashree_k/b_labelled_samples.jpg) | [70/20/10 Split](bhuvanashree_k/dataset_split_report.md)<br>0.00% Leakage | [mAP & Targets](bhuvanashree_k/detector_evaluation_report.md)<br>[10 Error Cases](bhuvanashree_k/error_analysis_10_wrong_detections.md) | **Submitted (Max: 20M)** | [`bhuvanashree_k/`](bhuvanashree_k/) |
+| **Sri Janani S** | `photo sri`<br>(Sri Janani S) | [Proof & Spec](sri_jananii_s/proof_camera_and_repo.md)<br>[First Frame](sri_jananii_s/first_frame.jpg) | [Pipeline Proof](sri_jananii_s/proof_opencv_pipeline.md)<br>[Overlay Image](sri_jananii_s/live_overlay_output.jpg) | [Telemetry Report](sri_jananii_s/baseline_speed_report.md)<br>[100-Run CSV](sri_jananii_s/baseline_telemetry.csv) | [Data Card](sri_jananii_s/DATASET_CARD.md)<br>[Own Photo Proof](sri_jananii_s/sri_labelled_samples.jpg) | [70/20/10 Split](sri_jananii_s/dataset_split_report.md)<br>0.00% Leakage | [mAP & Targets](sri_jananii_s/detector_evaluation_report.md)<br>[10 Error Cases](sri_jananii_s/error_analysis_10_wrong_detections.md) | **Submitted (Max: 20M)** | [`sri_jananii_s/`](sri_jananii_s/) |
+| **Akshaya M** | `photo ak`<br>(Akshay) | [Proof & Spec](akshaya_m/proof_camera_and_repo.md)<br>[First Frame](akshaya_m/first_frame.jpg) | [Pipeline Proof](akshaya_m/proof_opencv_pipeline.md)<br>[Overlay Image](akshaya_m/live_overlay_output.jpg) | [Telemetry Report](akshaya_m/baseline_speed_report.md)<br>[100-Run CSV](akshaya_m/baseline_telemetry.csv) | [Data Card](akshaya_m/DATASET_CARD.md)<br>[Own Photo Proof](akshaya_m/ak_labelled_samples.jpg) | [70/20/10 Split](akshaya_m/dataset_split_report.md)<br>0.00% Leakage | [mAP & Targets](akshaya_m/detector_evaluation_report.md)<br>[10 Error Cases](akshaya_m/error_analysis_10_wrong_detections.md) | **Submitted (Max: 20M)** | [`akshaya_m/`](akshaya_m/) |
 
 ---
 
@@ -30,28 +30,27 @@ To ensure full individual accountability and transparent evaluation according to
 
 The 3 individual photos provided by the team members showcase tight, high-precision bounding box annotations on edge hardware components:
 
-### 1. Photo `ak` – Akshaya M (`ak` / Akshay)
-Tightly labelled `Body` enclosure components with handwritten physical hardware custody signature **"Ak. M"**:
-![Photo ak - Akshaya M](photo_ak.jpg)
-- **Primary Class**: `Body` (Hardware casing)
-- **Confidence Score**: **0.95**
-- **Physical Signature**: Handwritten "Ak. M" on top of the white enclosure, verifying physical custody and authentic capture.
-- **Dedicated Folder**: [`akshaya_m/`](akshaya_m/)
-
-### 2. Photo `b` – Bhuvanashree K (`b` / Vamsi)
-12-frame multi-component assembly sequence with tight bounding boxes for `Body`, `Lid`, and `Stand` components:
+### 1. Photo `b` – Bhuvanashree K (`b` / Vamsi)
+Tightly labelled enclosure `Body` components (`Body 0.95`) captured across consecutive operational inspection frames:
 ![Photo b - Bhuvanashree K](photo_b.jpg)
+- **Annotated Class**: `Body 0.95`
+- **Annotation Quality**: Tight bounding boxes enclosing the outer perimeter with zero background bleed.
+- **Dedicated Folder**: [`bhuvanashree_k/`](bhuvanashree_k/)
+
+### 2. Photo `sri` – Sri Janani S (`sri`)
+12-frame multi-component assembly sequence with tight bounding boxes for `Body`, `Lid`, and `Stand` components:
+![Photo sri - Sri Janani S](photo_sri.jpg)
 - **Annotated Classes**: `Body 0.95`, `Lid 0.98`, `Stand 0.98`
 - **Subframe Provenance**: Video capture frames `clip1__000882`, `clip1__000952`, `clip1__000997`, `clip1__000924`, `clip1__000903`, `clip1__000917`, `clip1__000945`, `clip1__002100`
 - **Annotation Quality**: Tight bounding boxes around moving parts during operator assembly.
-- **Dedicated Folder**: [`bhuvanashree_k/`](bhuvanashree_k/)
+- **Dedicated Folder**: [`sri_jananii_s/`](sri_jananii_s/)
 
-### 3. Photo `sri` – Sri Jananii S (`sri` / Sri Gemini)
+### 3. Photo `ak` – Akshaya M (`ak` / Akshay)
 12-frame multi-position inspection sequence with active confidence mapping:
-![Photo sri - Sri Jananii S](photo_sri.jpg)
+![Photo ak - Akshaya M](photo_ak.jpg)
 - **Annotated Classes**: `Stand 0.98`, `Body 0.95`
 - **Active Feature**: Confidence Map Active indicator confirming high activation focus within bounding borders.
-- **Dedicated Folder**: [`sri_jananii_s/`](sri_jananii_s/)
+- **Dedicated Folder**: [`akshaya_m/`](akshaya_m/)
 
 ---
 
@@ -62,9 +61,9 @@ Each student conducted an independent 100-cycle benchmark on Raspberry Pi 5 hard
 
 | Student | Throughput (FPS) | Latency ($p_{50}$) | Latency ($p_{95}$) | CPU Load (%) | GPU Load (%) | Temperature (°C) | Raw CSV Log |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Akshaya M** | 19.82 FPS | 50.38 ms | 53.80 ms | 38.2% | 24.1% | 49.3°C | [`akshaya_m/baseline_telemetry.csv`](akshaya_m/baseline_telemetry.csv) |
 | **Bhuvanashree K** | 20.41 FPS | 48.90 ms | 52.20 ms | 36.8% | 25.0% | 50.1°C | [`bhuvanashree_k/baseline_telemetry.csv`](bhuvanashree_k/baseline_telemetry.csv) |
-| **Sri Jananii S** | 21.08 FPS | 47.35 ms | 50.50 ms | 39.5% | 23.8% | 48.6°C | [`sri_jananii_s/baseline_telemetry.csv`](sri_jananii_s/baseline_telemetry.csv) |
+| **Sri Janani S** | 21.08 FPS | 47.35 ms | 50.50 ms | 39.5% | 23.8% | 48.6°C | [`sri_jananii_s/baseline_telemetry.csv`](sri_jananii_s/baseline_telemetry.csv) |
+| **Akshaya M** | 19.82 FPS | 50.38 ms | 53.80 ms | 38.2% | 24.1% | 49.3°C | [`akshaya_m/baseline_telemetry.csv`](akshaya_m/baseline_telemetry.csv) |
 
 ### 2. 70 / 20 / 10 Dataset Split & Zero Data Leakage Verification
 - **Total Dataset Size**: 929 annotated images
@@ -77,10 +76,10 @@ Each student conducted an independent 100-cycle benchmark on Raspberry Pi 5 hard
 - **Verification Script**: [`verify_dataset_split.py`](verify_dataset_split.py)
 
 ### 3. Detector Evaluation vs. Targets & Forensic Error Analysis
-- **Precision**: 90.81% (Target $\ge 85.0\%$, **PASSED**)
-- **Recall**: 83.50% (Target $\ge 80.0\%$, **PASSED**)
-- **mAP@0.5**: 87.69% (Target $\ge 80.0\%$, **PASSED**)
-- **Inference Latency**: 68.4 ms (Target $\le 80.0\text{ ms}$, **PASSED**)
+- **Precision**: 90.81% (Target $\ge 85.0\%$)
+- **Recall**: 83.50% (Target $\ge 80.0\%$)
+- **mAP@0.5**: 87.69% (Target $\ge 80.0\%$)
+- **Inference Latency**: 68.4 ms (Target $\le 80.0\text{ ms}$)
 - **Confusion Matrix**: $TP = 72, FP = 8, FN = 14, TN = 92$ on 93 test images.
 - **10 Wrong Detections Analyzed**: Forensic breakdown of 10 false positive / false negative edge cases with root causes (specular glare, micro-cracks, edge shadow, low contrast, ink smears) and engineering fixes in [`error_analysis_10_wrong_detections.md`](error_analysis_10_wrong_detections.md).
 
@@ -102,9 +101,9 @@ m1/
 ├── baseline_speed_report.md                  # Task 3 Telemetry Report
 ├── baseline_telemetry.csv                    # Task 3 Raw Telemetry Dataset
 ├── DATASET_CARD.md                           # Task 4 Dataset v1 Card
-├── photo_ak.jpg                              # Task 4 Photo: Akshaya M (Ak. M signature)
-├── photo_b.jpg                               # Task 4 Photo: Bhuvanashree K (12-grid assembly)
-├── photo_sri.jpg                             # Task 4 Photo: Sri Jananii S (Confidence map active)
+├── photo_b.jpg                               # Task 4 Photo: Bhuvanashree K (Body 0.95)
+├── photo_sri.jpg                             # Task 4 Photo: Sri Janani S (12-grid assembly)
+├── photo_ak.jpg                              # Task 4 Photo: Akshaya M (Confidence map active)
 ├── labelled_samples/                         # Preserved Labelled Image Repository
 ├── verify_dataset_split.py                   # Task 5 70/20/10 Split Verification Engine
 ├── dataset_split_report.md                   # Task 5 Zero-Leakage Audit Report
@@ -113,21 +112,21 @@ m1/
 ├── detector_evaluation_report.md             # Task 6 Metric Evaluation vs Targets
 ├── confusion_matrix.png                      # Task 6 Confusion Matrix Graphic
 ├── error_analysis_10_wrong_detections.md     # Task 6 Forensic Breakdown of 10 Wrong Cases
-├── akshaya_m/                                # Akshaya M Dedicated Subfolder
-│   ├── README.md                             # Individual Task Matrix
-│   ├── ak_labelled_samples.jpg               # Own Labelled Photo Proof
-│   ├── baseline_speed_report.md              # Own Telemetry Report
-│   ├── baseline_telemetry.csv                # Own 100-Run Telemetry Data
-│   └── ...                                   # Individual Task Artifacts
 ├── bhuvanashree_k/                           # Bhuvanashree K Dedicated Subfolder
 │   ├── README.md                             # Individual Task Matrix
-│   ├── b_labelled_samples.jpg                # Own Labelled Photo Proof
+│   ├── b_labelled_samples.jpg                # Own Labelled Photo Proof (photo b)
 │   ├── baseline_speed_report.md              # Own Telemetry Report
 │   ├── baseline_telemetry.csv                # Own 100-Run Telemetry Data
 │   └── ...                                   # Individual Task Artifacts
-└── sri_jananii_s/                            # Sri Jananii S Dedicated Subfolder
+├── sri_jananii_s/                            # Sri Janani S Dedicated Subfolder
+│   ├── README.md                             # Individual Task Matrix
+│   ├── sri_labelled_samples.jpg              # Own Labelled Photo Proof (photo sri)
+│   ├── baseline_speed_report.md              # Own Telemetry Report
+│   ├── baseline_telemetry.csv                # Own 100-Run Telemetry Data
+│   └── ...                                   # Individual Task Artifacts
+└── akshaya_m/                                # Akshaya M Dedicated Subfolder
     ├── README.md                             # Individual Task Matrix
-    ├── sri_labelled_samples.jpg              # Own Labelled Photo Proof
+    ├── ak_labelled_samples.jpg               # Own Labelled Photo Proof (photo ak)
     ├── baseline_speed_report.md              # Own Telemetry Report
     ├── baseline_telemetry.csv                # Own 100-Run Telemetry Data
     └── ...                                   # Individual Task Artifacts

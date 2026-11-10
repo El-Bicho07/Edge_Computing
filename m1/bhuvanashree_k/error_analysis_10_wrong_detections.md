@@ -2,7 +2,7 @@
 
 **Milestone**: M1 Detect  
 **Task**: Train and run detector (Error Analysis Section)  
-**Marks Awarded**: Part of 5 / 5  
+**Rubric Weight**: Part of 5 Marks  
 
 ---
 

@@ -3,7 +3,7 @@
 **Student**: Bhuvanashree K (`b` / Vamsi)  
 **Milestone**: M1 Detect  
 **Task**: Correct split  
-**Marks Awarded**: 2 / 2  
+**Rubric Weight**: 2 Marks  
 
 ---
 

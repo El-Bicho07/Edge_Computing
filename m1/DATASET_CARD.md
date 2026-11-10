@@ -57,9 +57,20 @@ The dataset is strictly partitioned into three independent partitions:
 
 ---
 
-## 6. Sample Labelled Images
-Verified images with tight bounding boxes rendered are preserved in [`labelled_samples/`](labelled_samples/):
-- `defect_missing_pill_tight.jpg` (Class 0: Missing pill detected in pocket 3)
-- `defect_cracked_tablet_tight.jpg` (Class 0: Fractured tablet with visible fissure)
-- `defect_foil_puncture_tight.jpg` (Class 0: Ruptured cavity backing foil)
-- `normal_intact_pack_tight.jpg` (Class 1: Intact 6-pill matrix)
+## 6. Sample Labelled Images & Individual Student Contributions
+
+Verified images with tight bounding boxes rendered are preserved in [labelled_samples/](labelled_samples/) and contributed individually by team members:
+
+### Individual Student Labelled Submissions:
+- **Photo  (Bhuvanashree K / Vamsi)**: [photo_b.jpg](photo_b.jpg) — Tightly boxed enclosure Body components (Body 0.95) across consecutive inspection frames.
+- **Photo sri (Sri Janani S)**: [photo_sri.jpg](photo_sri.jpg) — 12-subframe multi-component assembly inspection with tight boxes for Body 0.95, Lid 0.98, and Stand 0.98.
+- **Photo k (Akshaya M / Akshay)**: [photo_ak.jpg](photo_ak.jpg) — 12-subframe sequence with active confidence mapping indicator and tight boxes for Stand 0.98 and Body 0.95.
+
+![Photo b - Bhuvanashree K](photo_b.jpg)
+*Figure 6.1: Bhuvanashree K's labelled samples (photo b).*
+
+![Photo sri - Sri Janani S](photo_sri.jpg)
+*Figure 6.2: Sri Janani S's labelled samples (photo sri).*
+
+![Photo ak - Akshaya M](photo_ak.jpg)
+*Figure 6.3: Akshaya M's labelled samples (photo ak).*

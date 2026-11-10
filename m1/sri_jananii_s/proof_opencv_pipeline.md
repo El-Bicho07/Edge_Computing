@@ -1,9 +1,9 @@
 # Proof of Real-Time OpenCV HUD Pipeline
 
-**Student**: Sri Jananii S (`sri` / Sri Gemini)  
+**Student**: Sri Jananii S (`sri` / Sri Janani S)  
 **Milestone**: M1 Detect  
 **Task**: OpenCV pipeline  
-**Marks Awarded**: 4 / 4  
+**Rubric Weight**: 4 Marks  
 
 ---
 
