@@ -2,7 +2,7 @@
 
 **Milestone**: M4 Monitor and Connect  
 **Task**: Anomaly model  
-**Marks Awarded**: 4 / 4  
+**Rubric Weight**: 4 Marks  
 
 ---
 

@@ -2,7 +2,7 @@
 
 **Milestone**: M4 Monitor and Connect  
 **Task**: Sensor data  
-**Marks Awarded**: 3 / 3  
+**Rubric Weight**: 3 Marks  
 
 ---
 

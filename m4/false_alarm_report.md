@@ -2,7 +2,7 @@
 
 **Milestone**: M4 Monitor and Connect  
 **Task**: False alarms  
-**Marks Awarded**: 2 / 2  
+**Rubric Weight**: 2 Marks  
 
 ---
 

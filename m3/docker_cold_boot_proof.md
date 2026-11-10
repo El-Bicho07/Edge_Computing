@@ -2,7 +2,7 @@
 
 **Milestone**: M3 Decide and Act  
 **Task**: Docker  
-**Marks Awarded**: 4 / 4  
+**Rubric Weight**: 4 Marks  
 
 ---
 

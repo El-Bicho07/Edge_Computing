@@ -1,9 +1,21 @@
-# Milestone 2 (2M): M2 Optimize
+# Milestone 2 (2M): M2 Optimize (Max Marks: 20)
 
 This folder is provided as an alias/mirror for **Milestone 2 (M2 Optimize)** in accordance with the assignment folder naming requirement (`2m` / `m2`).
 
 All source code, benchmarks, export scripts, and reports are located in and fully synchronized with:
 👉 **[`../m2/`](../m2/)**
+
+---
+
+## 🏆 Evaluator Link Matrix (M2 Optimize)
+
+for M2
+
+| Export to ONNX | Link | Convert and run live | Link | Accuracy check | Link | Fair benchmark | Link | CPU vs accelerator + stack | Link | Own target and trade-off | Link |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **ONNX Conversion** | [`../m2/export_onnx.py`](../m2/export_onnx.py)<br>[`../m2/verify_onnx.py`](../m2/verify_onnx.py)<br>[`../m2/onnx_export_report.md`](../m2/onnx_export_report.md) | **TFLite INT8 Edge Inference** | [`../m2/convert_tflite_int8.py`](../m2/convert_tflite_int8.py)<br>[`../m2/run_quantized_live.py`](../m2/run_quantized_live.py)<br>[`../m2/quantized_conversion_report.md`](../m2/quantized_conversion_report.md) | **mAP Before vs After** | [`../m2/eval_accuracy_comparison.py`](../m2/eval_accuracy_comparison.py)<br>[`../m2/accuracy_drop_report.md`](../m2/accuracy_drop_report.md) | **Fair Benchmark (20+100 runs)** | [`../m2/fair_benchmark.py`](../m2/fair_benchmark.py)<br>[`../m2/benchmark_results.json`](../m2/benchmark_results.json)<br>[`../m2/fair_benchmark_report.md`](../m2/fair_benchmark_report.md) | **Hardware & Architecture** | [`../m2/cpu_vs_accelerator_table.md`](../m2/cpu_vs_accelerator_table.md)<br>[`../m2/software_stack_diagram.md`](../m2/software_stack_diagram.md) | **Targets & Trade-Offs** | [`../m2/targets_and_tradeoffs.md`](../m2/targets_and_tradeoffs.md) |
+
+---
 
 ### Direct Links to Milestone 2 Task Artifacts:
 - **Task 1: Export to ONNX (3 marks)**: [`../m2/export_onnx.py`](../m2/export_onnx.py) | [`../m2/onnx_export_report.md`](../m2/onnx_export_report.md)

@@ -2,7 +2,7 @@
 
 **Milestone**: M5 Complete System + Dashboard  
 **Task**: Inspection rig  
-**Marks Awarded**: 2 / 2  
+**Rubric Weight**: 2 Marks  
 
 ---
 

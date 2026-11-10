@@ -2,7 +2,7 @@
 
 **Milestone**: M4 Monitor and Connect  
 **Task**: Threat model  
-**Marks Awarded**: 1 / 1  
+**Rubric Weight**: 1 Marks  
 
 ---
 

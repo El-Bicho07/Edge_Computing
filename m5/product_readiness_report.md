@@ -2,7 +2,7 @@
 
 **Milestone**: M5 Complete System + Dashboard  
 **Task**: Product readiness  
-**Marks Awarded**: 2 / 2  
+**Rubric Weight**: 2 Marks  
 
 ---
 

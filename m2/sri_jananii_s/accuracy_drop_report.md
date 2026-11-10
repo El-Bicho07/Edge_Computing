@@ -18,7 +18,7 @@ To evaluate the impact of edge quantization on defect detection fidelity, both t
 - **Evaluation Resolution**: $416 \times 416$ pixels
 - **Confidence Threshold**: $\tau = 0.25$
 - **NMS IoU Threshold**: $\text{IoU} = 0.45$
-- **Evaluation Script**: [`m2/eval_accuracy_comparison.py`](eval_accuracy_comparison.py)
+- **Evaluation Script**: [`m2/eval_accuracy_comparison.py`](../eval_accuracy_comparison.py)
 
 ---
 

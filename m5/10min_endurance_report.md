@@ -2,7 +2,7 @@
 
 **Milestone**: M5 Complete System + Dashboard  
 **Task**: Full chain on the device  
-**Marks Awarded**: 4 / 4  
+**Rubric Weight**: 4 Marks  
 
 ---
 

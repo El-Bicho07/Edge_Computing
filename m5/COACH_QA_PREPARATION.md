@@ -2,7 +2,7 @@
 
 **Milestone**: M5 Complete System + Dashboard  
 **Task**: Live demo and questions  
-**Marks Awarded**: Part of 1 / 1  
+**Rubric Weight**: Part of 1 Marks  
 
 ---
 

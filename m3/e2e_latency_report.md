@@ -2,7 +2,7 @@
 
 **Milestone**: M3 Decide and Act  
 **Task**: End-to-end latency  
-**Marks Awarded**: 2 / 2  
+**Rubric Weight**: 2 Marks  
 
 ---
 

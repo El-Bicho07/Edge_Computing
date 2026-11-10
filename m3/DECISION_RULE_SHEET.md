@@ -2,7 +2,7 @@
 
 **Milestone**: M3 Decide and Act  
 **Task**: Decision rule sheet  
-**Marks Awarded**: 3 / 3  
+**Rubric Weight**: 3 Marks  
 
 ---
 
