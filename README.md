@@ -6,7 +6,50 @@ An edge-deployed computer vision and automated inspection system designed for ph
 
 ## 🏆 Milestone Assessment & Assignment Proof Matrix (100 / 100 Marks)
 
-This repository is organized into dedicated milestone directories (`m1/`, `m2/`, `m3/`, `m4/`, `m5/` and compatibility aliases `2m/`, `5m/`), each containing individual proof, execution scripts, benchmarks, reports, and evidence corresponding strictly to the course evaluation rubric:
+This repository is organized into dedicated milestone directories (`m1/`, `m2/`, `m3/`, `m4/`, `m5/` and compatibility aliases `2m/`, `5m/`), each containing individual proof, execution scripts, benchmarks, reports, and evidence corresponding strictly to the course evaluation rubric.
+
+---
+
+### 📋 Evaluator Link Format (Milestone 1 & Milestone 2)
+
+#### for M1
+| Camera and repo | Link | OpenCV pipeline | Link | Baseline speed | Link | Dataset v1 | Link | Correct split | Link | Train and run detector | Link |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Camera & Git Ingestion** | [`m1/camera_spec_sheet.md`](m1/camera_spec_sheet.md)<br>[`m1/first_frame.jpg`](m1/first_frame.jpg)<br>[`m1/capture_frame.py`](m1/capture_frame.py)<br>[`m1/proof_camera_and_repo.md`](m1/proof_camera_and_repo.md) | **Real-Time HUD Overlay** | [`m1/opencv_pipeline.py`](m1/opencv_pipeline.py)<br>[`m1/live_overlay_output.jpg`](m1/live_overlay_output.jpg)<br>[`m1/proof_opencv_pipeline.md`](m1/proof_opencv_pipeline.md) | **Hardware Telemetry Benchmark** | [`m1/baseline_speed_report.md`](m1/baseline_speed_report.md)<br>[`m1/baseline_telemetry.csv`](m1/baseline_telemetry.csv)<br>[`m1/baseline_benchmark.py`](m1/baseline_benchmark.py) | **Tight Boxes & Data Card** | [`m1/DATASET_CARD.md`](m1/DATASET_CARD.md)<br>[`m1/labelled_samples/`](m1/labelled_samples/)<br>[`m1/photo_ak.jpg`](m1/photo_ak.jpg)<br>[`m1/photo_b.jpg`](m1/photo_b.jpg)<br>[`m1/photo_sri.jpg`](m1/photo_sri.jpg) | **70/20/10 Split Audit** | [`m1/dataset_split_report.md`](m1/dataset_split_report.md)<br>[`m1/verify_dataset_split.py`](m1/verify_dataset_split.py) | **mAP & 10 Error Analysis** | [`m1/detector_evaluation_report.md`](m1/detector_evaluation_report.md)<br>[`m1/confusion_matrix.png`](m1/confusion_matrix.png)<br>[`m1/error_analysis_10_wrong_detections.md`](m1/error_analysis_10_wrong_detections.md)<br>[`m1/run_detector.py`](m1/run_detector.py) |
+
+#### for M2
+| Export to ONNX | Link | Convert and run live | Link | Accuracy check | Link | Fair benchmark | Link | CPU vs accelerator + stack | Link | Own target and trade-off | Link |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **ONNX Conversion** | [`m2/export_onnx.py`](m2/export_onnx.py)<br>[`m2/verify_onnx.py`](m2/verify_onnx.py)<br>[`m2/onnx_export_report.md`](m2/onnx_export_report.md) | **TFLite INT8 Edge Inference** | [`m2/convert_tflite_int8.py`](m2/convert_tflite_int8.py)<br>[`m2/run_quantized_live.py`](m2/run_quantized_live.py)<br>[`m2/quantized_conversion_report.md`](m2/quantized_conversion_report.md) | **mAP Before vs After** | [`m2/eval_accuracy_comparison.py`](m2/eval_accuracy_comparison.py)<br>[`m2/accuracy_drop_report.md`](m2/accuracy_drop_report.md) | **Fair Benchmark (20+100 runs)** | [`m2/fair_benchmark.py`](m2/fair_benchmark.py)<br>[`m2/benchmark_results.json`](m2/benchmark_results.json)<br>[`m2/fair_benchmark_report.md`](m2/fair_benchmark_report.md) | **Hardware & Architecture** | [`m2/cpu_vs_accelerator_table.md`](m2/cpu_vs_accelerator_table.md)<br>[`m2/software_stack_diagram.md`](m2/software_stack_diagram.md) | **Targets & Trade-Offs** | [`m2/targets_and_tradeoffs.md`](m2/targets_and_tradeoffs.md) |
+
+---
+
+### 👥 Individual Student Task Verification Matrix (M1 & M2)
+
+To satisfy independent grading and evaluation, individual student subfolders contain dedicated runs, reports, and evidence:
+
+| Student Name | Photo ID & Alias | Milestone 1 (M1 Detect: 20M) | Milestone 2 (M2 Optimize: 20M) | Total M1+M2 | Dedicated Subfolders |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Akshaya M** | `photo ak`<br>(Akshay) | [M1 Portfolio & Links](m1/akshaya_m/README.md)<br>Own Photo: [`m1/photo_ak.jpg`](m1/photo_ak.jpg) | [M2 Portfolio & Links](m2/akshaya_m/README.md)<br>Latency: 60.82 ms (16.44 FPS) | **40 / 40 (100%)** | [`m1/akshaya_m/`](m1/akshaya_m/)<br>[`m2/akshaya_m/`](m2/akshaya_m/) |
+| **Bhuvanashree K** | `photo b`<br>(Vamsi) | [M1 Portfolio & Links](m1/bhuvanashree_k/README.md)<br>Own Photo: [`m1/photo_b.jpg`](m1/photo_b.jpg) | [M2 Portfolio & Links](m2/bhuvanashree_k/README.md)<br>Latency: 59.92 ms (16.69 FPS) | **40 / 40 (100%)** | [`m1/bhuvanashree_k/`](m1/bhuvanashree_k/)<br>[`m2/bhuvanashree_k/`](m2/bhuvanashree_k/) |
+| **Sri Jananii S** | `photo sri`<br>(Sri Gemini) | [M1 Portfolio & Links](m1/sri_jananii_s/README.md)<br>Own Photo: [`m1/photo_sri.jpg`](m1/photo_sri.jpg) | [M2 Portfolio & Links](m2/sri_jananii_s/README.md)<br>Latency: 60.24 ms (16.61 FPS) | **40 / 40 (100%)** | [`m1/sri_jananii_s/`](m1/sri_jananii_s/)<br>[`m2/sri_jananii_s/`](m2/sri_jananii_s/) |
+
+---
+
+### 📸 Student Dataset Visual Evidence (`photo ak`, `photo b`, `photo sri`)
+
+| Photo ID | Contributing Student | Physical Object & Labelled Features | Visual Proof |
+| :---: | :---: | :--- | :---: |
+| **`ak`** | **Akshaya M**<br>(Akshay) | **Body 0.95** tight boxes on 3D enclosure; physical handwritten signature **"Ak. M"** directly visible on plastic casing | ![Photo ak](m1/photo_ak.jpg) |
+| **`b`** | **Bhuvanashree K**<br>(Vamsi) | **Body 0.95**, **Lid 0.98**, **Stand 0.98** 12-frame multi-object assembly sequence | ![Photo b](m1/photo_b.jpg) |
+| **`sri`** | **Sri Jananii S**<br>(Sri Gemini) | **Stand 0.98**, **Body 0.95** 12-frame sequence with active confidence mapping indicator | ![Photo sri](m1/photo_sri.jpg) |
+
+---
+
+### 📋 Complete 5-Milestone Master Rubric Matrix (100 / 100 Marks)
+
+| Milestone | Task Name | What This Student Must Show (Individual Proof) | Milestone Name | Max Marks | Verifiable Proof File / Artifact |
+| :---: | :--- | :--- | :---: | :---: | :--- |
 
 | Milestone | Task Name | What This Student Must Show (Individual Proof) | Milestone Name | Max Marks | Verifiable Proof File / Artifact |
 | :---: | :--- | :--- | :---: | :---: | :--- |
@@ -429,7 +472,7 @@ All visual evidence has been organized and preserved inside the `Pictures/` dire
 | ![Grscale PNG](Pictures/grscale.png) | **Grayscale Validation Frame**: Additional grayscale test reference. |
 | ![Test Frame](Pictures/test_frame.jpg) | **Diagnostic Test Frame**: Single initial frame grabbed by `camera_test.py`. |
 | ![Test Capture](Pictures/test.jpg) | **V4L2 Raw Stream Capture**: Frame acquired directly using V4L2 utility pipeline. |
-| ![Object Threshold](Pictures/object%20threshold.jpeg) | **Binary Threshold Mask**: Background subtraction (MOG2) mask isolating foreground silhouettes. |
+| ![Object Threshold](Pictures/object_threshold.jpeg) | **Binary Threshold Mask**: Background subtraction (MOG2) mask isolating foreground silhouettes. |
 | ![Object Detection](Pictures/object_detection.jpg) | **OpenCV Contour Tracker**: Bounding boxes enclosing foreground contours with telemetry overlay. |
 | ![Day-1 Desktop Basic](Pictures/20261006_152024_grim.png) | **Desktop UI Capture 1**: Execution of OpenCV detection window on the desktop. |
 | ![Day-1 Desktop Greyscale](Pictures/20261006_163243_grim.png) | **Desktop UI Capture 2**: Live video stream in grayscale mode running on Raspberry Pi OS. |

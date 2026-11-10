@@ -1,0 +1,28 @@
+{
+  "student": "Bhuvanashree K",
+  "alias": "b",
+  "hardware": "Raspberry Pi 5 Model B 8GB",
+  "cpu": "Quad-Core ARM Cortex-A76 @ 2.4 GHz",
+  "batch_size": 1,
+  "warmup_runs": 20,
+  "timed_runs": 100,
+  "timestamp": "2026-10-08T11:47:12Z",
+  "pytorch_fp32": {
+    "median_latency_ms": 208.42,
+    "p95_latency_ms": 224.81,
+    "fps": 4.80,
+    "model_size_mb": 6.00
+  },
+  "onnx_fp32": {
+    "median_latency_ms": 82.38,
+    "p95_latency_ms": 89.44,
+    "fps": 12.14,
+    "model_size_mb": 11.58
+  },
+  "tflite_int8": {
+    "median_latency_ms": 59.92,
+    "p95_latency_ms": 63.50,
+    "fps": 16.69,
+    "model_size_mb": 3.24
+  }
+}
