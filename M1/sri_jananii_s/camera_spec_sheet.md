@@ -1,6 +1,6 @@
 # Camera Specification Sheet & Hardware Configuration
 
-**Student**: Sri Jananii S (`sri` / Sri Janani S)  
+**Student**: Sri Jananii S (`sri` / Sri Jananii S)  
 **Milestone**: M1 Detect  
 **Task**: Camera and repo  
 **Target Device**: Raspberry Pi 5 Model B (8GB RAM)  

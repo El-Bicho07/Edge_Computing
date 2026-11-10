@@ -1,6 +1,6 @@
-# Milestone 1: M1 Detect — Sri Janani S (`sri`)
+# Milestone 1: M1 Detect — Sri Jananii S (`sri`)
 
-**Student**: Sri Janani S  
+**Student**: Sri Jananii S  
 **Photo ID**: `photo sri` (`sri.jpg` / `sri_labelled_samples.jpg`)  
 **Milestone**: M1 Detect  
 **Rubric Weight**: 20 Marks  
@@ -19,9 +19,9 @@
 
 I labelled the images with tight, correct bounding boxes on the hardware components. Below is my verified labelled dataset submission:
 
-![Sri Janani S Labelled Samples](sri_labelled_samples.jpg)
+![Sri Jananii S Labelled Samples](sri_labelled_samples.jpg)
 
-*Figure 1: Sri Janani S's labelled image submission (`photo sri`) showing 12-subframe multi-component assembly inspection with tight bounding boxes for `Body 0.95`, `Lid 0.98`, and `Stand 0.98`.*
+*Figure 1: Sri Jananii S's labelled image submission (`photo sri`) showing 12-subframe multi-component assembly inspection with tight bounding boxes for `Body 0.95`, `Lid 0.98`, and `Stand 0.98`.*
 
 ---
 

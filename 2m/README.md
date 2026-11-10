@@ -29,6 +29,6 @@ for M2
 
 ### 📸 Quantized Edge Inference Visual Evidence (In Required Order)
 1. **Akshaya M** (`photo_ak.jpg`): `../m2/photo_ak.jpg`
-2. **Sri Janani S** (`photo_sri.jpg`, arrow removed): `../m2/photo_sri.jpg`
+2. **Sri Jananii S** (`photo_sri.jpg`, arrow removed): `../m2/photo_sri.jpg`
 3. **Bhuvanashree K** (`photo_b.jpg`): `../m2/photo_b.jpg`
 4. **Theeran** (`photo_theeran.jpg`): `../M2/photo_theeran.jpg`

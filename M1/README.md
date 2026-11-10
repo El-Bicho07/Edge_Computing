@@ -21,7 +21,7 @@ To ensure full individual accountability and transparent evaluation according to
 | Student Name | Photo ID & Alias | Camera and repo (2M) | OpenCV pipeline (4M) | Baseline speed (3M) | Dataset v1 (4M) | Correct split (2M) | Train & run detector (5M) | Status | Dedicated Subfolder |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Bhuvanashree K** | `photo b`<br>(Vamsi) | [Proof & Spec](bhuvanashree_k/proof_camera_and_repo.md)<br>[First Frame](bhuvanashree_k/first_frame.jpg) | [Pipeline Proof](bhuvanashree_k/proof_opencv_pipeline.md)<br>[Overlay Image](bhuvanashree_k/live_overlay_output.jpg) | [Telemetry Report](bhuvanashree_k/baseline_speed_report.md)<br>[100-Run CSV](bhuvanashree_k/baseline_telemetry.csv) | [Data Card](bhuvanashree_k/DATASET_CARD.md)<br>[Own Photo Proof](bhuvanashree_k/b_labelled_samples.jpg) | [70/20/10 Split](bhuvanashree_k/dataset_split_report.md)<br>0.00% Leakage | [mAP & Targets](bhuvanashree_k/detector_evaluation_report.md)<br>[10 Error Cases](bhuvanashree_k/error_analysis_10_wrong_detections.md) | **Submitted (Max: 20M)** | [`bhuvanashree_k/`](bhuvanashree_k/) |
-| **Sri Janani S** | `photo sri`<br>(Sri Janani S) | [Proof & Spec](sri_jananii_s/proof_camera_and_repo.md)<br>[First Frame](sri_jananii_s/first_frame.jpg) | [Pipeline Proof](sri_jananii_s/proof_opencv_pipeline.md)<br>[Overlay Image](sri_jananii_s/live_overlay_output.jpg) | [Telemetry Report](sri_jananii_s/baseline_speed_report.md)<br>[100-Run CSV](sri_jananii_s/baseline_telemetry.csv) | [Data Card](sri_jananii_s/DATASET_CARD.md)<br>[Own Photo Proof](sri_jananii_s/sri_labelled_samples.jpg) | [70/20/10 Split](sri_jananii_s/dataset_split_report.md)<br>0.00% Leakage | [mAP & Targets](sri_jananii_s/detector_evaluation_report.md)<br>[10 Error Cases](sri_jananii_s/error_analysis_10_wrong_detections.md) | **Submitted (Max: 20M)** | [`sri_jananii_s/`](sri_jananii_s/) |
+| **Sri Jananii S** | `photo sri`<br>(Sri Jananii S) | [Proof & Spec](sri_jananii_s/proof_camera_and_repo.md)<br>[First Frame](sri_jananii_s/first_frame.jpg) | [Pipeline Proof](sri_jananii_s/proof_opencv_pipeline.md)<br>[Overlay Image](sri_jananii_s/live_overlay_output.jpg) | [Telemetry Report](sri_jananii_s/baseline_speed_report.md)<br>[100-Run CSV](sri_jananii_s/baseline_telemetry.csv) | [Data Card](sri_jananii_s/DATASET_CARD.md)<br>[Own Photo Proof](sri_jananii_s/sri_labelled_samples.jpg) | [70/20/10 Split](sri_jananii_s/dataset_split_report.md)<br>0.00% Leakage | [mAP & Targets](sri_jananii_s/detector_evaluation_report.md)<br>[10 Error Cases](sri_jananii_s/error_analysis_10_wrong_detections.md) | **Submitted (Max: 20M)** | [`sri_jananii_s/`](sri_jananii_s/) |
 | **Akshaya M** | `photo ak`<br>(Akshay) | [Proof & Spec](akshaya_m/proof_camera_and_repo.md)<br>[First Frame](akshaya_m/first_frame.jpg) | [Pipeline Proof](akshaya_m/proof_opencv_pipeline.md)<br>[Overlay Image](akshaya_m/live_overlay_output.jpg) | [Telemetry Report](akshaya_m/baseline_speed_report.md)<br>[100-Run CSV](akshaya_m/baseline_telemetry.csv) | [Data Card](akshaya_m/DATASET_CARD.md)<br>[Own Photo Proof](akshaya_m/ak_labelled_samples.jpg) | [70/20/10 Split](akshaya_m/dataset_split_report.md)<br>0.00% Leakage | [mAP & Targets](akshaya_m/detector_evaluation_report.md)<br>[10 Error Cases](akshaya_m/error_analysis_10_wrong_detections.md) | **Submitted (Max: 20M)** | [`akshaya_m/`](akshaya_m/) |
 | **Theeran** | `photo_theeran`<br>(Dheeran) | [Proof & Spec](Theeran/proof_camera_and_repo.md)<br>[First Frame](Theeran/first_frame.jpg) | [Pipeline Proof](Theeran/proof_opencv_pipeline.md)<br>[Overlay Image](Theeran/live_overlay_output.jpg) | [Telemetry Report](Theeran/baseline_speed_report.md)<br>[100-Run CSV](Theeran/baseline_telemetry.csv) | [Data Card](Theeran/DATASET_CARD.md)<br>[Own Photo Proof](Theeran/theeran_labelled_samples.jpg) | [70/20/10 Split](Theeran/dataset_split_report.md)<br>0.00% Leakage | [mAP & Targets](Theeran/detector_evaluation_report.md)<br>[10 Error Cases](Theeran/error_analysis_10_wrong_detections.md) | **Submitted (Max: 20M)** | [`Theeran/`](Theeran/) |
 
@@ -38,9 +38,9 @@ Tightly labelled enclosure `Body` components (`Body 0.95`) captured across conse
 - **Annotation Quality**: Tight bounding boxes enclosing the outer perimeter with zero background bleed.
 - **Dedicated Folder**: [`bhuvanashree_k/`](bhuvanashree_k/)
 
-### 2. Photo `sri` – Sri Janani S (`sri`)
+### 2. Photo `sri` – Sri Jananii S (`sri`)
 12-frame multi-component assembly sequence with tight bounding boxes for `Body`, `Lid`, and `Stand` components:
-![Photo sri - Sri Janani S](photo_sri.jpg)
+![Photo sri - Sri Jananii S](photo_sri.jpg)
 - **Annotated Classes**: `Body 0.95`, `Lid 0.98`, `Stand 0.98`
 - **Subframe Provenance**: Video capture frames `clip1__000882`, `clip1__000952`, `clip1__000997`, `clip1__000924`, `clip1__000903`, `clip1__000917`, `clip1__000945`, `clip1__002100`
 - **Annotation Quality**: Tight bounding boxes around moving parts during operator assembly.
@@ -70,7 +70,7 @@ Each student conducted an independent 100-cycle benchmark on Raspberry Pi 5 hard
 | Student | Throughput (FPS) | Latency ($p_{50}$) | Latency ($p_{95}$) | CPU Load (%) | GPU Load (%) | Temperature (°C) | Raw CSV Log |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Bhuvanashree K** | 20.41 FPS | 48.90 ms | 52.20 ms | 36.8% | 25.0% | 50.1°C | [`bhuvanashree_k/baseline_telemetry.csv`](bhuvanashree_k/baseline_telemetry.csv) |
-| **Sri Janani S** | 21.08 FPS | 47.35 ms | 50.50 ms | 39.5% | 23.8% | 48.6°C | [`sri_jananii_s/baseline_telemetry.csv`](sri_jananii_s/baseline_telemetry.csv) |
+| **Sri Jananii S** | 21.08 FPS | 47.35 ms | 50.50 ms | 39.5% | 23.8% | 48.6°C | [`sri_jananii_s/baseline_telemetry.csv`](sri_jananii_s/baseline_telemetry.csv) |
 | **Akshaya M** | 19.82 FPS | 50.38 ms | 53.80 ms | 38.2% | 24.1% | 49.3°C | [`akshaya_m/baseline_telemetry.csv`](akshaya_m/baseline_telemetry.csv) |
 | **Theeran** | 20.45 FPS | 48.78 ms | 52.10 ms | 38.9% | 23.5% | 48.9°C | [`Theeran/baseline_telemetry.csv`](Theeran/baseline_telemetry.csv) |
 
@@ -111,7 +111,7 @@ m1/
 ├── baseline_telemetry.csv                    # Task 3 Raw Telemetry Dataset
 ├── DATASET_CARD.md                           # Task 4 Dataset v1 Card
 ├── photo_b.jpg                               # Task 4 Photo: Bhuvanashree K (Body 0.95)
-├── photo_sri.jpg                             # Task 4 Photo: Sri Janani S (12-grid assembly)
+├── photo_sri.jpg                             # Task 4 Photo: Sri Jananii S (12-grid assembly)
 ├── photo_ak.jpg                              # Task 4 Photo: Akshaya M (Confidence map active)
 ├── labelled_samples/                         # Preserved Labelled Image Repository
 ├── verify_dataset_split.py                   # Task 5 70/20/10 Split Verification Engine
@@ -127,7 +127,7 @@ m1/
 │   ├── baseline_speed_report.md              # Own Telemetry Report
 │   ├── baseline_telemetry.csv                # Own 100-Run Telemetry Data
 │   └── ...                                   # Individual Task Artifacts
-├── sri_jananii_s/                            # Sri Janani S Dedicated Subfolder
+├── sri_jananii_s/                            # Sri Jananii S Dedicated Subfolder
 │   ├── README.md                             # Individual Task Matrix
 │   ├── sri_labelled_samples.jpg              # Own Labelled Photo Proof (photo sri)
 │   ├── baseline_speed_report.md              # Own Telemetry Report

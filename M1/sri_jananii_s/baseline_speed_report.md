@@ -1,6 +1,6 @@
 # Milestone 1: Hardware Baseline Speed & Telemetry Report
 
-**Student**: Sri Jananii S (`sri` / Sri Janani S)  
+**Student**: Sri Jananii S (`sri` / Sri Jananii S)  
 **Milestone**: M1 Detect  
 **Task**: Baseline speed  
 **Rubric Weight**: 3 Marks  

@@ -14,7 +14,7 @@
 ## 2. Power-Cycle Auto-Start Architecture
 In pharmaceutical packaging cleanrooms, edge stations must recover automatically after mains power outages without requiring technician intervention.
 
-Automated resurrection is handled natively via Linux systemd ([`m5/systemd/veyra-vision.service`](systemd/veyra-vision.service)):
+Automated resurrection is handled natively via Linux systemd ([`m5/systemd/veyra-vision.service`](../systemd/veyra-vision.service)):
 - Configured with `DefaultDependencies=no` and `After=network.target local-fs.target`.
 - On cold boot, systemd waits 2 seconds for USB optical power rails to stabilize, executes `v4l2-ctl` camera format locking, and launches `app.py`.
 - **Measured Cold Boot Recovery Time**: **$14.2\text{ seconds}$** from wall power application to live camera streaming and actuator arming.
@@ -57,7 +57,7 @@ All model weights, HTML/CSS/JavaScript UI assets, and database storage are 100% 
 
 ## 4. Structured Rotating Audit Logging (21 CFR Part 11)
 
-Configured via [`m5/logging_config.py`](logging_config.py) and archived in [`data/production.log`](../data/production.log) and [`m5/sample_production.log`](sample_production.log):
+Configured via [`m5/logging_config.py`](logging_config.py) and archived in [`data/production.log`](../../data/production.log) and [`m5/sample_production.log`](sample_production.log):
 - **Format**: Structured JSON records with ISO-8601 UTC timestamps, log severity level, process ID, subsystem module, and audit message.
 - **Log Rotation**: Bounded to $10\text{ MB}$ per file with 5 historical backups (`production.log.1` through `.5`), preventing SD card overflow.
 - **Regulatory Integrity**: Read-only append locks ensure audit records cannot be altered or repudiated.

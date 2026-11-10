@@ -21,7 +21,7 @@ Each team member has executed individual ONNX conversions, quantization runs, ac
 | Order | Student Name | Photo ID & Alias | Export to ONNX (3M) | Convert & run live (4M) | Accuracy check (4M) | Fair benchmark (4M) | CPU vs accel + stack (2M) | Own target & trade-off (3M) | Status | Dedicated Subfolder |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **1** | **Akshaya M** | `photo ak`<br>(Akshay) | [ONNX Report & Commit](akshaya_m/onnx_export_report.md) | [Live INT8 Runner](akshaya_m/quantized_conversion_report.md)<br>[Own Photo Proof](akshaya_m/photo_ak.jpg) | [Accuracy Drop](akshaya_m/accuracy_drop_report.md)<br>mAP: -0.77% | [Fair Benchmark](akshaya_m/fair_benchmark_report.md)<br>[Results JSON](akshaya_m/benchmark_results.json) | [Hardware Table](akshaya_m/cpu_vs_accelerator_table.md)<br>[Stack Diagram](akshaya_m/software_stack_diagram.md) | [Pre-Training Target](akshaya_m/targets_and_tradeoffs.md)<br>Trade-off Analysis | **Submitted (Max: 20M)** | [`akshaya_m/`](akshaya_m/) |
-| **2** | **Sri Janani S** | `photo sri`<br>(Sri Janani S) | [ONNX Report & Commit](sri_jananii_s/onnx_export_report.md) | [Live INT8 Runner](sri_jananii_s/quantized_conversion_report.md)<br>[Own Photo Proof](sri_jananii_s/photo_sri.jpg) | [Accuracy Drop](sri_jananii_s/accuracy_drop_report.md)<br>mAP: -0.77% | [Fair Benchmark](sri_jananii_s/fair_benchmark_report.md)<br>[Results JSON](sri_jananii_s/benchmark_results.json) | [Hardware Table](sri_jananii_s/cpu_vs_accelerator_table.md)<br>[Stack Diagram](sri_jananii_s/software_stack_diagram.md) | [Pre-Training Target](sri_jananii_s/targets_and_tradeoffs.md)<br>Trade-off Analysis | **Submitted (Max: 20M)** | [`sri_jananii_s/`](sri_jananii_s/) |
+| **2** | **Sri Jananii S** | `photo sri`<br>(Sri Jananii S) | [ONNX Report & Commit](sri_jananii_s/onnx_export_report.md) | [Live INT8 Runner](sri_jananii_s/quantized_conversion_report.md)<br>[Own Photo Proof](sri_jananii_s/photo_sri.jpg) | [Accuracy Drop](sri_jananii_s/accuracy_drop_report.md)<br>mAP: -0.77% | [Fair Benchmark](sri_jananii_s/fair_benchmark_report.md)<br>[Results JSON](sri_jananii_s/benchmark_results.json) | [Hardware Table](sri_jananii_s/cpu_vs_accelerator_table.md)<br>[Stack Diagram](sri_jananii_s/software_stack_diagram.md) | [Pre-Training Target](sri_jananii_s/targets_and_tradeoffs.md)<br>Trade-off Analysis | **Submitted (Max: 20M)** | [`sri_jananii_s/`](sri_jananii_s/) |
 | **3** | **Bhuvanashree K** | `photo b`<br>(Vamsi) | [ONNX Report & Commit](bhuvanashree_k/onnx_export_report.md) | [Live INT8 Runner](bhuvanashree_k/quantized_conversion_report.md)<br>[Own Photo Proof](bhuvanashree_k/photo_b.jpg) | [Accuracy Drop](bhuvanashree_k/accuracy_drop_report.md)<br>mAP: -0.77% | [Fair Benchmark](bhuvanashree_k/fair_benchmark_report.md)<br>[Results JSON](bhuvanashree_k/benchmark_results.json) | [Hardware Table](bhuvanashree_k/cpu_vs_accelerator_table.md)<br>[Stack Diagram](bhuvanashree_k/software_stack_diagram.md) | [Pre-Training Target](bhuvanashree_k/targets_and_tradeoffs.md)<br>Trade-off Analysis | **Submitted (Max: 20M)** | [`bhuvanashree_k/`](bhuvanashree_k/) |
 | **4** | **Theeran** | `photo_theeran`<br>(Dheeran) | [ONNX Report & Commit](Theeran/onnx_export_report.md) | [Live INT8 Runner](Theeran/quantized_conversion_report.md)<br>[Own Photo Proof](Theeran/photo_theeran.jpg) | [Accuracy Drop](Theeran/accuracy_drop_report.md)<br>mAP: -0.77% | [Fair Benchmark](Theeran/fair_benchmark_report.md)<br>[Results JSON](Theeran/benchmark_results.json) | [Hardware Table](Theeran/cpu_vs_accelerator_table.md)<br>[Stack Diagram](Theeran/software_stack_diagram.md) | [Pre-Training Target](Theeran/targets_and_tradeoffs.md)<br>Trade-off Analysis | **Submitted (Max: 20M)** | [`Theeran/`](Theeran/) |
 
@@ -34,7 +34,7 @@ The edge-deployed TFLite INT8 inference pipeline (`run_quantized_live.py`) was e
 | Order | Contributing Student | Physical Object & Labelled Features | Quantized Edge HUD Live Ingestion Proof |
 | :---: | :--- | :--- | :---: |
 | **1** | **Akshaya M**<br>(Akshay) | **`base`**, **`internal_component`**, **`assembly`**, **`assembled_enclosure`** multi-stage enclosure detection sequence with live FPS and bounding box HUD telemetry | ![Akshaya M Live Quantized Inference](photo_ak.jpg) |
-| **2** | **Sri Janani S**<br>(Sri Janani S) | **`enclosure_system`**, **`enclosure_body`**, **`internal_alignment`**, **`magnet_attachment`**, **`assembly`** 9-frame edge inspection sequence (arrow indicator removed) | ![Sri Janani S Live Quantized Inference](photo_sri.jpg) |
+| **2** | **Sri Jananii S**<br>(Sri Jananii S) | **`enclosure_system`**, **`enclosure_body`**, **`internal_alignment`**, **`magnet_attachment`**, **`assembly`** 9-frame edge inspection sequence (arrow indicator removed) | ![Sri Jananii S Live Quantized Inference](photo_sri.jpg) |
 | **3** | **Bhuvanashree K**<br>(Vamsi) | **`assembled_enclosure`** 9-frame real-time edge tracking and assembly QA sequence | ![Bhuvanashree K Live Quantized Inference](photo_b.jpg) |
 | **4** | **Theeran**<br>(Dheeran) | **`enclosure_system`**, **`enclosure_body`**, **`base`**, **`internal_alignment`**, **`magnet_attachment`**, **`base_misaligned`**, **`assembly`** 9-frame edge inspection sequence running live at 21.5 FPS | ![Theeran Live Quantized Inference](photo_theeran.jpg) |
 
@@ -49,7 +49,7 @@ Tested on Raspberry Pi 5 (ARM Cortex-A76 quad-core @ 2.4 GHz, 8GB RAM):
 | Order | Student Name | Runtime Engine | Median Latency ($p_{50}$) | 95th Percentile ($p_{95}$) | Throughput (FPS) | Model File Size | Status vs 15 FPS Target |
 | :---: | :--- | :--- | :---: | :---: | :---: | :---: | :---: |
 | **1** | **Akshaya M** | TFLite INT8 (NEON) | **60.82 ms** | **64.21 ms** | **16.44 FPS** | **3.24 MB** | **PASSED (+1.44 FPS)** |
-| **2** | **Sri Janani S** | TFLite INT8 (NEON) | **60.24 ms** | **63.85 ms** | **16.61 FPS** | **3.24 MB** | **PASSED (+1.61 FPS)** |
+| **2** | **Sri Jananii S** | TFLite INT8 (NEON) | **60.24 ms** | **63.85 ms** | **16.61 FPS** | **3.24 MB** | **PASSED (+1.61 FPS)** |
 | **3** | **Bhuvanashree K** | TFLite INT8 (NEON) | **59.92 ms** | **63.50 ms** | **16.69 FPS** | **3.24 MB** | **PASSED (+1.69 FPS)** |
 | **4** | **Theeran** | TFLite INT8 (NEON) | **60.48 ms** | **64.02 ms** | **16.53 FPS** (Peak 21.5) | **3.24 MB** | **PASSED (+1.53 FPS)** |
 | — | *Baseline* | *PyTorch FP32* | *208.42 ms* | *224.81 ms* | *4.80 FPS* | *6.00 MB* | *Too Slow for Live Line* |
@@ -87,7 +87,7 @@ Tested on Raspberry Pi 5 (ARM Cortex-A76 quad-core @ 2.4 GHz, 8GB RAM):
 m2/
 ├── README.md                                 # Master Milestone 2 Matrix & Documentation
 ├── photo_ak.jpg                              # Order 1: Akshaya M Quantized Edge HUD Ingestion Proof
-├── photo_sri.jpg                             # Order 2: Sri Janani S Quantized Edge HUD Ingestion Proof (Arrow Removed)
+├── photo_sri.jpg                             # Order 2: Sri Jananii S Quantized Edge HUD Ingestion Proof (Arrow Removed)
 ├── photo_b.jpg                               # Order 3: Bhuvanashree K Quantized Edge HUD Ingestion Proof
 ├── export_onnx.py                            # Task 1 YOLOv8 to ONNX Export Engine
 ├── verify_onnx.py                            # Task 1 Topology & Parity Checker
@@ -110,7 +110,7 @@ m2/
 │   ├── fair_benchmark_report.md              # Own Benchmark Numbers
 │   ├── benchmark_results.json                # Own JSON Telemetry
 │   └── ...                                   # Individual Task Artifacts
-├── sri_jananii_s/                            # Order 2: Sri Janani S Dedicated Subfolder
+├── sri_jananii_s/                            # Order 2: Sri Jananii S Dedicated Subfolder
 │   ├── README.md                             # Individual Task Matrix
 │   ├── photo_sri.jpg                         # Own Live Ingestion Evidence (Arrow Removed)
 │   ├── onnx_export_report.md                 # Own Commit Proof

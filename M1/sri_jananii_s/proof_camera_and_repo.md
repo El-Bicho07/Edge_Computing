@@ -1,6 +1,6 @@
 # Proof of Camera Ingestion & Repository Initialization
 
-**Student**: Sri Jananii S (`sri` / Sri Janani S)  
+**Student**: Sri Jananii S (`sri` / Sri Jananii S)  
 **Milestone**: M1 Detect  
 **Task**: Camera and repo  
 **Rubric Weight**: 2 Marks  

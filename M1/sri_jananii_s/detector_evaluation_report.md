@@ -1,6 +1,6 @@
 # Milestone 1: Detector Evaluation & Target Comparison Report
 
-**Student**: Sri Jananii S (`sri` / Sri Janani S)  
+**Student**: Sri Jananii S (`sri` / Sri Jananii S)  
 **Milestone**: M1 Detect  
 **Task**: Train and run detector  
 **Rubric Weight**: 5 Marks  

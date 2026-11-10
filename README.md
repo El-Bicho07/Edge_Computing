@@ -46,7 +46,7 @@ To satisfy independent grading and evaluation, individual student subfolders con
 | Order | Student Name | Photo ID & Alias | Milestone 1 (M1 Detect: 20M) | Milestone 2 (M2 Optimize: 20M) | Total M1+M2 | Dedicated Subfolders |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: |
 | **1** | **Akshaya M** | `photo ak`<br>(Akshay) | [M1 Portfolio & Links](m1/akshaya_m/README.md)<br>Own Photo: [`m1/photo_ak.jpg`](m1/photo_ak.jpg) | [M2 Portfolio & Links](m2/akshaya_m/README.md)<br>Latency: 60.82 ms (16.44 FPS)<br>HUD: [`m2/photo_ak.jpg`](m2/photo_ak.jpg) | **Submitted (M1: 20M, M2: 20M)** | [`m1/akshaya_m/`](m1/akshaya_m/)<br>[`m2/akshaya_m/`](m2/akshaya_m/) |
-| **2** | **Sri Janani S** | `photo sri`<br>(Sri Janani S) | [M1 Portfolio & Links](m1/sri_jananii_s/README.md)<br>Own Photo: [`m1/photo_sri.jpg`](m1/photo_sri.jpg)<br>[`M1/photo_theeran.jpg`](M1/photo_theeran.jpg) | [M2 Portfolio & Links](m2/sri_jananii_s/README.md)<br>Latency: 60.24 ms (16.61 FPS)<br>HUD: [`m2/photo_sri.jpg`](m2/photo_sri.jpg) | **Submitted (M1: 20M, M2: 20M)** | [`m1/sri_jananii_s/`](m1/sri_jananii_s/)<br>[`m2/sri_jananii_s/`](m2/sri_jananii_s/) |
+| **2** | **Sri Jananii S** | `photo sri`<br>(Sri Jananii S) | [M1 Portfolio & Links](m1/sri_jananii_s/README.md)<br>Own Photo: [`m1/photo_sri.jpg`](m1/photo_sri.jpg) | [M2 Portfolio & Links](m2/sri_jananii_s/README.md)<br>Latency: 60.24 ms (16.61 FPS)<br>HUD: [`m2/photo_sri.jpg`](m2/photo_sri.jpg) | **Submitted (M1: 20M, M2: 20M)** | [`m1/sri_jananii_s/`](m1/sri_jananii_s/)<br>[`m2/sri_jananii_s/`](m2/sri_jananii_s/) |
 | **3** | **Bhuvanashree K** | `photo b`<br>(Vamsi) | [M1 Portfolio & Links](m1/bhuvanashree_k/README.md)<br>Own Photo: [`m1/photo_b.jpg`](m1/photo_b.jpg) | [M2 Portfolio & Links](m2/bhuvanashree_k/README.md)<br>Latency: 59.92 ms (16.69 FPS)<br>HUD: [`m2/photo_b.jpg`](m2/photo_b.jpg) | **Submitted (M1: 20M, M2: 20M)** | [`m1/bhuvanashree_k/`](m1/bhuvanashree_k/)<br>[`m2/bhuvanashree_k/`](m2/bhuvanashree_k/) |
 | **4** | **Theeran** | `photo_theeran`<br>(Dheeran) | [M1 Portfolio & Links](M1/Theeran/README.md)<br>Own Photo: [`M1/photo_theeran.jpg`](M1/photo_theeran.jpg) | [M2 Portfolio & Links](M2/Theeran/README.md)<br>Latency: 60.48 ms (16.53 FPS)<br>HUD: [`M2/photo_theeran.jpg`](M2/photo_theeran.jpg) | **Submitted (M1: 20M, M2: 20M)** | [`M1/Theeran/`](M1/Theeran/)<br>[`M2/Theeran/`](M2/Theeran/) |
 
@@ -57,7 +57,7 @@ To satisfy independent grading and evaluation, individual student subfolders con
 | Photo ID | Contributing Student | Physical Object & Labelled Features | Visual Proof |
 | :---: | :---: | :--- | :---: |
 | **`b`** | **Bhuvanashree K**<br>(Vamsi) | **Body 0.95** tight bounding boxes on 3D enclosure across 4 consecutive inspection frames | ![Photo b](m1/photo_b.jpg) |
-| **`sri`** | **Sri Janani S**<br>(Sri Janani S) | **Body 0.95**, **Lid 0.98**, **Stand 0.98** 12-frame multi-object assembly sequence | ![Photo sri](m1/photo_sri.jpg) |
+| **`sri`** | **Sri Jananii S**<br>(Sri Jananii S) | **Body 0.95**, **Lid 0.98**, **Stand 0.98** 12-frame multi-object assembly sequence | ![Photo sri](m1/photo_sri.jpg) |
 | **`ak`** | **Akshaya M**<br>(Akshay) | **Stand 0.98**, **Body 0.95** 12-frame sequence with active confidence mapping indicator | ![Photo ak](m1/photo_ak.jpg) |
 | **`theeran`** | **Theeran**<br>(Dheeran) | **Stand 0.98**, **Body 0.95** 12-frame sequence of dark components with tight bounding boxes | ![Photo theeran](M1/photo_theeran.jpg) |
 
@@ -70,7 +70,7 @@ The edge-deployed TFLite INT8 inference pipeline (`run_quantized_live.py`) was e
 | Order | Contributing Student | Physical Object & Labelled Features | Quantized Edge HUD Live Ingestion Proof |
 | :---: | :--- | :--- | :---: |
 | **1** | **Akshaya M**<br>(Akshay) | **`base`**, **`internal_component`**, **`assembly`**, **`assembled_enclosure`** multi-stage enclosure detection sequence with live FPS and bounding box HUD telemetry | ![Akshaya M Live Quantized Inference](m2/photo_ak.jpg) |
-| **2** | **Sri Janani S**<br>(Sri Janani S) | **`enclosure_system`**, **`enclosure_body`**, **`internal_alignment`**, **`magnet_attachment`**, **`assembly`** 9-frame edge inspection sequence (arrow indicator removed) | ![Sri Janani S Live Quantized Inference](m2/photo_sri.jpg) |
+| **2** | **Sri Jananii S**<br>(Sri Jananii S) | **`enclosure_system`**, **`enclosure_body`**, **`internal_alignment`**, **`magnet_attachment`**, **`assembly`** 9-frame edge inspection sequence (arrow indicator removed) | ![Sri Jananii S Live Quantized Inference](m2/photo_sri.jpg) |
 | **3** | **Bhuvanashree K**<br>(Vamsi) | **`assembled_enclosure`** 9-frame real-time edge tracking and assembly QA sequence | ![Bhuvanashree K Live Quantized Inference](m2/photo_b.jpg) |
 | **4** | **Theeran**<br>(Dheeran) | **`enclosure_system`**, **`enclosure_body`**, **`base`**, **`internal_alignment`**, **`magnet_attachment`**, **`base_misaligned`**, **`assembly`** 9-frame edge inspection sequence running live at 21.5 FPS | ![Theeran Live Quantized Inference](M2/photo_theeran.jpg) |
 

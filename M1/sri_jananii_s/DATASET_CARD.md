@@ -1,6 +1,6 @@
-# Milestone 1: Dataset v1 Data Card — Sri Janani S (`sri`)
+# Milestone 1: Dataset v1 Data Card — Sri Jananii S (`sri`)
 
-**Student**: Sri Janani S  
+**Student**: Sri Jananii S  
 **Photo Identifier**: `photo sri` (`sri.jpg` / `sri_labelled_samples.jpg`)  
 **Milestone**: M1 Detect  
 **Rubric Task**: Dataset v1 (Max Marks: 4)  
@@ -12,11 +12,11 @@
 
 ---
 
-## 2. Sri Janani S's Own Labelled Samples (`photo sri` / `sri.jpg`)
+## 2. Sri Jananii S's Own Labelled Samples (`photo sri` / `sri.jpg`)
 
 Below is my labelled dataset contribution, featuring a 12-subframe multi-component assembly sequence with tight bounding boxes for `Body`, `Lid`, and `Stand` components:
 
-![Sri Janani S Labelled Samples](sri_labelled_samples.jpg)
+![Sri Jananii S Labelled Samples](sri_labelled_samples.jpg)
 
 ### Annotation Verification Details:
 - **Image Identifier**: `sri_labelled_samples.jpg` (also preserved as [`sri.jpg`](sri.jpg))

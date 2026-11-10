@@ -1,6 +1,6 @@
-# Milestone 2: M2 Optimize — Sri Janani S (`sri`)
+# Milestone 2: M2 Optimize — Sri Jananii S (`sri`)
 
-**Student Name**: Sri Janani S  
+**Student Name**: Sri Jananii S  
 **Alias / ID**: `sri`  
 **Milestone**: M2 Optimize  
 **Rubric Weight**: 20 Marks  
@@ -32,8 +32,8 @@
 - **My Live Quantized HUD Evidence**: [`photo_sri.jpg`](photo_sri.jpg) *(clean inspection frame with right-bottom arrow indicator removed)*
 - **On-Device Execution**: Converted to 8-bit quantized format (3.24 MB), executed live on Raspberry Pi 5 with XNNPACK delegate at 16.61 FPS.
 
-#### Sri Janani's Live Quantized Edge Inference HUD Output:
-![Sri Janani S Live Quantized Inference HUD](photo_sri.jpg)
+#### Sri Jananii S's Live Quantized Edge Inference HUD Output:
+![Sri Jananii S Live Quantized Inference HUD](photo_sri.jpg)
 
 ### Task 3: Accuracy check (Max Marks: 4)
 > *"I show mAP before vs after on the same test set"*
@@ -46,7 +46,7 @@
 - **Benchmark Report**: [`fair_benchmark_report.md`](fair_benchmark_report.md)
 - **Machine-Readable Telemetry**: [`benchmark_results.json`](benchmark_results.json)
 - **Benchmark Script**: [`../fair_benchmark.py`](../fair_benchmark.py)
-- **Sri Janani's Measured Numbers**:
+- **Sri Jananii S's Measured Numbers**:
   - **Median Latency ($p_{50}$)**: **60.24 ms**
   - **95th Percentile Latency ($p_{95}$)**: **63.85 ms**
   - **Throughput**: **16.61 FPS**

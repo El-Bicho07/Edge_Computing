@@ -25,7 +25,7 @@ Where:
 - **Scale Factor ($S$)**: $S = \frac{\alpha_{\max} - \alpha_{\min}}{q_{\max} - q_{\min}} = \frac{\alpha_{\max} - \alpha_{\min}}{255}$
 - **Zero-Point Offset ($Z$)**: $Z = \text{round}\left(-\frac{\alpha_{\min}}{S}\right) - 128$
 
-Dynamic ranges $[\alpha_{\min}, \alpha_{\max}]$ were calibrated using KL-divergence minimization across 100 representative blister pack images from [`dataset/Defect Detection.v1i.yolov8/train`](../dataset/Defect%20Detection.v1i.yolov8/train/).
+Dynamic ranges $[\alpha_{\min}, \alpha_{\max}]$ were calibrated using KL-divergence minimization across 100 representative blister pack images from [`dataset/Defect Detection.v1i.yolov8/train`](../../dataset/Defect Detection.v1i.yolov8/train).
 
 ---
 
@@ -82,6 +82,6 @@ The quantized INT8 model was evaluated across 3 independent hardware testing ses
 
 | Order | Student Name | Alias / Photo File | Hardware Execution Details | Visual Ingestion Proof |
 | :---: | :--- | :---: | :--- | :---: |
-| **1** | **Akshaya M** | [`photo_ak.jpg`](photo_ak.jpg)<br>(Akshay) | **`base`**, **`internal_component`**, **`assembly`**, **`assembled_enclosure`** 8-frame live INT8 inference with HUD metrics | ![Akshaya M Quantized Live HUD](photo_ak.jpg) |
-| **2** | **Sri Janani S** | [`photo_sri.jpg`](photo_sri.jpg)<br>(Sri Janani S) | **`enclosure_system`**, **`enclosure_body`**, **`internal_alignment`**, **`magnet_attachment`**, **`assembly`** 9-frame sequence (arrow removed) | ![Sri Janani S Quantized Live HUD](photo_sri.jpg) |
-| **3** | **Bhuvanashree K** | [`photo_b.jpg`](photo_b.jpg)<br>(Vamsi) | **`assembled_enclosure`** 9-frame live edge tracking sequence with bounding box localization | ![Bhuvanashree K Quantized Live HUD](photo_b.jpg) |
+| **1** | **Akshaya M** | [`photo_ak.jpg`](../photo_ak.jpg)<br>(Akshay) | **`base`**, **`internal_component`**, **`assembly`**, **`assembled_enclosure`** 8-frame live INT8 inference with HUD metrics | ![Akshaya M Quantized Live HUD](../photo_ak.jpg) |
+| **2** | **Sri Jananii S** | [`photo_sri.jpg`](../photo_sri.jpg)<br>(Sri Jananii S) | **`enclosure_system`**, **`enclosure_body`**, **`internal_alignment`**, **`magnet_attachment`**, **`assembly`** 9-frame sequence (arrow removed) | ![Sri Jananii S Quantized Live HUD](../photo_sri.jpg) |
+| **3** | **Bhuvanashree K** | [`photo_b.jpg`](../photo_b.jpg)<br>(Vamsi) | **`assembled_enclosure`** 9-frame live edge tracking sequence with bounding box localization | ![Bhuvanashree K Quantized Live HUD](../photo_b.jpg) |

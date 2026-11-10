@@ -12,7 +12,7 @@
 ---
 
 ## 2. Export Methodology & Pipeline
-The custom YOLOv8 defect detection weights ([`model/best2.pt`](../model/best2.pt)) were converted from PyTorch computational graph format (`.pt`) to Open Neural Network Exchange format ([`m2/export_onnx.py`](export_onnx.py)).
+The custom YOLOv8 defect detection weights ([`model/best2.pt`](../../../model/best2.pt)) were converted from PyTorch computational graph format (`.pt`) to Open Neural Network Exchange format ([`m2/export_onnx.py`](export_onnx.py)).
 
 ### Export Technical Parameters:
 - **Source Checkpoint**: `model/best2.pt` (PyTorch FP32, 6.00 MB, 3,006,233 parameters)

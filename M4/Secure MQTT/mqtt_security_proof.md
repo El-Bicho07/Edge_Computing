@@ -14,7 +14,7 @@
 ## 2. Security Architecture & Threat Mitigation
 In factory environments, unauthenticated, unencrypted MQTT brokers expose industrial operations to man-in-the-middle packet spoofing, eavesdropping on quality metrics, and malicious actuator trigger commands.
 
-The edge MQTT broker ([`m4/mqtt/mosquitto.conf`](mqtt/mosquitto.conf)) enforces two non-negotiable security layers:
+The edge MQTT broker ([`m4/mqtt/mosquitto.conf`](../mqtt/mosquitto.conf)) enforces two non-negotiable security layers:
 1. **Mandatory Identity Authentication**: `allow_anonymous false`. All client connections require PBKDF2-SHA512 hashed user credentials defined in `/etc/mosquitto/passwd`.
 2. **Mutual Transport Layer Security (TLS 1.3)**: Plaintext port 1883 is closed; connections are restricted to port **8883** utilizing 256-bit Galois/Counter Mode encryption (`TLS_AES_256_GCM_SHA384`).
 

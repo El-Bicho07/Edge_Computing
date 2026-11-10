@@ -1,6 +1,6 @@
 # Milestone 2: ONNX Export and Optimization Report
 
-**Student**: Sri Jananii S (`sri` / Sri Janani S)  
+**Student**: Sri Jananii S (`sri` / Sri Jananii S)  
 **Milestone**: M2 Optimize  
 **Task**: Export to ONNX  
 **Rubric Weight**: 3 Marks  

@@ -37,7 +37,7 @@ Evaluated using [`m5/headline_metric.py`](headline_metric.py) across **50 consec
 
 ## 4. Live Display Integration on Web Dashboard
 
-The headline metric is displayed prominently on the live operator dashboard ([`dashboard.html`](../dashboard.html)):
+The headline metric is displayed prominently on the live operator dashboard ([`dashboard.html`](../../dashboard.html)):
 - Positioned in the center telemetry header as **`ACCURACY: 100.0% (50/50)`**.
 - A high-contrast badge displays **`FALSE-PASS ESCAPES: 0`**.
 - The widget recalculates dynamically on every blister pack departure, updating live via Server-Sent Events (SSE) and persisting to SQLite audit logs for regulatory traceability.

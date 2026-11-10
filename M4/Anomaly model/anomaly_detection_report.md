@@ -14,7 +14,7 @@
 ## 2. Unsupervised Semi-Supervised Learning Architecture
 In manufacturing environments, recording every possible failure mode prior to deployment is impossible. Machines fail in unpredictable ways (bearing seizure, gear tooth breakage, belt fraying).
 
-To solve this, [`m4/train_anomaly_model.py`](train_anomaly_model.py) implements an **unsupervised One-Class Statistical Anomaly Envelope** trained **strictly and exclusively on baseline normal data** ([`normal_run_1.csv`](data/normal_run_1.csv), [`normal_run_2.csv`](data/normal_run_2.csv), [`normal_run_3.csv`](data/normal_run_3.csv)). Zero fault data was ever exposed to the training engine.
+To solve this, [`m4/train_anomaly_model.py`](train_anomaly_model.py) implements an **unsupervised One-Class Statistical Anomaly Envelope** trained **strictly and exclusively on baseline normal data** ([`normal_run_1.csv`](../data/normal_run_1.csv), [`normal_run_2.csv`](../data/normal_run_2.csv), [`normal_run_3.csv`](../data/normal_run_3.csv)). Zero fault data was ever exposed to the training engine.
 
 ### Extracted 5D Feature Space:
 1. **$f_1$ (RMS Acceleration)**: $\sqrt{\frac{1}{N}\sum (a_x^2 + a_y^2 + a_z^2)}$ (Measures total mechanical kinetic vibration energy).

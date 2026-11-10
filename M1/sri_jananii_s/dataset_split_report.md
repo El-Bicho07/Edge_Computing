@@ -1,6 +1,6 @@
 # Milestone 1: Dataset Split & Zero Data Leakage Report
 
-**Student**: Sri Jananii S (`sri` / Sri Janani S)  
+**Student**: Sri Jananii S (`sri` / Sri Jananii S)  
 **Milestone**: M1 Detect  
 **Task**: Correct split  
 **Rubric Weight**: 2 Marks  

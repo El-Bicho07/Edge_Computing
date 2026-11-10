@@ -81,4 +81,4 @@ pi@raspberrypi:~/object_detection $ python3 m3/test_actuator_live.py
 =================================================================
 ```
 
-Visual evidence of the operational hardware with lit LEDs and actuated servo diverter is preserved in [`Pictures/20261010_163213_grim.png`](../Pictures/20261010_163213_grim.png).
+Visual evidence of the operational hardware with lit LEDs and actuated servo diverter is preserved in [`Pictures/20261010_163213_grim.png`](../../Pictures/20261010_163213_grim.png).

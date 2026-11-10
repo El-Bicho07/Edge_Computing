@@ -12,13 +12,13 @@
 ---
 
 ## 2. Dashboard Interface Overview
-The production operator dashboard runs locally on the Raspberry Pi 5 via a multi-threaded Flask WSGI server ([`app.py`](../app.py)) and browser frontend ([`dashboard.html`](../dashboard.html)). It is accessible over the local network at:
+The production operator dashboard runs locally on the Raspberry Pi 5 via a multi-threaded Flask WSGI server ([`app.py`](../../app.py)) and browser frontend ([`dashboard.html`](../../dashboard.html)). It is accessible over the local network at:
 ```text
 http://<raspberrypi-ip>:5000/
 ```
 
 ### Visual Verification Screenshot
-The operational dashboard is verified and captured in [`Pictures/20261009_165141_grim.png`](../Pictures/20261009_165141_grim.png) and mirrored at [`m5/dashboard_screenshot.png`](dashboard_screenshot.png).
+The operational dashboard is verified and captured in [`Pictures/20261009_165141_grim.png`](../../Pictures/20261009_165141_grim.png) and mirrored at [`m5/dashboard_screenshot.png`](dashboard_screenshot.png).
 
 ---
 
