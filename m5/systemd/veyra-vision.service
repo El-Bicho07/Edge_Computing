@@ -1,0 +1,33 @@
+[Unit]
+Description=Veyra Pharma Vision Edge Inspection Service
+After=network.target local-fs.target
+DefaultDependencies=no
+Before=shutdown.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/object_detection
+Environment=PYTHONUNBUFFERED=1
+Environment=MOCK_HARDWARE=0
+
+# Clean automated startup upon cold boot / power cycle
+ExecStartPre=/bin/sh -c 'sleep 2; v4l2-ctl -d /dev/video0 --set-fmt-video=width=640,height=480,pixelformat=YUYV'
+ExecStart=/home/pi/object_detection/.venv/bin/python3 app.py
+
+# Power-Cycle Resilience & Auto-Restart
+Restart=always
+RestartSec=3s
+StartLimitIntervalSec=120s
+StartLimitBurst=10
+
+# Hardware Watchdog Integration
+WatchdogSec=10s
+
+# Logging
+StandardOutput=append:/home/pi/object_detection/data/production.log
+StandardError=append:/home/pi/object_detection/data/production_error.log
+
+[Install]
+WantedBy=multi-user.target

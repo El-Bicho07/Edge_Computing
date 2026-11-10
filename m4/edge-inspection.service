@@ -1,0 +1,33 @@
+[Unit]
+Description=Veyra Pharma Vision Edge Inspection Service
+Documentation=https://github.com/El-Bicho07/Edge_Computing
+After=network.target systemd-modules-load.service mosquitto.service
+Wants=mosquitto.service
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/object_detection
+Environment=PYTHONUNBUFFERED=1
+Environment=MOCK_HARDWARE=0
+
+# Process Execution
+ExecStart=/home/pi/object_detection/.venv/bin/python3 app.py
+
+# High-Reliability Auto-Restart Configuration
+Restart=always
+RestartSec=2s
+StartLimitIntervalSec=60s
+StartLimitBurst=5
+
+# Hardware Watchdog Integration (systemd kicks watchdog every 5s)
+WatchdogSec=10s
+
+# Resource Constraints & Safety
+LimitNOFILE=65536
+KillMode=mixed
+TimeoutStopSec=5s
+
+[Install]
+WantedBy=multi-user.target
